@@ -21,16 +21,9 @@ fi
 
 TOKEN=$(pass packet_token)
 
-function provision {
-  NAME=$1
-  ID=$2
-
-  cat scripts/provision-vmware-builder.sh | /usr/bin/ssh root@$(ip)
-}
-
 function create {
   NAME=$1
-  ID=$2
+  PROJECTID=$2
 
   if [ -z "${NAME}" ]; then
     echo "Usage: $0 name"
@@ -38,8 +31,8 @@ function create {
   fi
 
   # create project if it does not exist
-  if [ -z "${ID}" ]; then
-    ID=$(packet -k "${TOKEN}" \
+  if [ -z "${PROJECTID}" ]; then
+    PROJECTID=$(packet -k "${TOKEN}" \
       project create --name "${PROJECT}" | jq -r .id)
   fi
 
@@ -48,55 +41,95 @@ function create {
     --facility "${FACILITY}" \
     --os-type "${OSTYPE}" \
     --plan "${PLAN}" \
-    --project-id "${ID}" \
+    --project-id "${PROJECTID}" \
     --hostname "${NAME}"
 
-  provision "${NAME}" "${ID}"
+  # addstorage "${NAME}" "${PROJECTID}"
+  provision "${NAME}" "${PROJECTID}"
 }
 
 function cmd {
   NAME=$1
-  ID=$2
+  PROJECTID=$2
+  CMD=$3
 
-  if [ -z "${NAME}" ] || [ -z "${ID}" ] || [ -z "${CMD}" ]; then
+  if [ -z "${NAME}" ] || [ -z "${PROJECTID}" ] || [ -z "${CMD}" ]; then
     echo "Usage: $0 name id command"
     exit 1
   fi
 
   DEVICEID=$(packet -k "${TOKEN}" \
-    device listall --project-id "${ID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
+    device listall --project-id "${PROJECTID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
 
   packet -k "${TOKEN}" \
     device "${CMD}" --device-id "${DEVICEID}"
 }
 
 function start {
+  echo "Starting $1"
   cmd "$1" "$2" power-on
 }
 
 function stop {
+  echo "Stopping $1"
   cmd "$1" "$2" power-off
 }
 
 function delete {
+  echo "Deleting $1"
   cmd "$1" "$2" delete
+  # deletestorage "$1" "$2"
 }
 
 function list {
-  packet -k $(pass packet_token) device listall --project-id $ID | \
+  packet -k "${TOKEN}" device listall --project-id "${PROJECTID}" | \
     jq -r '.[] | .hostname + "	" + .state'
 }
 
 function ip {
-  packet -k $(pass packet_token) device listall --project-id $ID | \
+  packet -k "${TOKEN}" device listall --project-id "${PROJECTID}" | \
     jq -r ".[] | select(.hostname == \"${NAME}\") | .ip_addresses[] | select(.public == true) | select(.address_family == 4).address"
 }
 
-function ssh {
-  /usr/bin/ssh root@$(ip)
+function provision {
+  echo "Provisioning $1"
+  cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@$(ip)"
 }
 
-ID=$(packet -k "${TOKEN}" \
+function addstorage {
+  NAME=$1
+  PROJECTID=$2
+
+  set -x
+  STORAGEID=$(packet -k "${TOKEN}" storage create \
+    --facility "${FACILITY}" \
+    --desc "${NAME}" \
+    --plan storage_2 \
+    --size 160 \
+    --project-id "${PROJECTID}" | jq -r .id)
+
+  DEVICEID=$(packet -k "${TOKEN}" \
+    device listall --project-id "${PROJECTID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
+
+  packet -k "${TOKEN}" storage attach \
+    --device-id "${DEVICEID}" \
+    --storage-id "${STORAGEID}"
+}
+
+function deletestorage {
+  STORAGEID=$(packet -k "${TOKEN}" \
+    storage listall --project-id "${PROJECTID}" | jq -r ".[] | select(.description == \"${NAME}\") .id")
+
+  if [ ! -z "${STORAGEID}" ]; then
+    packet -k "${TOKEN}" storage delete --storage-id "${STORAGEID}"
+  fi
+}
+
+function ssh {
+  /usr/bin/ssh "root@$(ip)"
+}
+
+PROJECTID=$(packet -k "${TOKEN}" \
   project listall | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
 
-"${COMMAND}" "${NAME}" "${ID}"
+"${COMMAND}" "${NAME}" "${PROJECTID}"
