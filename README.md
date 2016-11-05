@@ -2,13 +2,13 @@
 
 Setup a Packer builder machine for VMware Vagrant boxes.
 
-## Scaleway
+## Packet.net
 
-Create a baremetal Scaleway machine and run Packer there.
+Create a baremetal [packet.net](https://packet.net) machine and run Packer there.
 
 ```bash
-./create-scaleway.sh packer
-scw exec packer
+./packet.sh create packer1
+./packet.sh ssh packer1
 packer build ...
 ```
 

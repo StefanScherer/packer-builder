@@ -3,7 +3,6 @@
 PACKER_VERSION=0.11.0
 VMWARE_VERSION=12.5.1-4542065
 
-# install git
 apt-get update
 apt-get install -qq git unzip curl
 
@@ -21,7 +20,9 @@ popd
 
 apt-get install -qq linux-headers-$(uname -r)
 apt-get install -qq dkms
-apt-get install -qq x11-common x11-xserver-utils libxtst6
+apt-get install -qq x11-common x11-xserver-utils libxtst6 libxinerama1
+
+rmmod kvm_intel kvm
 
 echo "Downloading VMware Workstation ${VMWARE_VERSION} ..."
 curl -o VMware-Workstation.bundle https://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
