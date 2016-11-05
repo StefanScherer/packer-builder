@@ -93,7 +93,9 @@ function ip {
 
 function provision {
   echo "Provisioning $1"
-  cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@$(ip)"
+  IP=$(ip)
+  ssh-keygen -R "${IP}"
+  cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@${IP}"
 }
 
 function addstorage {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKER_VERSION=0.11.0
+PACKER_VERSION=0.10.2
 VMWARE_VERSION=12.5.1-4542065
 
 apt-get update
