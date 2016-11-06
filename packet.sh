@@ -46,7 +46,6 @@ function create {
     --project-id "${PROJECTID}" \
     --hostname "${NAME}"
 
-  # addstorage "${NAME}" "${PROJECTID}"
   provision "${NAME}" "${PROJECTID}"
 }
 
@@ -80,7 +79,6 @@ function stop {
 function delete {
   echo "Deleting $1"
   cmd "$1" "$2" delete
-  # deletestorage "$1" "$2"
 }
 
 function list {
@@ -98,35 +96,6 @@ function provision {
   IP=$(ip)
   ssh-keygen -R "${IP}"
   cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@${IP}"
-}
-
-function addstorage {
-  NAME=$1
-  PROJECTID=$2
-
-  set -x
-  STORAGEID=$(packet -k "${TOKEN}" storage create \
-    --facility "${FACILITY}" \
-    --desc "${NAME}" \
-    --plan storage_2 \
-    --size 160 \
-    --project-id "${PROJECTID}" | jq -r .id)
-
-  DEVICEID=$(packet -k "${TOKEN}" \
-    device listall --project-id "${PROJECTID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
-
-  packet -k "${TOKEN}" storage attach \
-    --device-id "${DEVICEID}" \
-    --storage-id "${STORAGEID}"
-}
-
-function deletestorage {
-  STORAGEID=$(packet -k "${TOKEN}" \
-    storage listall --project-id "${PROJECTID}" | jq -r ".[] | select(.description == \"${NAME}\") .id")
-
-  if [ ! -z "${STORAGEID}" ]; then
-    packet -k "${TOKEN}" storage delete --storage-id "${STORAGEID}"
-  fi
 }
 
 function ssh {
