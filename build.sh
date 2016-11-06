@@ -4,7 +4,7 @@ FILE=$2
 
 if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   echo "Usage: $0 machine jobname"
-  echo "$0 p1 windows_2016_docker_vmware"
+  echo "$0 p1 windows_2016_docker"
   exit 1
 fi
 
