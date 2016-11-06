@@ -131,6 +131,13 @@ function ssh {
   /usr/bin/ssh "root@$(ip)"
 }
 
+function photo {
+  IP=$(ip)
+  /usr/bin/ssh "root@${IP}" photo snapshot.jpg
+  scp "root@${IP}:snapshot.jpg" snapshot.jpg
+  open snapshot.jpg
+}
+
 PROJECTID=$(packet -k "${TOKEN}" \
   project listall | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
 
