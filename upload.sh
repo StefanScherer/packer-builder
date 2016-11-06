@@ -11,6 +11,5 @@ fi
 today=$(date +%Y-%m-%d)
 cat <<CMD | ssh root@$(./packet.sh ip $NAME)
 $(pass azure-vagrantboxes)
-azure storage blob list box
-echo azure storage blob upload packer-windows/${FILE}.box box ${FILE}/$today/${FILE}.box
+azure storage blob upload packer-windows/${FILE}.box box ${FILE}/$today/${FILE}.box
 CMD
