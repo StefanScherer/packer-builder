@@ -9,8 +9,8 @@ Vagrant.configure("2") do |config|
     cfg.vm.provision "shell", path: "scripts/provision-vmware-builder.sh"
     ["vmware_fusion", "vmware_workstation"].each do |provider|
       cfg.vm.provider provider do |v, override|
-        v.vmx["memsize"] = "4096"
-        v.vmx["numvcpus"] = "2"
+        v.vmx["memsize"] = "6196"
+        v.vmx["numvcpus"] = "4"
         v.vmx["vhv.enable"] = "TRUE"
       end
     end
