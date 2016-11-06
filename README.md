@@ -16,7 +16,6 @@ Then use the script `packet.sh` to make things even simpler:
 
 ```bash
 ./packet.sh create p1
-./packet.sh ssh p1
 ```
 
 And then build a VMware VM
@@ -32,6 +31,8 @@ Afterwards remove the baremetal machine again
 ```bash
 ./packet.sh delete p1
 ```
+
+There are several other commands in `packet.sh`. Have a look at the usage.
 
 ## Vagrant
 
