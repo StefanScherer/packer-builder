@@ -38,7 +38,7 @@ function create {
       project create --name "${PROJECT}" | jq -r .id)
   fi
 
-  # create vm
+  # create machine
   packet -k "${TOKEN}" device create \
     --facility "${FACILITY}" \
     --os-type "${OSTYPE}" \
