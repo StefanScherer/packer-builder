@@ -6,6 +6,14 @@ Setup a Packer builder machine for VMware Vagrant boxes.
 
 Create a baremetal [packet.net](https://packet.net) machine and run Packer there.
 
+First you need the `packet` golang cli:
+
+```bash
+go get -u github.com/ebsarr/packet
+```
+
+Then use the script `packet.sh` to make things even simpler:
+
 ```bash
 ./packet.sh create packer1
 ./packet.sh ssh packer1
