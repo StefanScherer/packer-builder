@@ -7,7 +7,7 @@ OSTYPE=ubuntu_14_04
 PLAN=baremetal_0
 PROJECT=packer
 
-if [ -z "${COMMAND}" ]; then
+if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "Usage:"
   echo "  $0 create name      create a new machine"
   echo "  $0 delete name      delete a machine"
