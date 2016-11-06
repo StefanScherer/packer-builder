@@ -15,9 +15,16 @@ go get -u github.com/ebsarr/packet
 Then use the script `packet.sh` to make things even simpler:
 
 ```bash
-./packet.sh create packer1
-./packet.sh ssh packer1
-packer build ...
+./packet.sh create p1
+./packet.sh ssh p1
+```
+
+And then build a VMware VM
+
+```bash
+./build.sh p1 windows_2016_docker
+./packet.sh photo p1
+./upload.sh p1 windows_2016_docker
 ```
 
 ## Vagrant
