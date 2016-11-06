@@ -41,3 +41,8 @@ filename=${1:-snapshot.jpg}
 vncsnapshot -allowblank 127.0.0.1:$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.port | sed 's/.*"59//' | sed 's/"//') "${filename}"
 PHOTO
 chmod +x /usr/bin/photo
+
+echo "Installing azure cli ..."
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+npm install -g azure-cli
