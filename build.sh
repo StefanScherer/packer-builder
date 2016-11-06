@@ -1,0 +1,22 @@
+#!/bin/bash
+NAME=$1
+FILE=$2
+
+if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
+  echo "Usage: $0 machine jobname"
+  echo "$0 p1 windows_2016_docker_vmware"
+  exit 1
+fi
+
+cat <<CMD | ssh root@$(./packet.sh ip $NAME)
+if [ ! -d packer-windows ]; then
+  git clone https://github.com/StefanScherer/packer-windows
+fi
+cd packer-windows
+git stash
+git pull
+rm *.box
+rm -rf output*
+sed -i -e 's/"headless": false/"headless": true/' "${FILE}.json"
+packer build --only=vmware-iso "${FILE}.json"
+CMD
