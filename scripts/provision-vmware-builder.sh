@@ -29,3 +29,15 @@ curl -o VMware-Workstation.bundle https://download3.vmware.com/software/wkst/fil
 echo "Installing VMware Workstation ${VMWARE_VERSION} ..."
 sh ./VMware-Workstation.bundle --console --required --eulas-agreed
 rm ./VMware-Workstation.bundle
+
+echo "Downloading vncsnapshot ..."
+curl -o vncsnapshot.tar.gz http://kent.dl.sourceforge.net/project/vncsnapshot/vncsnapshot/1.2a/vncsnapshot-1.2a-Linux-x86.tar.gz
+tar xzvf vncsnapshot.tar.gz
+mv vncsnapshot-1.2a/bin/* /usr/bin
+
+cat <<'PHOTO' > /usr/bin/photo
+#!/bin/bash
+filename=${1:-snapshot.jpg}
+vncsnapshot -allowblank 127.0.0.1:$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.port | sed 's/.*"59//' | sed 's/"//') "${filename}"
+PHOTO
+chmod +x /usr/bin/photo
