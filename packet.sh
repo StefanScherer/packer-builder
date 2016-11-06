@@ -9,13 +9,15 @@ PROJECT=packer
 
 if [ -z "${COMMAND}" ]; then
   echo "Usage:"
-  echo "  $0 create name"
-  echo "  $0 delete name"
-  echo "  $0 list"
-  echo "  $0 provision name"
-  echo "  $0 ssh name"
-  echo "  $0 start name"
-  echo "  $0 stop name"
+  echo "  $0 create name      create a new machine"
+  echo "  $0 delete name      delete a machine"
+  echo "  $0 ip name          get IP address of a machine"
+  echo "  $0 list             list all machines"
+  echo "  $0 photo name       take a photo from packer build"
+  echo "  $0 provision name   provision the machine"
+  echo "  $0 ssh name         ssh into a machine"
+  echo "  $0 start name       start a machine"
+  echo "  $0 stop name        stop a machine"
   exit 1
 fi
 
