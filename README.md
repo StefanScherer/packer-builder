@@ -27,6 +27,12 @@ And then build a VMware VM
 ./upload.sh p1 windows_2016_docker
 ```
 
+Afterwards remove the baremetal machine again
+
+```bash
+./packet.sh delete p1
+```
+
 ## Vagrant
 
 Create a local VM and run Packer there. This is used to test the
