@@ -3,6 +3,7 @@
 COMMAND=$1
 NAME=$2
 FACILITY=ams1
+FACILITY=ewr1
 OSTYPE=ubuntu_14_04
 PLAN=baremetal_0
 PROJECT=packer
