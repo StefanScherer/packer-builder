@@ -13,7 +13,7 @@ if [ ! -d packer-windows ]; then
   git clone https://github.com/StefanScherer/packer-windows
 fi
 cd packer-windows
-git stash
+git checkout -- *.json
 git pull
 rm *.box
 rm -rf output*
