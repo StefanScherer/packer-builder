@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PACKER_VERSION=0.10.2
-VMWARE_VERSION=12.5.1-4542065
+PACKER_VERSION=1.1.0
+VMWARE_VERSION=12.5.7-5813279
 
 apt-get update
 apt-get install -qq git unzip curl
