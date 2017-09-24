@@ -4,8 +4,8 @@ COMMAND=$1
 NAME=$2
 FACILITY=ams1
 FACILITY=ewr1
-OSTYPE=ubuntu_14_04
-PLAN=baremetal_0
+OSTYPE=ubuntu_16_04
+PLAN=baremetal_1
 PROJECT=packer
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
