@@ -31,7 +31,7 @@ sh ./VMware-Workstation.bundle --console --required --eulas-agreed
 rm ./VMware-Workstation.bundle
 
 echo "Downloading vncsnapshot ..."
-curl -o vncsnapshot.tar.gz http://kent.dl.sourceforge.net/project/vncsnapshot/vncsnapshot/1.2a/vncsnapshot-1.2a-Linux-x86.tar.gz
+curl -o vncsnapshot.tar.gz https://netcologne.dl.sourceforge.net/project/vncsnapshot/vncsnapshot/1.2a/vncsnapshot-1.2a-Linux-x86.tar.gz
 tar xzvf vncsnapshot.tar.gz
 mv vncsnapshot-1.2a/bin/* /usr/bin
 
