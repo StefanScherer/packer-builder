@@ -17,6 +17,5 @@ git checkout -- *.json
 git pull
 rm *.box
 rm -rf output*
-sed -i -e 's/"headless": false/"headless": true/' "${FILE}.json"
-packer build --only=vmware-iso "${FILE}.json"
+packer build --only=vmware-iso --var headless=true "${FILE}.json"
 CMD
