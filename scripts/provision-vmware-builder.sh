@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PACKER_VERSION=1.1.0
-VMWARE_VERSION=12.5.7-5813279
+PACKER_VERSION=1.1.1
+VMWARE_VERSION=14.0.0-6661328
 
 apt-get update
 apt-get install -qq git unzip curl
@@ -34,11 +34,14 @@ echo "Downloading vncsnapshot ..."
 curl -o vncsnapshot.tar.gz https://netcologne.dl.sourceforge.net/project/vncsnapshot/vncsnapshot/1.2a/vncsnapshot-1.2a-Linux-x86.tar.gz
 tar xzvf vncsnapshot.tar.gz
 mv vncsnapshot-1.2a/bin/* /usr/bin
+chmod 755 /usr/bin/vncsnapshot
 
 cat <<'PHOTO' > /usr/bin/photo
 #!/bin/bash
 filename=${1:-snapshot.jpg}
-vncsnapshot -allowblank 127.0.0.1:$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.port | sed 's/.*"59//' | sed 's/"//') "${filename}"
+pass=$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.password | sed 's/.* = "//' | sed 's/"$//')
+echo "$pass" > /tmp/passwd.txt
+vncsnapshot -allowblank -passwd /tmp/passwd.txt 127.0.0.1:$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.port | sed 's/.*"59//' | sed 's/"//')
 PHOTO
 chmod +x /usr/bin/photo
 
