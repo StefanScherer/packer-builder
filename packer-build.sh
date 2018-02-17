@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 FILE=$1
 HYPERVISOR=$2
 if [ ! -d packer-windows ]; then

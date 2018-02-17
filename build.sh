@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 NAME=$1
 FILE=$2
 HYPERVISOR=$3
@@ -15,6 +15,6 @@ scp packer-build.sh root@$ip:
 echo "Monitor the packer build with VNC and SSH"
 echo "See the VNC port number and password in packer output."
 echo ""
-echo "ssh -L 127.0.0.1:59xx:127.0.0.1:59xx root@$ip tail -f packer-windows/packer-build.log"
+echo "ssh -L 127.0.0.1:5900:127.0.0.1:59xx root@$ip tail -f packer-windows/packer-build.log"
 
 ssh root@$(./packet.sh ip $NAME) ./packer-build.sh $FILE $HYPERVISOR
