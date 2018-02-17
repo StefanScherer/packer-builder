@@ -103,6 +103,7 @@ function provision {
   IP=$(ip)
   ssh-keygen -R "${IP}"
   ssh-keyscan "${IP}"
+  ssh-keyscan -t ecdsa "${IP}"
   cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@${IP}"
 }
 
