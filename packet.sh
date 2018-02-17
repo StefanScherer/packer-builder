@@ -41,11 +41,12 @@ function create {
   # create project if it does not exist
   if [ -z "${PROJECTID}" ]; then
     PROJECTID=$(packet -k "${TOKEN}" \
-      project create --name "${PROJECT}" | jq -r .id)
+      admin create-project --name "${PROJECT}" | jq -r .id)
   fi
 
   # create machine
-  packet -k "${TOKEN}" device create \
+  packet -k "${TOKEN}" baremetal create-device \
+    --billing hourly \
     --facility "${FACILITY}" \
     --os-type "${OSTYPE}" \
     --plan "${PLAN}" \
@@ -66,34 +67,34 @@ function cmd {
   fi
 
   DEVICEID=$(packet -k "${TOKEN}" \
-    device listall --project-id "${PROJECTID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
+    baremetal list-devices --project-id "${PROJECTID}" | jq -r ".[] | select(.hostname == \"${NAME}\") .id")
 
   packet -k "${TOKEN}" \
-    device "${CMD}" --device-id "${DEVICEID}"
+    baremetal "${CMD}" --device-id "${DEVICEID}"
 }
 
 function start {
   echo "Starting $1"
-  cmd "$1" "$2" power-on
+  cmd "$1" "$2" poweron-device
 }
 
 function stop {
   echo "Stopping $1"
-  cmd "$1" "$2" power-off
+  cmd "$1" "$2" poweroff-device
 }
 
 function delete {
   echo "Deleting $1"
-  cmd "$1" "$2" delete
+  cmd "$1" "$2" delete-device
 }
 
 function list {
-  packet -k "${TOKEN}" device listall --project-id "${PROJECTID}" | \
+  packet -k "${TOKEN}" baremetal list-devices --project-id "${PROJECTID}" | \
     jq -r '.[] | .hostname + "	" + .state'
 }
 
 function ip {
-  packet -k "${TOKEN}" device listall --project-id "${PROJECTID}" | \
+  packet -k "${TOKEN}" baremetal list-devices --project-id "${PROJECTID}" | \
     jq -r ".[] | select(.hostname == \"${NAME}\") | .ip_addresses[] | select(.public == true) | select(.address_family == 4).address"
 }
 
@@ -116,6 +117,6 @@ function photo {
 }
 
 PROJECTID=$(packet -k "${TOKEN}" \
-  project listall | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
+  admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
 
 "${COMMAND}" "${NAME}" "${PROJECTID}"
