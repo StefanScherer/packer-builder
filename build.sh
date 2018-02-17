@@ -9,4 +9,5 @@ if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
 fi
 
 scp packer-build.sh root@$(./packet.sh ip $NAME):
-ssh root@$(./packet.sh ip $NAME) tmux send-keys -t "gotty:0" "./packer-build.sh $FILE" Enter
+ssh root@$(./packet.sh ip $NAME) tmux send-keys -t "gotty:0" \"./packer-build.sh $FILE\" Enter
+ssh -t root@$(./packet.sh ip $NAME) tmux a
