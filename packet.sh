@@ -2,6 +2,8 @@
 
 COMMAND=$1
 NAME=$2
+HYPERVISOR=$3
+
 FACILITY=ams1
 FACILITY=ewr1
 OSTYPE=ubuntu_16_04
@@ -122,4 +124,4 @@ function photo {
 PROJECTID=$(packet -k "${TOKEN}" \
   admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
 
-"${COMMAND}" "${NAME}" "${PROJECTID}"
+"${COMMAND}" "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
