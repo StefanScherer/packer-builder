@@ -8,14 +8,5 @@ if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   exit 1
 fi
 
-cat <<CMD | ssh root@$(./packet.sh ip $NAME)
-if [ ! -d packer-windows ]; then
-  git clone https://github.com/StefanScherer/packer-windows
-fi
-cd packer-windows
-git checkout -- *.json
-git pull
-rm *.box
-rm -rf output*
-packer build --only=vmware-iso --var headless=true "${FILE}.json"
-CMD
+scp packer-build.sh root@$(./packet.sh ip $NAME):
+ssh root@$(./packet.sh ip $NAME) tmux new -s gotty ./packer-build.sh $FILE

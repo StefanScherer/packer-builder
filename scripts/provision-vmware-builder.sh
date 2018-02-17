@@ -48,6 +48,11 @@ vncsnapshot -allowblank -passwd /tmp/passwd.txt 127.0.0.1:$(cat $(ps wwaux | gre
 PHOTO
 chmod +x /usr/bin/photo
 
+echo "Downloading gotty ..."
+curl -Lo gotty.tar.gz https://github.com/yudai/gotty/releases/download/v1.0.0/gotty_linux_amd64.tar.gz
+tar -C /usr/bin -xzvf gotty.tar.gz
+gotty tmux a >/var/log/gotty.log 2>&1 &
+
 echo "Installing azure cli ..."
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
