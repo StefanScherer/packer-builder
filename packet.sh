@@ -48,13 +48,13 @@ function create {
   fi
 
   # create machine
-  # packet -k "${TOKEN}" baremetal create-device \
-  #   --billing hourly \
-  #   --facility "${FACILITY}" \
-  #   --os-type "${OSTYPE}" \
-  #   --plan "${PLAN}" \
-  #   --project-id "${PROJECTID}" \
-  #   --hostname "${NAME}"
+  packet -k "${TOKEN}" baremetal create-device \
+    --billing hourly \
+    --facility "${FACILITY}" \
+    --os-type "${OSTYPE}" \
+    --plan "${PLAN}" \
+    --project-id "${PROJECTID}" \
+    --hostname "${NAME}"
 
   provision "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
 }
