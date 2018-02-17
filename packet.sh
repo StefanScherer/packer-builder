@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 COMMAND=$1
 NAME=$2
@@ -102,6 +102,7 @@ function provision {
   echo "Provisioning $1"
   IP=$(ip)
   ssh-keygen -R "${IP}"
+  ssh-keyscan "${IP}"
   cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@${IP}"
 }
 
