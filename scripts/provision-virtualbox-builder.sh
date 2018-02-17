@@ -5,9 +5,10 @@ VIRTUALBOX_VERSION=5.2
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 
-# Install Virtualbox 5.1
+# Install Virtualbox 5.2
 echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" >> /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
 sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential
 
