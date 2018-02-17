@@ -3,13 +3,14 @@ version: 2
 jobs:
   windows_2016_docker:
     docker:
-      - image: ebsarr/packet
+      - image: circleci/buildpack-deps:xenial-curl-dind
     steps:
       - checkout
       
       - run:
-          name: Check tools
+          name: Install packet cli and tools
           command: |
+            go get -u github.com/ebsarr/packet
             packet -v
             apt-get update && apt-get install -y jq
             jq --version
@@ -27,14 +28,16 @@ jobs:
 
   windows_10:
     docker:
-      - image: ebsarr/packet
+      - image: circleci/buildpack-deps:xenial-curl-dind
     steps:
       - checkout
       
       - run:
-          name: Check tools
+          name: Install packet cli and tools
           command: |
+            go get -u github.com/ebsarr/packet
             packet -v
+            apt-get update && apt-get install -y jq
             jq --version
         
       - run:
