@@ -10,5 +10,4 @@ rm -f *.box
 rm -rf output*
 log=packer-build.log
 touch $log
-tmux send-keys -t "gotty:0" \"tail -f $log\" Enter
 packer build --only=vmware-iso --var headless=true "${FILE}.json" | tee -a $log

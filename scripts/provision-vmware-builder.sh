@@ -33,28 +33,6 @@ echo "Installing VMware Workstation ${VMWARE_VERSION} ..."
 sh ./VMware-Workstation.bundle --console --required --eulas-agreed
 rm ./VMware-Workstation.bundle
 
-echo "Downloading vncsnapshot ..."
-curl -o vncsnapshot.tar.gz https://netcologne.dl.sourceforge.net/project/vncsnapshot/vncsnapshot/1.2a/vncsnapshot-1.2a-Linux-x86.tar.gz
-tar xzvf vncsnapshot.tar.gz
-mv vncsnapshot-1.2a/bin/* /usr/bin
-chmod 755 /usr/bin/vncsnapshot
-
-cat <<'PHOTO' > /usr/bin/photo
-#!/bin/bash
-filename=${1:-snapshot.jpg}
-pass=$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.password | sed 's/.* = "//' | sed 's/"$//')
-echo "$pass" > /tmp/passwd.txt
-vncsnapshot -allowblank -passwd /tmp/passwd.txt 127.0.0.1:$(cat $(ps wwaux | grep -v grep | grep .vmx | awk '{print $NF}') | grep vnc.port | sed 's/.*"59//' | sed 's/"//')
-PHOTO
-chmod +x /usr/bin/photo
-
-echo "Downloading gotty ..."
-curl -Lo gotty.tar.gz https://github.com/yudai/gotty/releases/download/v1.0.0/gotty_linux_amd64.tar.gz
-tar -C /usr/bin -xzvf gotty.tar.gz
-
-gotty tmux a >/var/log/gotty.log 2>&1 &
-tmux new-session -s "gotty" -d
-
 echo "Installing azure cli ..."
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs

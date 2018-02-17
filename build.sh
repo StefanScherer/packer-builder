@@ -8,5 +8,12 @@ if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   exit 1
 fi
 
-scp packer-build.sh root@$(./packet.sh ip $NAME):
+ip=$(./packet.sh ip $NAME)
+scp packer-build.sh root@$ip:
+
+echo "Monitor the packer build with VNC and SSH"
+echo "See the VNC port number and password in packer output."
+echo ""
+echo "ssh -L 127.0.0.1:59xx:127.0.0.1:59xx root@$ip tail -f packer-windows/packer-build.log"
+
 ssh root@$(./packet.sh ip $NAME) ./packer-build.sh $FILE
