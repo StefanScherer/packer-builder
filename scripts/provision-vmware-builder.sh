@@ -51,7 +51,9 @@ chmod +x /usr/bin/photo
 echo "Downloading gotty ..."
 curl -Lo gotty.tar.gz https://github.com/yudai/gotty/releases/download/v1.0.0/gotty_linux_amd64.tar.gz
 tar -C /usr/bin -xzvf gotty.tar.gz
+
 gotty tmux a >/var/log/gotty.log 2>&1 &
+tmux new-session -s "gotty" -d
 
 echo "Installing azure cli ..."
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
