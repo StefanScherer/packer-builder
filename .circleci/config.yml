@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  windows_2016_docker:
+  build: &build
     docker:
       - image: circleci/golang:1.9.4-stretch
     steps:
@@ -18,38 +18,23 @@ jobs:
       - run:
           name: Provisioning a baremetal Packet.net server
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM}-win2016-docker
+            ./packet.sh create circle${CIRCLE_BUILD_NUM}
 
       - run:
-          name: Run packer build windows_2016_docker
+          name: Run packer build
           command: |
-            ./build.sh circle${CIRCLE_BUILD_NUM}-win2016-docker windows_2016_docker
+            ./build.sh circle${CIRCLE_BUILD_NUM} ${NAME}
           no_output_timeout: 3600
 
   windows_10:
-    docker:
-      - image: circleci/golang:1.9.4-stretch
-    steps:
-      - checkout
-      
-      - run:
-          name: Install packet cli and tools
-          command: |
-            go get -u github.com/ebsarr/packet
-            packet -v
-            sudo apt-get update && sudo apt-get install -y jq
-            jq --version
-        
-      - run:
-          name: Provisioning a baremetal Packet.net server
-          command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM}-win10
+    <<: *build
+    environment:
+      - NAME: "windows_10"
 
-      - run:
-          name: Run packer build windows_10
-          command: |
-            ./build.sh circle${CIRCLE_BUILD_NUM}-win10 windows_10
-          no_output_timeout: 3600
+  windows_2016_docker:
+    <<: *build
+    environment:
+      - NAME: "windows_2016_docker"
 
 workflows:
   version: 2
