@@ -6,6 +6,7 @@ FACILITY=ams1
 FACILITY=ewr1
 OSTYPE=ubuntu_16_04
 PLAN=baremetal_1
+PLAN=baremetal_0
 PROJECT=packer
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
@@ -22,7 +23,11 @@ if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   exit 1
 fi
 
-TOKEN=$(pass packet_token)
+TOKEN=${PACKET_APIKEY}
+
+if [ -z "${TOKEN}" ]; then
+  TOKEN=$(pass packet_token)
+fi
 
 function create {
   NAME=$1
