@@ -3,7 +3,7 @@ version: 2
 jobs:
   windows_2016_docker:
     docker:
-      - image: circleci/buildpack-deps:xenial-curl-dind
+      - image: circleci/golang:1.9.4-stretch
     steps:
       - checkout
       
@@ -28,7 +28,7 @@ jobs:
 
   windows_10:
     docker:
-      - image: circleci/buildpack-deps:xenial-curl-dind
+      - image: circleci/golang:1.9.4-stretch
     steps:
       - checkout
       
