@@ -2,7 +2,8 @@ version: 2
 
 jobs:
   windows_2016_docker:
-    docker: ebsarr/packet
+    docker:
+      - image: ebsarr/packet
     steps:
       - checkout
       
@@ -24,7 +25,8 @@ jobs:
           no_output_timeout: 3600
 
   windows_10:
-    docker: ebsarr/packet
+    docker:
+      - image: ebsarr/packet
     steps:
       - checkout
       
