@@ -12,7 +12,7 @@ jobs:
           command: |
             go get -u github.com/ebsarr/packet
             packet -v
-            apt-get update && apt-get install -y jq
+            sudo apt-get update && sudo apt-get install -y jq
             jq --version
         
       - run:
@@ -37,7 +37,7 @@ jobs:
           command: |
             go get -u github.com/ebsarr/packet
             packet -v
-            apt-get update && apt-get install -y jq
+            sudo apt-get update && sudo apt-get install -y jq
             jq --version
         
       - run:
