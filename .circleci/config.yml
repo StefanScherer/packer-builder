@@ -18,12 +18,12 @@ jobs:
       - run:
           name: Provisioning a baremetal Packet.net server
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM}_windows_2016_docker
+            ./packet.sh create circle${CIRCLE_BUILD_NUM}-win2016-docker
 
       - run:
           name: Run packer build windows_2016_docker
           command: |
-            ./build.sh circle${CIRCLE_BUILD_NUM}_windows_2016_docker windows_2016_docker
+            ./build.sh circle${CIRCLE_BUILD_NUM}-win2016-docker windows_2016_docker
           no_output_timeout: 3600
 
   windows_10:
@@ -43,12 +43,12 @@ jobs:
       - run:
           name: Provisioning a baremetal Packet.net server
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM}_windows_10
+            ./packet.sh create circle${CIRCLE_BUILD_NUM}-win10
 
       - run:
           name: Run packer build windows_10
           command: |
-            ./build.sh circle${CIRCLE_BUILD_NUM}_windows_10 windows_10
+            ./build.sh circle${CIRCLE_BUILD_NUM}-win10 windows_10
           no_output_timeout: 3600
 
 workflows:
