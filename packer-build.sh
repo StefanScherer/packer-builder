@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 FILE=$1
 HYPERVISOR=$2
 if [ ! -d packer-windows ]; then
@@ -12,4 +12,4 @@ rm -rf output*
 log=packer-build.log
 
 touch $log
-packer build --only=${HYPERVISOR}-iso --var headless=true "${FILE}.json" --var iso-url=file:///tmp/local.iso | tee -a $log
+packer build --only=${HYPERVISOR}-iso --var headless=true "${FILE}.json" | tee -a $log

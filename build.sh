@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 NAME=$1
 FILE=$2
 HYPERVISOR=$3
