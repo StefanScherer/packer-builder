@@ -6,8 +6,11 @@ VMWARE_VERSION=14.1.1-7528167
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
 
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
-apt-get install -qq git unzip curl
+apt-get install -qq git unzip curl linux-headers-$(uname -r) \
+                    dkms x11-common x11-xserver-utils libxtst6 \
+                    libxinerama1 nodejs
 
 # install packer
 mkdir /opt/packer
@@ -20,10 +23,7 @@ rm ${PACKER_VERSION}_linux_amd64.zip
 pushd /usr/bin
 ln -s /opt/packer/* .
 popd
-
-apt-get install -qq linux-headers-$(uname -r)
-apt-get install -qq dkms
-apt-get install -qq x11-common x11-xserver-utils libxtst6 libxinerama1
+popd
 
 rmmod kvm_intel kvm
 
@@ -34,6 +34,4 @@ sh ./VMware-Workstation.bundle --console --required --eulas-agreed
 rm ./VMware-Workstation.bundle
 
 echo "Installing azure cli ..."
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs
 npm install -g azure-cli

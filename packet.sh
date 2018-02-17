@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 COMMAND=$1
 NAME=$2
@@ -11,15 +11,15 @@ PROJECT=packer
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "Usage:"
-  echo "  $0 create name      create a new machine"
-  echo "  $0 delete name      delete a machine"
-  echo "  $0 ip name          get IP address of a machine"
-  echo "  $0 list             list all machines"
-  echo "  $0 photo name       take a photo from packer build"
-  echo "  $0 provision name   provision the machine"
-  echo "  $0 ssh name         ssh into a machine"
-  echo "  $0 start name       start a machine"
-  echo "  $0 stop name        stop a machine"
+  echo "  $0 create name type     create a new machine with vmware|virtualbox"
+  echo "  $0 delete name          delete a machine"
+  echo "  $0 ip name              get IP address of a machine"
+  echo "  $0 list                 list all machines"
+  echo "  $0 photo name           take a photo from packer build"
+  echo "  $0 provision name type  provision the machine with vmware|virtualbox"
+  echo "  $0 ssh name             ssh into a machine"
+  echo "  $0 start name           start a machine"
+  echo "  $0 stop name            stop a machine"
   exit 1
 fi
 
@@ -32,6 +32,7 @@ fi
 function create {
   NAME=$1
   PROJECTID=$2
+  HYPERVISOR=$3
 
   if [ -z "${NAME}" ]; then
     echo "Usage: $0 name"
@@ -53,7 +54,7 @@ function create {
     --project-id "${PROJECTID}" \
     --hostname "${NAME}"
 
-  provision "${NAME}" "${PROJECTID}"
+  provision "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
 }
 
 function cmd {
@@ -99,11 +100,12 @@ function ip {
 }
 
 function provision {
+  HYPERVISOR=$2
   echo "Provisioning $1"
   IP=$(ip)
   ssh-keygen -R "${IP}"
   ssh-keyscan "${IP}" >>~/.ssh/known_hosts
-  cat scripts/provision-vmware-builder.sh | /usr/bin/ssh "root@${IP}"
+  cat "scripts/provision-${HYPERVISOR}-builder.sh" | /usr/bin/ssh "root@${IP}"
 }
 
 function ssh {
