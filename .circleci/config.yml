@@ -23,6 +23,7 @@ jobs:
           name: Run packer build windows_2016_docker
           command: |
             ./build.sh circle$CIRCLE_BUILD_NUM windows_2016_docker
+          no_output_timeout: 3600
 
       - run:
           name: Delete baremetal Packet.net server
