@@ -1,5 +1,7 @@
 # Packer Builder
 
+[![CircleCI](https://circleci.com/gh/StefanScherer/packer-builder.svg?style=svg)](https://circleci.com/gh/StefanScherer/packer-builder)
+
 Setup a Packer builder machine for VMware Vagrant boxes.
 
 ## Packet.net
