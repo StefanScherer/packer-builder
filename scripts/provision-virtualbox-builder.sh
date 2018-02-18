@@ -12,6 +12,13 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
 sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential
 
+# Install VirtualBox extension pack
+vbox=$(VBoxManage --version)
+vboxversion=${vbox%r*}
+vboxrevision=${vbox#*r}
+wget https://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}-${vboxrevision}.vbox-extpack
+yes | VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}-${vboxrevision}.vbox-extpack
+
 # install packer
 mkdir /opt/packer
 pushd /opt/packer
