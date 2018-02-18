@@ -37,6 +37,7 @@ else
   export PACKET_APIKEY=$PACKET_APIKEY
   export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
   export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
+  azure telemetry --enable
   if [ -e ${FILE}_vmware.box ]; then
     azure storage blob upload ${FILE}_vmware.box vagrantbox ${FILE}/$today/${FILE}_vmware.box
   fi
