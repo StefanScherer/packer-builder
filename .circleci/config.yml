@@ -54,7 +54,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - windows_2016_docker_virtualbox
+#      - windows_2016_docker_virtualbox
       - windows_2016_docker_vmware
 #      - windows_10_virtualbox
 #      - windows_10_vmware
