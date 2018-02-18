@@ -1,11 +1,12 @@
 #!/bin/bash
 NAME=$1
 FILE=$2
-HYPERVISOR=$3
+HYPERVISOR=${HYPERVISOR:-virtualbox}
+GITHUB_URL=${GITHUB_URL:-https://github.com/StefanScherer/packer-windows}
 
 if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   echo "Usage: $0 machine jobname"
-  echo "$0 p1 windows_2016_docker virtualbox|vmware"
+  echo "$0 p1 windows_2016_docker"
   exit 1
 fi
 
@@ -15,9 +16,16 @@ scp packer-build.sh root@$ip:
 echo "Monitor the packer build with VNC and SSH"
 echo "See the VNC port number and password in packer output."
 echo ""
-echo "ssh -L 127.0.0.1:5900:127.0.0.1:59xx root@$ip tail -f packer-windows/packer-build.log"
+echo "ssh -L 127.0.0.1:5900:127.0.0.1:59xx root@$ip tail -f work/packer-build.log"
 
-ssh -n -f root@$(./packet.sh ip $NAME) "sh -c 'nohup ./packer-build.sh $FILE $HYPERVISOR > /dev/null 2>&1 &'"
+if [ -z "${!NAME}" ]; then
+  echo Running build.
+else
+  echo Running build with local ISO.
+  ISO_URL="${!NAME}"
+fi
+
+ssh -n -f root@$(./packet.sh ip $NAME) "sh -c 'nohup ./packer-build.sh $FILE $HYPERVISOR $GITHUB_URL $ISO_URL > /dev/null 2>&1 &'"
 
 sleep 20
 
@@ -29,11 +37,11 @@ else
   export PACKET_APIKEY=$PACKET_APIKEY
   export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
   export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
-  if [ -e packer-windows/${FILE}_vmware.box ]; then
-    azure storage blob upload packer-windows/${FILE}_vmware.box box ${FILE}/$today/${FILE}_vmware.box
+  if [ -e work/${FILE}_vmware.box ]; then
+    azure storage blob upload work/${FILE}_vmware.box box ${FILE}/$today/${FILE}_vmware.box
   fi
-  if [ -e packer-windows/${FILE}_vmware.box ]; then
-    azure storage blob upload packer-windows/${FILE}_virtualbox.box box ${FILE}/$today/${FILE}_virtualbox.box
+  if [ -e work/${FILE}_virtualbox.box ]; then
+    azure storage blob upload work/${FILE}_virtualbox.box box ${FILE}/$today/${FILE}_virtualbox.box
   fi
   packet.sh stop \$(hostname)
 CMD
@@ -44,4 +52,15 @@ CMD
   rm packer-upload-and-destroy.sh
 fi
 
-ssh root@$(./packet.sh ip $NAME) tail -f packer-windows/packer-build.log
+set +e
+ssh root@$(./packet.sh ip $NAME) tail -f work/packer-build.log | tee packer-build.log
+set -e
+
+hypervisor1=${HYPERVISOR%+*}
+hypervisor2=${HYPERVISOR#*+}
+
+echo Checking build artifacts.
+grep "$hypervisor1-iso: '$hypervisor1' provider box:" packer-build.log
+if [ "$hypervisor1" != "$hypervisor2" ]; then
+  grep "$hypervisor2-iso: '$hypervisor2' provider box:" packer-build.log
+fi
