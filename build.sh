@@ -37,13 +37,13 @@ else
   export PACKET_APIKEY=$PACKET_APIKEY
   export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
   export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
-  if [ -e work/${FILE}_vmware.box ]; then
-    azure storage blob upload work/${FILE}_vmware.box box ${FILE}/$today/${FILE}_vmware.box
+  if [ -e ${FILE}_vmware.box ]; then
+    azure storage blob upload ${FILE}_vmware.box vagrantbox ${FILE}/$today/${FILE}_vmware.box
   fi
-  if [ -e work/${FILE}_virtualbox.box ]; then
-    azure storage blob upload work/${FILE}_virtualbox.box box ${FILE}/$today/${FILE}_virtualbox.box
+  if [ -e ${FILE}_virtualbox.box ]; then
+    azure storage blob upload ${FILE}_virtualbox.box vagrantbox ${FILE}/$today/${FILE}_virtualbox.box
   fi
-  packet.sh stop \$(hostname)
+  packet.sh delete \$(hostname)
 CMD
   chmod +x packer-upload-and-destroy.sh
   scp packer-upload-and-destroy.sh root@$ip:
