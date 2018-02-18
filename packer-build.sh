@@ -36,6 +36,10 @@ echo Running packer build $only --var headless=true "${FILE}.json" >> $log
 echo "" >> $log
 packer build $only $isoflag --var headless=true "${FILE}.json" | tee -a $log
 
+if [ ! -e ../packer-upload-and-destroy.sh ]; then
+  sleep 30
+fi
+
 if [ -e ../packer-upload-and-destroy.sh ]; then
   ../packer-upload-and-destroy.sh | tee -a $log
 fi
