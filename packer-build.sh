@@ -5,13 +5,14 @@ GITHUB_URL=$3
 ISO_URL=$4
 
 log=packer-build.log
-touch $log
+echo $0 $* >> $log
 
 if [ ! -d work ]; then
   echo Cloning $GITHUB_URL >> $log
   git clone $GITHUB_URL work
 fi
 cd work
+touch $log
 git checkout -- *.json
 git pull
 rm -f *.box

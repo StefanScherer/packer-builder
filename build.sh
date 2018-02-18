@@ -18,11 +18,11 @@ echo "See the VNC port number and password in packer output."
 echo ""
 echo "ssh -L 127.0.0.1:5900:127.0.0.1:59xx root@$ip tail -f work/packer-build.log"
 
-if [ -z "${!NAME}" ]; then
+if [ -z "${!FILE}" ]; then
   echo Running build.
 else
   echo Running build with local ISO.
-  ISO_URL="${!NAME}"
+  ISO_URL="${!FILE}"
 fi
 
 ssh -n -f root@$(./packet.sh ip $NAME) "sh -c 'nohup ./packer-build.sh $FILE $HYPERVISOR $GITHUB_URL $ISO_URL > /dev/null 2>&1 &'"
