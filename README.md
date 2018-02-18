@@ -24,7 +24,6 @@ And then build a VMware VM
 
 ```bash
 ./build.sh p1 windows_2016_docker vmware|virtualbox
-./packet.sh photo p1
 ./upload.sh p1 windows_2016_docker
 ```
 

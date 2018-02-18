@@ -15,7 +15,6 @@ if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "  $0 delete name          delete a machine"
   echo "  $0 ip name              get IP address of a machine"
   echo "  $0 list                 list all machines"
-  echo "  $0 photo name           take a photo from packer build"
   echo "  $0 provision name type  provision the machine with vmware|virtualbox"
   echo "  $0 ssh name             ssh into a machine"
   echo "  $0 start name           start a machine"
@@ -109,13 +108,6 @@ function provision {
 
 function ssh {
   /usr/bin/ssh "root@$(ip)"
-}
-
-function photo {
-  IP=$(ip)
-  /usr/bin/ssh "root@${IP}" photo snapshot.jpg
-  scp "root@${IP}:snapshot.jpg" snapshot.jpg
-  open snapshot.jpg
 }
 
 PROJECTID=$(packet -k "${TOKEN}" \
