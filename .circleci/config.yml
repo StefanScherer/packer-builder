@@ -18,12 +18,12 @@ jobs:
       - run:
           name: Provisioning a baremetal Packet.net server
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM}
+            ./packet.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
 
       - run:
           name: Run packer build
           command: |
-            ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE}
+            ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 3600
 
   windows_2016_docker:

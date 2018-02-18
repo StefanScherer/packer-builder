@@ -1,7 +1,7 @@
 #!/bin/bash
 NAME=$1
 FILE=$2
-HYPERVISOR=${HYPERVISOR:-virtualbox}
+HYPERVISOR=$3
 GITHUB_URL=${GITHUB_URL:-https://github.com/StefanScherer/packer-windows}
 
 if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
