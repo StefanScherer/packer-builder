@@ -10,7 +10,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
 apt-get install -qq git unzip curl linux-headers-$(uname -r) \
                     dkms x11-common x11-xserver-utils libxtst6 \
-                    libxinerama1 nodejs
+                    libxinerama1 nodejs psmisc
 
 # install packer
 mkdir /opt/packer

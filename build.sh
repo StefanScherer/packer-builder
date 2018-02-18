@@ -44,7 +44,10 @@ else
   if [ -e ${FILE}_virtualbox.box ]; then
     azure storage blob upload ${FILE}_virtualbox.box vagrantbox ${FILE}/$today/${FILE}_virtualbox.box
   fi
-  packet.sh stop \$(hostname)
+  echo "Deleting server."
+  sleep 1
+  killall -9 tail
+  packet.sh delete \$(hostname)
 CMD
   chmod +x packer-upload-and-destroy.sh
   scp packer-upload-and-destroy.sh root@$ip:

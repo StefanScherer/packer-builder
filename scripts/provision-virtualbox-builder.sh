@@ -10,7 +10,7 @@ echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" >> /e
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
-sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential
+sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential psmisc
 
 # Install VirtualBox extension pack
 vbox=$(VBoxManage --version)

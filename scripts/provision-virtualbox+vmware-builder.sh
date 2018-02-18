@@ -13,7 +13,7 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
 sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential \
-                    linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 
+                    linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
 
 # Install VirtualBox extension pack
 vbox=$(VBoxManage --version)
