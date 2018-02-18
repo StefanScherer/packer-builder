@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/StefanScherer/packer-builder.svg?style=svg)](https://circleci.com/gh/StefanScherer/packer-builder)
 
-Setup a Packer builder machine for VMware Vagrant boxes.
+Setup a Packer builder machine for VirtualBox and VMware Vagrant boxes.
 
 ## Packet.net
 
@@ -23,7 +23,7 @@ Then use the script `packet.sh` to make things even simpler:
 And then build a VMware VM
 
 ```bash
-./build.sh p1 windows_2016_docker
+./build.sh p1 windows_2016_docker vmware|virtualbox
 ./packet.sh photo p1
 ./upload.sh p1 windows_2016_docker
 ```

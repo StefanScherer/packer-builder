@@ -4,12 +4,10 @@ COMMAND=$1
 NAME=$2
 HYPERVISOR=$3
 
-FACILITY=ams1
-FACILITY=ewr1
+FACILITY=${PACKET_FACILITY:-ewr1}
 OSTYPE=ubuntu_16_04
-PLAN=baremetal_1
-PLAN=baremetal_0
-PROJECT=packer
+PLAN=${PACKET_PLAN:-baremetal_0}
+PROJECT=${PACKET_PROJECT:-packer}
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "Usage:"
