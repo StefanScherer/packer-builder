@@ -11,10 +11,15 @@ rm -f *.box
 rm -rf output*
 log=packer-build.log
 
+set -x
 touch $log
-only=--only=${HYPERVISOR-iso}
-if [ "${HYPERVISOR}" == "virtualbox+vmware" ]; then
-  only=--only=virtualbox-iso --only=vmware-iso
+only=--only=${HYPERVISOR}-iso
+
+hypervisor1=${HYPERVISOR%+*}
+hypervisor2=${HYPERVISOR#*+}
+
+if [ "$hypervisor1" != "$hypervisor2" ]; then
+  only="--only=${hypervisor1}-iso --only=${hypervisor2}-iso"
 fi
 packer build $only --var headless=true "${FILE}.json" | tee -a $log
 

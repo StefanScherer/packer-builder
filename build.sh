@@ -35,7 +35,7 @@ else
   if [ -e packer-windows/${FILE}_vmware.box ]; then
     azure storage blob upload packer-windows/${FILE}_virtualbox.box box ${FILE}/$today/${FILE}_virtualbox.box
   fi
-  packet.sh delete $(hostname)
+  packet.sh delete \$(hostname)
 CMD
   chmod +x packer-upload-and-destroy.sh
   scp packer-upload-and-destroy.sh root@$ip:
