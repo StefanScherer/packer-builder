@@ -24,5 +24,5 @@ fi
 packer build $only --var headless=true "${FILE}.json" | tee -a $log
 
 if [ -e ../packer-upload-and-destroy.sh ]; then
-  ../packer-upload-and-destroy.sh
+  ../packer-upload-and-destroy.sh | tee -a $log
 fi
