@@ -22,8 +22,10 @@ if [ -z "${ISO_URL}" ]; then
   echo Use default ISO. >> $log
 else
   echo Use local ISO. >> $log
-  curl -Lo local.iso $ISO_URL
-  isoflag=--var iso_url=./local.iso
+  if [ ! -e local.iso ]; then
+    curl -Lo local.iso $ISO_URL
+  fi
+  isoflag="--var iso_url=./local.iso"
 fi
 
 only=--only=${HYPERVISOR}-iso
