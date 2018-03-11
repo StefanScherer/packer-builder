@@ -39,10 +39,10 @@ else
   export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
   azure telemetry --enable
   if [ -e ${FILE}_vmware.box ]; then
-    azure storage blob upload ${FILE}_vmware.box vagrantbox ${FILE}/$today/${FILE}_vmware.box
+    azure storage blob upload ${FILE}_vmware.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_vmware.box
   fi
   if [ -e ${FILE}_virtualbox.box ]; then
-    azure storage blob upload ${FILE}_virtualbox.box vagrantbox ${FILE}/$today/${FILE}_virtualbox.box
+    azure storage blob upload ${FILE}_virtualbox.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_virtualbox.box
   fi
   echo "Deleting server."
   sleep 1
