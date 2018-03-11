@@ -24,7 +24,6 @@ And then build a VMware VM
 
 ```bash
 ./build.sh p1 windows_2016_docker vmware|virtualbox
-./upload.sh p1 windows_2016_docker
 ```
 
 Afterwards remove the baremetal machine again
