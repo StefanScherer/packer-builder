@@ -110,7 +110,15 @@ function ssh {
   /usr/bin/ssh "root@$(ip)"
 }
 
-PROJECTID=$(packet -k "${TOKEN}" \
-  admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
+if [ "${HYPERVISOR}" == "hyperv" ]; then
+  cd hyperv
+  terraform init
+  PLAN=${AZURE_PLAN:-Standard_D2_v3}
+  terraform apply --var name=${NAME} >/dev/null
+  terraform refresh
+else
+  PROJECTID=$(packet -k "${TOKEN}" \
+    admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
 
-"${COMMAND}" "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
+  "${COMMAND}" "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
+fi

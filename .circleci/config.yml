@@ -12,13 +12,17 @@ jobs:
           command: |
             go get -u github.com/ebsarr/packet
             packet -v
-            sudo apt-get update && sudo apt-get install -y jq
+            sudo apt-get update && sudo apt-get install -y jq unzip
             jq --version
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
+            unzip -d /usr/bin terraform.zip
+            rm terraform.zip
+            terraform --version
         
       - run:
           name: Provisioning a baremetal Packet.net server
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
+            ./machine.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
 
       - run:
           name: Run packer build
@@ -32,6 +36,13 @@ jobs:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
+
+  windows_2016_docker_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2016_docker"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
 
   windows_2016:
     <<: *build
@@ -80,10 +91,11 @@ workflows:
   build:
     jobs:
       # - windows_2016_docker
+      - windows_2016_docker_hyperv
       # - windows_10
       # - windows_2016
-      - windows_server_1709_docker
-      - windows_server_insider_docker
+      # - windows_server_1709_docker
+      # - windows_server_insider_docker
       # - windows_2016_docker_virtualbox
       # - windows_2016_docker_vmware
       # - windows_10_virtualbox
