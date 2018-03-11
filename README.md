@@ -44,3 +44,14 @@ vagrant up
 vagrant ssh
 packer build ...
 ```
+
+## Configuration
+
+### CircleCI Environment Variables
+
+* AZURE_STORAGE_ACCESS_KEY
+* AZURE_STORAGE_ACCOUNT
+* AZURE_STORAGE_CONTAINER
+* PACKET_APIKEY
+* windows_server_xxx_docker
+
