@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Install tools
           command: |
-            apt-get update && sudo apt-get install -y jq curl
+            apk update && apk add jq curl
             az --version
             jq --version
             curl --version
