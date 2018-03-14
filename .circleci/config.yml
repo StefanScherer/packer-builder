@@ -67,20 +67,6 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
-  # Example virtualbox only
-  windows_10_virtualbox:
-    <<: *build
-    environment:
-      - PACKER_TEMPLATE: "windows_10"
-      - HYPERVISOR: "virtualbox"
-
-  # Example vmware only
-  windows_10_vmware:
-    <<: *build
-    environment:
-      - PACKER_TEMPLATE: "windows_10"
-      - HYPERVISOR: "vmware"
-
   windows_server_1709_docker:
     <<: *build
     environment:
@@ -101,17 +87,48 @@ jobs:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "virtualbox+vmware"
 
+  upload_windows_2016:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_2016"
+      - HYPERVISOR: "virtualbox+vmware"
+
+  upload_windows_10:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_10"
+      - HYPERVISOR: "virtualbox+vmware"
+
 workflows:
   version: 2
   build:
     jobs:
       # - windows_2016_docker
+      # - approve_windows_2016_docker
+      #   type: approval
+      #   requires:
+      #     - windows_2016_docker
+      # - upload_windows_2016_docker
+      #   requires:
+      #     - approve_windows_2016_docker
+
+      - windows_2016
+      - approve_windows_2016
+        type: approval
+        requires:
+          - windows_2016
+      - upload_windows_2016
+        requires:
+          - approve_windows_2016
+
       # - windows_10
-      # - windows_2016
+      # - approve_windows_10
+      #   type: approval
+      #   requires:
+      #     - windows_10
+      # - upload_windows_10
+      #   requires:
+      #     - approve_windows_10
+          
       # - windows_server_1709_docker
       # - windows_server_insider_docker
-      # - windows_2016_docker_virtualbox
-      # - windows_2016_docker_vmware
-      # - windows_10_virtualbox
-      # - windows_10_vmware
-      - upload_windows_2016_docker
