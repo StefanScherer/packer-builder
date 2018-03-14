@@ -28,7 +28,7 @@ jobs:
 
   upload: &upload
     docker:
-      - image: circleci/golang:1.9.4-stretch
+      - image: circleci/node:8.10-stretch
     steps:
       - checkout
 
@@ -36,6 +36,9 @@ jobs:
           name: Install tools
           command: |
             sudo apt-get update && sudo apt-get install -y jq curl
+            npm install -g azure-cli
+            azure telemetry --enable
+            azure --version
             jq --version
             curl --version
 
