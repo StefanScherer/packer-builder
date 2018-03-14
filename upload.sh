@@ -28,9 +28,10 @@ function upload {
     "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/version/$BOX_VERSION/provider/$HYPERVISOR/upload")
 
   # Extract the upload URL from the response (requires the jq command)
-  upload_path=$(echo "$response" | jq .upload_path)
+  upload_path=$(echo "$response" | jq -r .upload_path)
 
   echo "Upload ${FILE}_${HYPERVISOR}.box to Vagrant Cloud"
+  echo "upload_path $upload_path"
   curl $upload_path --request PUT --upload-file "${FILE}_${HYPERVISOR}.box"
   
   rm "${FILE}_${HYPERVISOR}.box"
