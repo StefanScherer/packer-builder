@@ -28,15 +28,15 @@ jobs:
 
   upload: &upload
     docker:
-      - image: microsoft/azure-cli:2.0.29
+      - image: microsoft/azure-cli:0.10.14
     steps:
       - checkout
 
       - run:
           name: Install tools
           command: |
-            apk update && apk add jq curl
-            az --version
+            apt-get update && apt-get install -y jq curl
+            azure --version
             jq --version
             curl --version
 
