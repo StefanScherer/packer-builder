@@ -121,14 +121,14 @@ workflows:
       #     requires:
       #       - approve_windows_2016
 
-      - windows_10
-      - approve_windows_10:
-          type: approval
-          requires:
-            - windows_10
-      - upload_windows_10:
-          requires:
-            - approve_windows_10
+      #- windows_10
+      #- approve_windows_10:
+      #    type: approval
+      #    requires:
+      #      - windows_10
+      - upload_windows_10
+        #    requires:
+        #    - approve_windows_10
           
       # - windows_server_1709_docker
       # - windows_server_insider_docker
