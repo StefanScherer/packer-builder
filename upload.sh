@@ -31,8 +31,13 @@ function upload {
   upload_path=$(echo "$response" | jq -r .upload_path)
 
   echo "Upload ${FILE}_${HYPERVISOR}.box to Vagrant Cloud"
-  echo "upload_path $upload_path"
-  curl $upload_path --request PUT --upload-file "${FILE}_${HYPERVISOR}.box"
+  set +e
+  output=$(curl $upload_path --request PUT --upload-file "${FILE}_${HYPERVISOR}.box")
+  stat=$?
+  if [ "$stat" == "52" ]; then
+    echo "Got curl status 52, ignoring for now."
+  fi
+  set -e
   
   rm "${FILE}_${HYPERVISOR}.box"
 }
