@@ -28,7 +28,7 @@ jobs:
 
   upload: &upload
     docker:
-      - image: circleci/node:8.10-stretch
+      - image: microsoft/azure-cli:2.0.29
     steps:
       - checkout
 
@@ -36,10 +36,7 @@ jobs:
           name: Install tools
           command: |
             sudo apt-get update && sudo apt-get install -y jq curl
-            sudo mkdir -p /root/.node-gyp/8.10.0
-            sudo npm install -g azure-cli
-            azure telemetry --enable
-            azure --version
+            az --version
             jq --version
             curl --version
 
