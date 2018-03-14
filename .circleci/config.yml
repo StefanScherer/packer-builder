@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Install tools
           command: |
-            sudo apt-get update && sudo apt-get install -y jq curl
+            apt-get update && sudo apt-get install -y jq curl
             az --version
             jq --version
             curl --version
