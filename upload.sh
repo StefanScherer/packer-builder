@@ -15,17 +15,22 @@ function upload {
   BOX_VERSION=$2
   HYPERVISOR=$3
 
+  VAGRANT_PROVIDER="$HYPERVISOR"
+  if [ "$HYPVERVISOR" == "vmware" ]; then
+    VAGRANT_PROVIDER="${HYPERVISOR}_desktop"
+  fi
+
   echo "Create a new provider $HYPERVISOR for version $BOX_VERSION"
   curl \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
     "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/version/$BOX_VERSION/providers" \
-    --data "{ \"provider\": { \"name\": \"$HYPERVISOR\" } }"
+    --data "{ \"provider\": { \"name\": \"$VAGRANT_PROVIDER\" } }"
 
   echo "Prepare the provider for upload/get an upload URL"
   response=$(curl \
     --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
-    "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/version/$BOX_VERSION/provider/$HYPERVISOR/upload")
+    "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/version/$BOX_VERSION/provider/$VAGRANT_PROVIDER/upload")
 
   # Extract the upload URL from the response (requires the jq command)
   upload_path=$(echo "$response" | jq -r .upload_path)
