@@ -104,31 +104,31 @@ workflows:
   build:
     jobs:
       # - windows_2016_docker
-      # - approve_windows_2016_docker
-      #   type: approval
-      #   requires:
-      #     - windows_2016_docker
-      # - upload_windows_2016_docker
-      #   requires:
-      #     - approve_windows_2016_docker
+      # - approve_windows_2016_docker:
+      #     type: approval
+      #     requires:
+      #       - windows_2016_docker
+      # - upload_windows_2016_docker:
+      #     requires:
+      #       - approve_windows_2016_docker
 
       - windows_2016
-      - approve_windows_2016
-        type: approval
-        requires:
-          - windows_2016
-      - upload_windows_2016
-        requires:
-          - approve_windows_2016
+      - approve_windows_2016:
+          type: approval
+          requires:
+            - windows_2016
+      - upload_windows_2016:
+          requires:
+            - approve_windows_2016
 
       # - windows_10
-      # - approve_windows_10
-      #   type: approval
-      #   requires:
-      #     - windows_10
-      # - upload_windows_10
-      #   requires:
-      #     - approve_windows_10
+      # - approve_windows_10:
+      #     type: approval
+      #     requires:
+      #       - windows_10
+      # - upload_windows_10:
+      #     requires:
+      #       - approve_windows_10
           
       # - windows_server_1709_docker
       # - windows_server_insider_docker
