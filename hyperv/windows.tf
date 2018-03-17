@@ -14,10 +14,11 @@ resource "azurerm_resource_group" "global" {
 
 # Create a storage account
 resource "azurerm_storage_account" "global" {
-  account_type        = "Standard_LRS"                          # Only locally redundant
-  location            = "${var.location}"
-  name                = "${var.name}"
-  resource_group_name = "${azurerm_resource_group.global.name}"
+  account_tier             = "Standard"                          # Only locally redundant
+  account_replication_type = "LRS"
+  location                 = "${var.location}"
+  name                     = "${var.name}"
+  resource_group_name      = "${azurerm_resource_group.global.name}"
 }
 
 resource "azurerm_virtual_network" "windows" {
