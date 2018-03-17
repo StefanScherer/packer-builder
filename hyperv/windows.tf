@@ -36,7 +36,7 @@ resource "azurerm_subnet" "windows" {
 }
 
 resource "azurerm_network_interface" "windows" {
-    name = "windows-nic"
+    name = "nic-${var.name}"
     location = "${var.location}"
     resource_group_name = "${azurerm_resource_group.global.name}"
 
@@ -51,7 +51,7 @@ resource "azurerm_network_interface" "windows" {
 resource "azurerm_public_ip" "windows" {
   idle_timeout_in_minutes      = 30
   location                     = "${var.location}"
-  name                         = "windows-publicip"
+  name                         = "pubip-${var.name}"
   public_ip_address_allocation = "dynamic"
   resource_group_name          = "${azurerm_resource_group.global.name}"
 }
@@ -64,7 +64,7 @@ resource "azurerm_storage_container" "windows" {
 }
 
 resource "azurerm_virtual_machine" "windows" {
-    name = "windows-vm"
+    name = "vm-${var.name}"
     location = "${var.location}"
     resource_group_name = "${azurerm_resource_group.global.name}"
     network_interface_ids = ["${azurerm_network_interface.windows.id}"]
@@ -78,7 +78,7 @@ resource "azurerm_virtual_machine" "windows" {
     }
 
     storage_os_disk {
-        name = "windows-osdisk"
+        name = "osdisk-${var.name}"
         vhd_uri = "${azurerm_storage_account.global.primary_blob_endpoint}${azurerm_storage_container.windows.id}/disk1.vhd"
         caching = "ReadWrite"
         create_option = "FromImage"
