@@ -71,12 +71,42 @@ CMD
   fi
 }
 
-if [ "${HYPERVISOR}" == "hyperv" ]; then
+function azure_build {
   cd hyperv
-  ip=$(terraform output ip)
-  echo "IP address of Azure VM $NAME: $ip"
-  echo "TODO: wait until SSH is available"
-  echo "TODO: run packer build through SSH"
+  IP=$(terraform output ip)
+  echo "IP address of Azure VM $NAME: $IP"
+
+  echo "Wait until SSH is available"
+  maxConnectionAttempts=30
+  sleepSeconds=20
+  index=1
+  success=0
+
+  while (( $index <= $maxConnectionAttempts ))
+  do
+    ssh -o StrictHostKeyChecking=no "packer@$IP" ver
+    case $? in
+      (0) echo "${index}> Success"; ((success+=1));;
+      (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
+    esac
+    if [ $success -eq 2 ]; then
+      break
+    fi
+    sleep $sleepSeconds
+    ((index+=1))
+  done
+  set -e
+
+  ssh-keygen -R "${IP}"
+  ssh-keyscan "${IP}" >>~/.ssh/known_hosts
+
+  echo "Run packer build through SSH"
+  scp packer-build.ps1 "packer@$IP:"
+  ssh "packer@$IP" "powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
+}
+
+if [ "${HYPERVISOR}" == "hyperv" ]; then
+  azure_build
 else
   packet_build
 fi
