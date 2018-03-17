@@ -20,7 +20,7 @@ jobs:
             terraform --version
         
       - run:
-          name: Provisioning a baremetal Packet.net server
+          name: Provisioning a packer build machine
           command: |
             ./machine.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
 

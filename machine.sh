@@ -115,7 +115,8 @@ if [ "${HYPERVISOR}" == "hyperv" ]; then
   terraform init
   PLAN=${AZURE_PLAN:-Standard_D2_v3}
   echo "Running Terraform to build VM ${NAME}"
-  terraform apply --var name=${NAME} >/dev/null
+  terraform plan --var name=${NAME}
+  terraform apply --var name=${NAME}
   echo "Refreshing Terraform state"
   terraform refresh
 else
