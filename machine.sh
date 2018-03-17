@@ -114,7 +114,9 @@ if [ "${HYPERVISOR}" == "hyperv" ]; then
   cd hyperv
   terraform init
   PLAN=${AZURE_PLAN:-Standard_D2_v3}
+  echo "Running Terraform to build VM ${NAME}"
   terraform apply --var name=${NAME} >/dev/null
+  echo "Refreshing Terraform state"
   terraform refresh
 else
   PROJECTID=$(packet -k "${TOKEN}" \
