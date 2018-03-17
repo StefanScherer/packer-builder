@@ -22,14 +22,14 @@ resource "azurerm_storage_account" "global" {
 }
 
 resource "azurerm_virtual_network" "windows" {
-    name = "windows-virtnet"
+    name = "virtnet-${var.name}"
     address_space = ["10.0.0.0/16"]
     location = "${var.location}"
     resource_group_name = "${azurerm_resource_group.global.name}"
 }
 
 resource "azurerm_subnet" "windows" {
-    name = "windows-sn"
+    name = "subnet-${var.name}"
     resource_group_name = "${azurerm_resource_group.global.name}"
     virtual_network_name = "${azurerm_virtual_network.windows.name}"
     address_prefix = "10.0.2.0/24"
