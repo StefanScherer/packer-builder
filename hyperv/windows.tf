@@ -1,5 +1,11 @@
 # Configure the Microsoft Azure Provider
-provider "azurerm" {}
+provider "azurerm" {
+  version = "~> 1.3"
+}
+
+provider "random" {
+  version = "~> 1.1"
+}
 
 resource "random_string" "password" {
   length = 16
