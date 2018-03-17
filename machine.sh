@@ -118,7 +118,7 @@ if [ "${HYPERVISOR}" == "hyperv" ]; then
   terraform apply -input=false -auto-approve --var name=${NAME} | grep -vi password
   
   echo "Refreshing Terraform state"
-  terraform refresh -input=false
+  terraform refresh -input=false | grep -vi password
 else
   PROJECTID=$(packet -k "${TOKEN}" \
     admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")

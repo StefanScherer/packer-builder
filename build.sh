@@ -72,8 +72,9 @@ CMD
 }
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then
+  cd hyperv
   ip=$(terraform output ip)
-  echo "IP address of Azure VM: $ip"
+  echo "IP address of Azure VM $NAME: $ip"
   echo "TODO: wait until SSH is available"
   echo "TODO: run packer build through SSH"
 else
