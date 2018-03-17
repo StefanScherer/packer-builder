@@ -112,13 +112,12 @@ function ssh {
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then
   cd hyperv
-  terraform init
+  terraform init -input=false
   PLAN=${AZURE_PLAN:-Standard_D2_v3}
   echo "Running Terraform to build VM ${NAME}"
-  terraform plan --var name=${NAME}
-  terraform apply --var name=${NAME}
+  terraform apply -input=false --var name=${NAME}
   echo "Refreshing Terraform state"
-  terraform refresh
+  terraform refresh -input=false
 else
   PROJECTID=$(packet -k "${TOKEN}" \
     admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
