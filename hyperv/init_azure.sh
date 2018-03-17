@@ -3,7 +3,7 @@
 location=$(grep -A1 location variables.tf | grep -v location | awk '{gsub(/"/, "", $3); print $3}')
 resource_group=$(grep -A1 resource_group variables.tf | grep -v resource_group | awk '{gsub(/"/, "", $3); print $3}')
 
-#echo "Creating resource group $resource_group"
+echo "Creating resource group $resource_group"
 scope=$(az group create -n $resource_group -l "$location" | jq -r .id)
 
 aadClientName="Terraform-$resource_group"
