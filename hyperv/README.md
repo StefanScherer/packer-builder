@@ -13,6 +13,16 @@ Now you are able to build Vagrant base boxes for Hyper-V in the Cloud with Packe
 brew install terraform
 ```
 
+### Configure
+
+Adjust the file `variables.tf` to your needs to choose
+
+* location / region
+* resource group name
+* DNS prefix and suffix
+* size of the VM's, default is `Standard_E2s_v3` which is needed for nested virtualization
+* username and password
+
 ### Secrets
 
 Get your Azure ID's and secret with `pass`
@@ -30,14 +40,9 @@ export ARM_CLIENT_SECRET="secret"
 export ARM_TENANT_ID="uuid"
 ```
 
-### Configure
-
-Adjust the file `variables.tf` to your needs to choose
-
-* location / region
-* DNS prefix and suffix
-* size of the VM's, default is `Standard_E2s_v3` which is needed for nested virtualization
-* username and password
+You can adjust location and resource_group in `variables.tf` and then run
+the script `./init_azure.sh` to create a service principal for Terraform
+that has access to the resource group.
 
 ### Plan
 

@@ -9,7 +9,7 @@ resource "random_string" "password" {
 # Create a resource group
 resource "azurerm_resource_group" "global" {
   location = "${var.location}"
-  name     = "${var.name}"
+  name     = "${var.resource_group}"
 }
 
 # Create a storage account

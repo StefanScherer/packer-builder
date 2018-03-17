@@ -1,11 +1,15 @@
 # Settings
 
-variable "name" {
-  default = "cirlce1"
+variable "resource_group" {
+  default = "packer-builder"
 }
 
 variable "location" {
   default = "westeurope"
+}
+
+variable "name" {
+  default = "cirlce1"
 }
 
 variable "admin_username" {
