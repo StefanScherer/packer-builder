@@ -102,6 +102,7 @@ function azure_build {
 
   echo "Run packer build through SSH"
   scp packer-build.ps1 "packer@$IP:"
+  scp -r . "packer@$IP:hyperv"
   ssh "packer@$IP" "powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
 }
 

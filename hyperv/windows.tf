@@ -12,31 +12,25 @@ resource "random_string" "password" {
   special = false
 }
 
-# Create a resource group
-resource "azurerm_resource_group" "global" {
-  location = "${var.location}"
-  name     = "${var.resource_group}"
-}
-
 # Create a storage account
 resource "azurerm_storage_account" "global" {
   account_tier             = "Standard"                          # Only locally redundant
   account_replication_type = "LRS"
   location                 = "${var.location}"
   name                     = "${var.name}"
-  resource_group_name      = "${azurerm_resource_group.global.name}"
+  resource_group_name      = "${var.resource_group}"
 }
 
 resource "azurerm_virtual_network" "windows" {
     name = "virtnet-${var.name}"
     address_space = ["10.0.0.0/16"]
     location = "${var.location}"
-    resource_group_name = "${azurerm_resource_group.global.name}"
+    resource_group_name = "${var.resource_group}"
 }
 
 resource "azurerm_subnet" "windows" {
     name = "subnet-${var.name}"
-    resource_group_name = "${azurerm_resource_group.global.name}"
+    resource_group_name = "${var.resource_group}"
     virtual_network_name = "${azurerm_virtual_network.windows.name}"
     address_prefix = "10.0.2.0/24"
 }
@@ -44,7 +38,7 @@ resource "azurerm_subnet" "windows" {
 resource "azurerm_network_interface" "windows" {
     name = "nic-${var.name}"
     location = "${var.location}"
-    resource_group_name = "${azurerm_resource_group.global.name}"
+    resource_group_name = "${var.resource_group}"
 
     ip_configuration {
         name = "testconfiguration1"
@@ -59,20 +53,20 @@ resource "azurerm_public_ip" "windows" {
   location                     = "${var.location}"
   name                         = "pubip-${var.name}"
   public_ip_address_allocation = "dynamic"
-  resource_group_name          = "${azurerm_resource_group.global.name}"
+  resource_group_name          = "${var.resource_group}"
 }
 
 resource "azurerm_storage_container" "windows" {
   container_access_type = "private"
   name                  = "windows-storage"
-  resource_group_name   = "${azurerm_resource_group.global.name}"
+  resource_group_name   = "${var.resource_group}"
   storage_account_name  = "${azurerm_storage_account.global.name}"
 }
 
 resource "azurerm_virtual_machine" "windows" {
     name = "vm-${var.name}"
     location = "${var.location}"
-    resource_group_name = "${azurerm_resource_group.global.name}"
+    resource_group_name = "${var.resource_group}"
     network_interface_ids = ["${azurerm_network_interface.windows.id}"]
     vm_size = "${var.vm_size}"
 
