@@ -15,8 +15,10 @@ Function SetupPhase1 {
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
-  choco install -y packer
-  choco install -y vagrant
+  choco install -y packer -version 1.2.1
+  choco install -y vagrant -version 2.0.3
+  choco isntall -y terraform -version 0.11.4
+  choco install -y nodejs -version 8.10.0
 
   Write-Host "Installing Hyper-V"
   Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
@@ -37,6 +39,9 @@ Function SetupPhase2 {
 
   Write-Host "Installing Vagrant plugins"
   vagrant plugin install vagrant-reload
+
+  Write-Host "Intalling azure-cli"
+  npm install -g azure-cli
 
   Write-Host "Adding NAT"
   New-VMSwitch -SwitchName "packer-hyperv-iso" -SwitchType Internal
@@ -61,10 +66,6 @@ Function SetupPhase2 {
   Expand-Archive OpenSSH-Win64.zip C:\
   Remove-Item -Force OpenSSH-Win64.zip
 
-  Write-Host "Disabling password authentication"
-  Add-Content C:\OpenSSH-Win64\sshd_config "`nPasswordAuthentication no"
-  Add-Content C:\OpenSSH-Win64\sshd_config "`nUseDNS no"
-
   Push-Location C:\OpenSSH-Win64
 
   Write-Host "Installing OpenSSH"
@@ -72,6 +73,12 @@ Function SetupPhase2 {
 
   Write-Host "Generating host keys"
   .\ssh-keygen.exe -A
+
+  Write-Host "Fixing host file permissions"
+  & .\FixHostFilePermissions.ps1 -Confirm:$false
+
+  Write-Host "Fixing user file permissions"
+  & .\FixUserFilePermissions.ps1 -Confirm:$false
 
   Pop-Location
 
@@ -92,6 +99,10 @@ Function SetupPhase2 {
   Write-Host "Setting sshd service restart behavior"
   sc.exe failure sshd reset= 86400 actions= restart/500
 
+  Write-Host "Starting sshd service"
+  Start-Service sshd
+  Start-Service ssh-agent
+  
   Write-Host "Removing scheduled job"
   Unregister-ScheduledJob -Name NewServerSetupResume -Force
 }
