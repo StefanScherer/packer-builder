@@ -28,7 +28,7 @@ jobs:
           name: Run packer build
           command: |
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
-          no_output_timeout: 3600
+          no_output_timeout: 6500
 
   windows_2016_docker:
     <<: *build
