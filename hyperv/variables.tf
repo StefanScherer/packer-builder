@@ -17,7 +17,7 @@ variable "admin_username" {
 }
 
 variable "vm_size" {
-  default = "Standard_D2_v3"
+  default = "Standard_D2s_v3"
 }
 
 variable "ssh" {

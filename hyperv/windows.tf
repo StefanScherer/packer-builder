@@ -14,7 +14,7 @@ resource "random_string" "password" {
 
 # Create a storage account
 resource "azurerm_storage_account" "global" {
-  account_tier             = "Standard"                          # Only locally redundant
+  account_tier             = "Premium"                          # Only locally redundant
   account_replication_type = "LRS"
   location                 = "${var.location}"
   name                     = "${var.name}"
