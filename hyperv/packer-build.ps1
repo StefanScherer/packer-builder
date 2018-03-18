@@ -45,7 +45,7 @@ if not exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
 )
 
 if exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
-  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1
+  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1 | "C:\Program Files\Git\usr\bin\tee.exe" -a packer-build.log
 )
 
 ping 127.0.0.1 -n 6 > nul

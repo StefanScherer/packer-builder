@@ -106,10 +106,8 @@ function azure_build {
   terraform init
   terraform destroy -input=false -auto-approve 
 CMD
-  scp packer-upload-and-destroy.ps1 "root@$ip:"
-  scp "$(which packet)" "root@$ip:/usr/bin/packet"
-  scp ./machine.sh "root@$ip:/usr/bin/machine.sh"
-  rm packer-upload-and-destroy.sh
+  scp packer-upload-and-destroy.ps1 "packer@$IP:"
+  rm packer-upload-and-destroy.ps1
 
   set +e
   ssh "packer@$IP" 'C:\Program Files\Git\usr\bin\tail.exe' -f d:/work/packer-build.log | tee packer-build.log
