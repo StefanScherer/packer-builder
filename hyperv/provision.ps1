@@ -102,7 +102,7 @@ Function SetupPhase2 {
   sc.exe failure sshd reset= 86400 actions= restart/500
 
   Write-Host "Configuring sshd"
-  (Get-Content C:\ProgramData\ssh\sshd_config).replace('#TCPKeepAlive yes', 'TCPKeepAlive yes') | Set-Content C:\ProgramData\ssh\sshd_config
+  (Get-Content C:\ProgramData\ssh\sshd_config).replace('#TCPKeepAlive yes', 'TCPKeepAlive yes').replace('#ClientAliveInterval 0', 'ClientAliveInterval 300').replace('#ClientAliveCountMax 3', 'ClientAliveCountMax 3') | Set-Content C:\ProgramData\ssh\sshd_config
 
   Write-Host "Starting sshd service"
   Start-Service sshd
