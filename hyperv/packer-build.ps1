@@ -38,7 +38,7 @@ $null | Out-File -Encoding Ascii packer-build.log
 
 # Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
 @"
-packer build $only $isoflag --var headless=true $FILE.json | ""C:\Program Files\Git\usr\bin\tee.exe"" -a packer-build.log
+packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a packer-build.log
 ping 127.0.0.1 -n 6 > nul
 taskkill /F /IM tail.exe
 "@ | Out-File -Encoding Ascii packer-build.bat
