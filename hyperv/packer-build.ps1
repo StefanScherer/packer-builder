@@ -34,6 +34,7 @@ if ( "$ISO_URL" -eq "" ) {
 $only="--only=$HYPERVISOR-iso"
 
 Write-Host "Running packer build $only --var headless=true ${FILE}.json"
+$null | Out-File -Encoding Ascii packer-build.log
 
 # Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
 @"
