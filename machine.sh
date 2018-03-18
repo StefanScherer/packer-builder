@@ -134,7 +134,7 @@ function azure_create {
 
   while (( index <= maxConnectionAttempts ))
   do
-    ssh -o StrictHostKeyChecking=no "packer@$IP" ver
+    /usr/bin/ssh -o StrictHostKeyChecking=no "packer@$IP" ver
     case $? in
       (0) echo "${index}> Success"; ((success+=1));;
       (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
