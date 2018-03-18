@@ -16,9 +16,11 @@ Function SetupPhase1 {
   choco install -y git
   choco install -y curl
   choco install -y packer -version 1.2.1
-  choco install -y vagrant -version 2.0.3
-  choco isntall -y terraform -version 0.11.4
+  # choco install -y vagrant -version 2.0.3
+  choco isntall -y terraform -version 0.11.3
   choco install -y nodejs -version 8.10.0
+  choco install -y procexp
+  choco install -y procmon
 
   Write-Host "Installing Hyper-V"
   Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
@@ -37,8 +39,8 @@ Function SetupPhase1 {
 
 Function SetupPhase2 {
 
-  Write-Host "Installing Vagrant plugins"
-  vagrant plugin install vagrant-reload
+  # Write-Host "Installing Vagrant plugins"
+  # vagrant plugin install vagrant-reload
 
   Write-Host "Intalling azure-cli"
   npm install -g azure-cli
