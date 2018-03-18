@@ -115,7 +115,7 @@ if [ "${HYPERVISOR}" == "hyperv" ]; then
   terraform init -input=false
   PLAN=${AZURE_PLAN:-Standard_D2_v3}
   echo "Running Terraform to build VM ${NAME}"
-  terraform apply -input=false -auto-approve --var name=${NAME} | grep -vi password
+  terraform apply -input=false -auto-approve --var name=${NAME} --var vm_size=${PLAN} | grep -vi password
   
   echo "Refreshing Terraform state"
   terraform refresh -input=false | grep -vi password
