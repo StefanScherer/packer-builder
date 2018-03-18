@@ -6,8 +6,9 @@ HYPERVISOR=$3
 
 FACILITY=${PACKET_FACILITY:-ams1}
 OSTYPE=ubuntu_16_04
-PLAN=${PACKET_PLAN:-baremetal_0}
+PACKET_PLAN=${PACKET_PLAN:-baremetal_0}
 PROJECT=${PACKET_PROJECT:-packer}
+AZURE_PLAN=${AZURE_PLAN:-Standard_D2s_v3}
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "Usage:"
@@ -49,7 +50,7 @@ function create {
     --billing hourly \
     --facility "${FACILITY}" \
     --os-type "${OSTYPE}" \
-    --plan "${PLAN}" \
+    --plan "${PACKET_PLAN}" \
     --project-id "${PROJECTID}" \
     --hostname "${NAME}"
 
@@ -103,22 +104,55 @@ function provision {
   IP=$(ip)
   ssh-keygen -R "${IP}"
   ssh-keyscan "${IP}" >>~/.ssh/known_hosts
-  cat "scripts/provision-${HYPERVISOR}-builder.sh" | /usr/bin/ssh "root@${IP}"
+  /usr/bin/ssh "root@${IP}" < "scripts/provision-${HYPERVISOR}-builder.sh"
 }
 
 function ssh {
   /usr/bin/ssh "root@$(ip)"
 }
 
-if [ "${HYPERVISOR}" == "hyperv" ]; then
+function azure_create {
+  NAME=$1
+  HYPERVISOR=$2
+
   cd hyperv
   terraform init -input=false
-  PLAN=${AZURE_PLAN:-Standard_D2s_v3}
   echo "Running Terraform to build VM ${NAME}"
-  terraform apply -input=false -auto-approve --var name=${NAME} --var vm_size=${PLAN} | grep -vi password
-  
+  terraform apply -input=false -auto-approve --var "name=${NAME}" --var "vm_size=${AZURE_PLAN}" | grep -vi password
+
   echo "Refreshing Terraform state"
   terraform refresh -input=false | grep -vi password
+
+  IP=$(terraform output ip)
+  echo "IP address of Azure VM $NAME: $IP"
+
+  echo "Wait until SSH is available"
+  maxConnectionAttempts=30
+  sleepSeconds=20
+  index=1
+  success=0
+
+  while (( index <= maxConnectionAttempts ))
+  do
+    ssh -o StrictHostKeyChecking=no "packer@$IP" ver
+    case $? in
+      (0) echo "${index}> Success"; ((success+=1));;
+      (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
+    esac
+    if [ $success -eq 2 ]; then
+      break
+    fi
+    sleep $sleepSeconds
+    ((index+=1))
+  done
+  set -e
+
+  ssh-keygen -R "${IP}"
+  ssh-keyscan "${IP}" >>~/.ssh/known_hosts
+}
+
+if [ "${HYPERVISOR}" == "hyperv" ]; then
+  azure_create "${NAME}" "${HYPERVISOR}"
 else
   PROJECTID=$(packet -k "${TOKEN}" \
     admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")

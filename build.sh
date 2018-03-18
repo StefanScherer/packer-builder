@@ -11,8 +11,8 @@ if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
 fi
 
 function packet_build {
-  ip=$(./machine.sh ip $NAME)
-  scp packer-build.sh root@$ip:
+  ip=$(./machine.sh ip "$NAME")
+  scp packer-build.sh "root@$ip":
 
   echo "Monitor the packer build with VNC and SSH"
   echo "See the VNC port number and password in packer output."
@@ -26,7 +26,8 @@ function packet_build {
     ISO_URL="${!FILE}"
   fi
 
-  ssh -n -f root@$(./machine.sh ip $NAME) "sh -c 'nohup ./packer-build.sh $FILE $HYPERVISOR $GITHUB_URL $ISO_URL > /dev/null 2>&1 &'"
+  # shellcheck disable=SC2029
+  ssh -n -f "root@$(./machine.sh ip "$NAME")" "sh -c 'nohup ./packer-build.sh $FILE $HYPERVISOR $GITHUB_URL $ISO_URL > /dev/null 2>&1 &'"
 
   sleep 20
 
@@ -51,14 +52,14 @@ function packet_build {
     machine.sh delete \$(hostname)
 CMD
     chmod +x packer-upload-and-destroy.sh
-    scp packer-upload-and-destroy.sh root@$ip:
-    scp $(which packet) root@$ip:/usr/bin/packet
-    scp ./machine.sh root@$ip:/usr/bin/machine.sh
+    scp packer-upload-and-destroy.sh "root@$ip:"
+    scp "$(which packet)" "root@$ip:/usr/bin/packet"
+    scp ./machine.sh "root@$ip:/usr/bin/machine.sh"
     rm packer-upload-and-destroy.sh
   fi
 
   set +e
-  ssh root@$(./machine.sh ip $NAME) tail -f work/packer-build.log | tee packer-build.log
+  ssh "root@$(./machine.sh ip "$NAME")" tail -f work/packer-build.log | tee packer-build.log
   set -e
 
   hypervisor1=${HYPERVISOR%+*}
@@ -76,33 +77,10 @@ function azure_build {
   IP=$(terraform output ip)
   echo "IP address of Azure VM $NAME: $IP"
 
-  echo "Wait until SSH is available"
-  maxConnectionAttempts=30
-  sleepSeconds=20
-  index=1
-  success=0
-
-  while (( $index <= $maxConnectionAttempts ))
-  do
-    ssh -o StrictHostKeyChecking=no "packer@$IP" ver
-    case $? in
-      (0) echo "${index}> Success"; ((success+=1));;
-      (*) echo "${index} of ${maxConnectionAttempts}> SSH server not ready yet, waiting ${sleepSeconds} seconds..."; success=0 ;;
-    esac
-    if [ $success -eq 2 ]; then
-      break
-    fi
-    sleep $sleepSeconds
-    ((index+=1))
-  done
-  set -e
-
-  ssh-keygen -R "${IP}"
-  ssh-keyscan "${IP}" >>~/.ssh/known_hosts
-
   echo "Run packer build through SSH"
   scp packer-build.ps1 "packer@$IP:"
   scp -r . "packer@$IP:hyperv"
+  # shellcheck disable=SC2029
   ssh "packer@$IP" "powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
 }
 
