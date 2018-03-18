@@ -81,7 +81,16 @@ function azure_build {
   scp packer-build.ps1 "packer@$IP:"
   scp -r . "packer@$IP:hyperv"
   # shellcheck disable=SC2029
-  ssh "packer@$IP" "powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
+  ssh -n -f "packer@$IP" "\"C:\\Program Files\\Git\\usr\\bin\\nohup.exe\" powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
+
+  sleep 5
+
+  set +e
+  ssh "packer@$IP" 'C:\Program Files\Git\usr\bin\tail.exe' -f work/packer-build.log | tee packer-build.log
+  set -e
+
+  echo Checking build artifacts.
+  grep "$hypervisor1-iso: '$hypervisor1' provider box:" packer-build.log
 }
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then

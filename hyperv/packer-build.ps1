@@ -34,4 +34,12 @@ if ( "$ISO_URL" -eq "" ) {
 $only="--only=$HYPERVISOR-iso"
 
 Write-Host "Running packer build $only --var headless=true ${FILE}.json"
-packer build $only $isoflag --var headless=true "$FILE.json"
+
+# Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
+@"
+packer build $only $isoflag --var headless=true $FILE.json | ""C:\Program Files\Git\usr\bin\tee.exe"" -a packer-build.log
+ping 127.0.0.1 -n 6 > nul
+taskkill /F /IM tail.exe
+"@ | Out-File -Encoding Ascii packer-build.bat
+
+Start-Process cmd.exe -ArgumentList "/C", "packer-build.bat"
