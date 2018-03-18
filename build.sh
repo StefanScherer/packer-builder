@@ -84,13 +84,39 @@ function azure_build {
   ssh -n -f "packer@$IP" "\"C:\\Program Files\\Git\\usr\\bin\\nohup.exe\" powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
 
   sleep 5
+  
+  today=$(date +%Y-%m-%d)
+  cat <<CMD >packer-upload-and-destroy.ps1
+  \$env:AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT"
+  \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_STORAGE_ACCESS_KEY"
+  
+  \$env:ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
+  \$env:ARM_CLIENT_ID="$ARM_CLIENT_ID"
+  \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
+  \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
+  
+  azure telemetry --enable
+  if (Test-Path ${FILE}_hyperv.box) {
+    azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
+  }
+  echo "Deleting server."
+  sleep 1
+  taskkill /F /IM tail.exe
+  cd \$env:USERPROFILE\\hyperv
+  terraform init
+  terraform destroy -input=false -auto-approve 
+CMD
+  scp packer-upload-and-destroy.ps1 "root@$ip:"
+  scp "$(which packet)" "root@$ip:/usr/bin/packet"
+  scp ./machine.sh "root@$ip:/usr/bin/machine.sh"
+  rm packer-upload-and-destroy.sh
 
   set +e
-  ssh "packer@$IP" 'C:\Program Files\Git\usr\bin\tail.exe' -f work/packer-build.log | tee packer-build.log
+  ssh "packer@$IP" 'C:\Program Files\Git\usr\bin\tail.exe' -f d:/work/packer-build.log | tee packer-build.log
   set -e
 
   echo Checking build artifacts.
-  grep "$hypervisor1-iso: '$hypervisor1' provider box:" packer-build.log
+  grep "$HYPERVISOR-iso: '$HYPERVISOR' provider box:" packer-build.log
 }
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then

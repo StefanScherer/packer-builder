@@ -1,11 +1,11 @@
 param ([String] $FILE, [String] $HYPERVISOR, [String] $GITHUB_URL, [String] $ISO_URL)
 
-if (!(Test-Path work)) {
+if (!(Test-Path d:/work)) {
   Write-Host "Cloning $GITHUB_URL"
-  git clone $GITHUB_URL work
+  git clone $GITHUB_URL d:/work
 }
 
-cd work
+cd d:/work
 
 git checkout -- *.json
 git pull
@@ -39,7 +39,17 @@ $null | Out-File -Encoding Ascii packer-build.log
 # Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
 @"
 packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a packer-build.log
+
+if not exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
+  ping 127.0.0.1 -n 30 > nul
+)
+
+if exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
+  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1
+)
+
 ping 127.0.0.1 -n 6 > nul
+
 taskkill /F /IM tail.exe
 "@ | Out-File -Encoding Ascii packer-build.bat
 
