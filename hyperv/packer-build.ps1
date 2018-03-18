@@ -15,7 +15,9 @@ $isoflag=""
 
 # Allow me (user of that GitHub repo) to SSH into the machine.
 $keyPath = "~\.ssh\authorized_keys"
-New-Item -Type Directory ~\.ssh > $null
+if (!(Test-Path ~\.ssh)) {
+  New-Item -Type Directory ~\.ssh > $null
+}
 $githubKeysUrl = $GITHUB_URL -replace "\/[^\/]+$", ".keys"
 $githubSshKey = $(curl.exe $githubKeysUrl)
 $githubSshKey | Out-File $keyPath -Append -Encoding Ascii
