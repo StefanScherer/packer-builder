@@ -17,7 +17,7 @@ Function SetupPhase1 {
   choco install -y curl
   choco install -y packer -version 1.2.1
   # choco install -y vagrant -version 2.0.3
-  choco isntall -y terraform -version 0.11.3
+  choco install -y terraform -version 0.11.3
   choco install -y nodejs -version 8.10.0
   choco install -y procexp
   choco install -y procmon

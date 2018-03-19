@@ -104,7 +104,7 @@ function azure_build {
   taskkill /F /IM tail.exe
   cd \$env:USERPROFILE\\hyperv
   terraform init
-  terraform destroy -input=false -auto-approve 
+  terraform destroy -input=false -force
 CMD
   scp packer-upload-and-destroy.ps1 "packer@$IP:"
   rm packer-upload-and-destroy.ps1
