@@ -5,7 +5,28 @@ activated and tools like Git, Packer and Vagrant installed.
 
 Now you are able to build Vagrant base boxes for Hyper-V in the Cloud with Packer.
 
-## Stage 1: Spin up the Azure VM with Terraform
+## Initialize Azure and CircleCI
+
+You need a personal API key for CircleCI. Set the environment variable `CIRCLECI_TOKEN`
+and run the script
+
+```
+./init_azure.sh
+```
+
+It will create a resource group and service principal and set `ARM_SUBSCRIPTION_ID`, `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET` and `ARM_TENANT_ID` in CircleCI.
+
+## Destroy Azure
+
+If you want to clean up your Azure subscription run
+
+```
+./destroy_azure.sh
+```
+
+It will remove the resource group and service princial and app from Azure.
+
+## Spin up the Azure VM with Terraform from local machine
 
 ### Install Terraform
 
@@ -25,13 +46,7 @@ Adjust the file `variables.tf` to your needs to choose
 
 ### Secrets
 
-Get your Azure ID's and secret with `pass`
-
-```
-eval $(pass azure-terraform)
-```
-
-You will need these environment variables for terraform
+For Terraform you will need these environment variables
 
 ```
 export ARM_SUBSCRIPTION_ID="uuid"
@@ -39,10 +54,6 @@ export ARM_CLIENT_ID="uuid"
 export ARM_CLIENT_SECRET="secret"
 export ARM_TENANT_ID="uuid"
 ```
-
-You can adjust location and resource_group in `variables.tf` and then run
-the script `./init_azure.sh` to create a service principal for Terraform
-that has access to the resource group.
 
 ### Plan
 
