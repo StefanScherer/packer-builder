@@ -2,7 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/StefanScherer/packer-builder.svg?style=svg)](https://circleci.com/gh/StefanScherer/packer-builder)
 
-Setup a Packer builder machine for VirtualBox and VMware Vagrant boxes.
+A Packer builder CI pipeline for VirtualBox, VMware and Hyper-V Vagrant boxes.
+
+![Packer Builder CI pipeline](images/packer_builder.png)
 
 ## Packet.net
 
@@ -33,6 +35,10 @@ Afterwards remove the baremetal machine again
 ```
 
 There are several other commands in `machine.sh`. Have a look at the usage.
+
+## Azure
+
+See [hyperv](hyperv/README.md) sub folder.
 
 ## Vagrant
 
