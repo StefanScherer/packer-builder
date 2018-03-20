@@ -14,10 +14,10 @@ First you need the `packet` golang cli:
 go get -u github.com/ebsarr/packet
 ```
 
-Then use the script `packet.sh` to make things even simpler:
+Then use the script `machine.sh` to make things even simpler:
 
 ```bash
-./packet.sh create p1
+./machine.sh create p1
 ```
 
 And then build a VMware VM
@@ -29,10 +29,10 @@ And then build a VMware VM
 Afterwards remove the baremetal machine again
 
 ```bash
-./packet.sh delete p1
+./machine.sh delete p1
 ```
 
-There are several other commands in `packet.sh`. Have a look at the usage.
+There are several other commands in `machine.sh`. Have a look at the usage.
 
 ## Vagrant
 

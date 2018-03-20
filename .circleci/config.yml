@@ -12,18 +12,42 @@ jobs:
           command: |
             go get -u github.com/ebsarr/packet
             packet -v
-            sudo apt-get update && sudo apt-get install -y jq
+            sudo apt-get update && sudo apt-get install -y jq unzip
             jq --version
-        
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
+            sudo unzip -d /usr/bin terraform.zip
+            rm terraform.zip
+            terraform --version
+
       - run:
-          name: Provisioning a baremetal Packet.net server
+          name: Provisioning a packer build machine
           command: |
-            ./packet.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
+            ./machine.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
 
       - run:
           name: Run packer build
           command: |
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
+          no_output_timeout: 4200
+
+  upload: &upload
+    docker:
+      - image: microsoft/azure-cli:0.10.14
+    steps:
+      - checkout
+
+      - run:
+          name: Install tools
+          command: |
+            apt-get update && apt-get install -y jq curl
+            azure --version
+            jq --version
+            curl --version
+
+      - run:
+          name: Upload to Vagrant Cloud
+          command: |
+            ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 3600
 
   upload: &upload
@@ -53,6 +77,13 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
+  windows_2016_docker_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2016_docker"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
+
   windows_2016:
     <<: *build
     environment:
@@ -66,6 +97,13 @@ jobs:
       - PACKER_TEMPLATE: "windows_10"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
+
+  windows_10_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_10"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
 
   windows_server_1709_docker:
     <<: *build
@@ -103,6 +141,7 @@ workflows:
   version: 2
   build:
     jobs:
+      # - windows_2016_docker_hyperv
       # - windows_2016_docker
       # - approve_windows_2016_docker:
       #     type: approval
@@ -129,6 +168,6 @@ workflows:
       - upload_windows_10
         #    requires:
         #    - approve_windows_10
-          
+
       # - windows_server_1709_docker
       # - windows_server_insider_docker
