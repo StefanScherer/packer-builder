@@ -75,7 +75,13 @@ CMD
 function azure_build {
   cd hyperv
   IP=$(terraform output ip)
-  echo "IP address of Azure VM $NAME: $IP"
+
+  if [ -z "${!FILE}" ]; then
+    echo Running build.
+  else
+    echo Running build with local ISO.
+    ISO_URL="${!FILE}"
+  fi
 
   echo "Run packer build through SSH"
   scp packer-build.ps1 "packer@$IP:"
