@@ -140,6 +140,13 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "vmware"
 
+  windows_server_insider_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_server_insider"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
+
   upload_windows_2016_docker:
     <<: *upload
     environment:
@@ -169,7 +176,7 @@ workflows:
       # - windows_10
       # - windows_10_hyperv
       # - windows_2012_r2
-      - windows_2012_r2_hyperv
+      # - windows_2012_r2_hyperv
 
       # - approve_windows_2016_docker:
       #     type: approval
@@ -200,3 +207,4 @@ workflows:
 
       # - windows_server_1709_docker
       # - windows_server_insider_docker
+      - windows_server_insider_docker_hyperv
