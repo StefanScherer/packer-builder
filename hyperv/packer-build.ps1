@@ -22,10 +22,13 @@ $githubKeysUrl = $GITHUB_URL -replace "\/[^\/]+$", ".keys"
 $githubSshKey = $(curl.exe $githubKeysUrl)
 $githubSshKey | Out-File $keyPath -Append -Encoding Ascii
 
+$log = "packer-build.log"
+$null | Out-File -Encoding Ascii $log
+
 if ( "$ISO_URL" -eq "" ) {
-  Write-Host "Use default ISO."
+  Write-Host "Use default ISO." >> $log
 } else {
-  Write-Host "Use local ISO."
+  Write-Host "Use local ISO." >> $log
   if (!(Test-Path local.iso)) {
     curl.exe -Lo local.iso $ISO_URL
   }
@@ -34,18 +37,17 @@ if ( "$ISO_URL" -eq "" ) {
 $only="--only=$HYPERVISOR-iso"
 
 Write-Host "Running packer build $only --var headless=true ${FILE}.json"
-$null | Out-File -Encoding Ascii packer-build.log
 
 # Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
 @"
-packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a packer-build.log
+packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a $log
 
 if not exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
   ping 127.0.0.1 -n 30 > nul
 )
 
 if exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
-  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1 | "C:\Program Files\Git\usr\bin\tee.exe" -a packer-build.log
+  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1 | "C:\Program Files\Git\usr\bin\tee.exe" -a $log
 )
 
 ping 127.0.0.1 -n 6 > nul
