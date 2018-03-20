@@ -91,6 +91,13 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
       
+  windows_2016_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2016"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
+
   windows_10:
     <<: *build
     environment:
@@ -102,6 +109,20 @@ jobs:
     <<: *build
     environment:
       - PACKER_TEMPLATE: "windows_10"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
+
+  windows_2012_r2:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2012_r2"
+      - PACKET_PLAN: "baremetal_1"
+      - HYPERVISOR: "virtualbox+vmware"
+      
+  windows_2012_r2_hyperv:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2012_r2"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
@@ -141,8 +162,15 @@ workflows:
   version: 2
   build:
     jobs:
-      # - windows_2016_docker_hyperv
       # - windows_2016_docker
+      # - windows_2016_docker_hyperv
+      # - windows_2016
+      # - windows_2016_hyperv
+      # - windows_10
+      # - windows_10_hyperv
+      # - windows_2012_r2
+      - windows_2012_r2_hyperv
+
       # - approve_windows_2016_docker:
       #     type: approval
       #     requires:
