@@ -140,10 +140,10 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "vmware"
 
-  windows_server_insider_hyperv:
+  windows_server_insider_docker_hyperv:
     <<: *build
     environment:
-      - PACKER_TEMPLATE: "windows_server_insider"
+      - PACKER_TEMPLATE: "windows_server_insider_docker"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
