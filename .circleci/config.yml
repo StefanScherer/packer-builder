@@ -13,8 +13,8 @@ jobs:
       - run:
           name: Install packet cli and tools
           command: |
-            sudo docker create --name packet ebsarr/packet
-            sudo docker cp packet:/usr/local/bin/packet /usr/local/bin/packet
+            docker create --name packet ebsarr/packet
+            docker cp packet:/usr/local/bin/packet /usr/local/bin/packet
             packet -v
             sudo apt-get update && sudo apt-get install -y --no-install-recommends jq unzip curl
             jq --version
