@@ -3,14 +3,13 @@ version: 2
 jobs:
   build: &build
     docker:
-      - image: circleci/golang:1.9.4-stretch
+      - image: ebsarr/packet
     steps:
       - checkout
       
       - run:
           name: Install packet cli and tools
           command: |
-            go get -u github.com/ebsarr/packet
             packet -v
             sudo apt-get update && sudo apt-get install -y jq unzip
             jq --version
