@@ -3,17 +3,17 @@ version: 2
 jobs:
   build: &build
     docker:
-      - image: ebsarr/packet
+      - image: circleci/golang:1.9.4-stretch
     steps:
       - checkout
       
       - run:
           name: Install packet cli and tools
           command: |
+            docker create --name packet ebsarr/packet
+            docker cp packet:/usr/local/bin/packet /usr/local/bin/packet
             packet -v
-            apt-get update && apt-get install -y --no-install-recommends ssh jq unzip curl
-            mkdir -p ~/.ssh
-            chmod 600 ~/.ssh
+            apt-get update && apt-get install -y --no-install-recommends jq unzip curl
             jq --version
             curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
             unzip -d /usr/bin terraform.zip
