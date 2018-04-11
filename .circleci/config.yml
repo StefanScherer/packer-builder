@@ -80,6 +80,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - PACKET_PLAN: "baremetal_1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2016_docker_hyperv:
@@ -94,6 +95,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - PACKET_PLAN: "baremetal_1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
       
   windows_2016_hyperv:
@@ -108,6 +110,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - PACKET_PLAN: "baremetal_1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_10_hyperv:
