@@ -6,7 +6,8 @@ jobs:
       - image: circleci/golang:1.9.4-stretch
     steps:
       - checkout
-      
+      - setup_remote_docker
+
       - run:
           name: Install packet cli and tools
           command: |
