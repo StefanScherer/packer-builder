@@ -186,7 +186,6 @@ workflows:
   build:
     jobs:
       - windows_2019_docker
-
       # - windows_2016_docker
       #- windows_2016_docker_hyperv
       # - windows_2016
