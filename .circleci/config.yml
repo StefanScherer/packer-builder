@@ -141,6 +141,14 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "vmware"
 
+  windows_2019_docker:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKET_PLAN: "baremetal_1"
+      - HYPERVISOR: "vmware"
+      - PACKET_FACILITY: "ewr1"
+
   windows_server_insider_docker:
     <<: *build
     environment:
@@ -177,10 +185,11 @@ workflows:
   version: 2
   build:
     jobs:
+      - windows_2019_docker
       # - windows_2016_docker
       #- windows_2016_docker_hyperv
       # - windows_2016
-      - windows_2016_hyperv
+      # - windows_2016_hyperv
       # - windows_10
       - windows_10_hyperv
       # - windows_2012_r2
