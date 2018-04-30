@@ -97,7 +97,7 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
-      
+
   windows_2016_hyperv:
     <<: *build
     environment:
@@ -126,7 +126,7 @@ jobs:
       - PACKER_TEMPLATE: "windows_2012_r2"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
-      
+
   windows_2012_r2_hyperv:
     <<: *build
     environment:
@@ -185,14 +185,14 @@ workflows:
   version: 2
   build:
     jobs:
-      - windows_2019_docker
+      # - windows_2019_docker
 
       # - windows_2016_docker
       #- windows_2016_docker_hyperv
       # - windows_2016
       # - windows_2016_hyperv
-      # - windows_10
-      #- windows_10_hyperv
+      - windows_10
+      - windows_10_hyperv
       # - windows_2012_r2
       # - windows_2012_r2_hyperv
 
