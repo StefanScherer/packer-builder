@@ -90,17 +90,17 @@ function azure_build {
   ssh -n -f "packer@$IP" "\"C:\\Program Files\\Git\\usr\\bin\\nohup.exe\" powershell -File packer-build.ps1 $FILE $HYPERVISOR $GITHUB_URL $ISO_URL"
 
   sleep 5
-  
+
   today=$(date +%Y-%m-%d)
   cat <<CMD >packer-upload-and-destroy.ps1
   \$env:AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT"
   \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_STORAGE_ACCESS_KEY"
-  
+
   \$env:ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
   \$env:ARM_CLIENT_ID="$ARM_CLIENT_ID"
   \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
   \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
-  
+
   azure telemetry --enable
   if (Test-Path ${FILE}_hyperv.box) {
     azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
@@ -110,7 +110,7 @@ function azure_build {
   taskkill /F /IM tail.exe
   cd \$env:USERPROFILE\\hyperv
   terraform init
-  terraform destroy -input=false -force
+  #terraform destroy -input=false -force
 CMD
   scp packer-upload-and-destroy.ps1 "packer@$IP:"
   rm packer-upload-and-destroy.ps1
