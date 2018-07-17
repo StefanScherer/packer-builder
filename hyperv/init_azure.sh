@@ -27,7 +27,7 @@ set +e
 
 if az ad sp show --id "http://$aadClientName" 2>/dev/null; then
   set -e
-  ARM_CLIENT_ID=$(az ad sp reset-credentials --name $aadClientName --password $ARM_CLIENT_SECRET | jq -r .appId)
+  ARM_CLIENT_ID=$(az ad sp credential reset --name $aadClientName --password $ARM_CLIENT_SECRET | jq -r .appId)
 else
   set -e
   ARM_CLIENT_ID=$(az ad sp create-for-rbac -n $aadClientName --password $ARM_CLIENT_SECRET --role contributor --scopes "$scope" | jq -r .appId)
