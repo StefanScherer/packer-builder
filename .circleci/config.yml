@@ -19,7 +19,7 @@ jobs:
             packet -v
             sudo apt-get update && sudo apt-get install -y --no-install-recommends jq unzip curl
             jq --version
-            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
+            curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
             sudo unzip -d /usr/bin terraform.zip
             rm terraform.zip
             terraform --version
@@ -195,10 +195,10 @@ workflows:
       # - windows_2019_docker_hyperv
       # - windows_2019_docker
 
-      - windows_2016_docker
-      - windows_2016_docker_hyperv
-      - windows_2016
-      - windows_2016_hyperv
+      #- windows_2016_docker
+      #- windows_2016_docker_hyperv
+      #- windows_2016
+      #- windows_2016_hyperv
       # - windows_10
       - windows_10_hyperv
       # - windows_2012_r2
