@@ -1,3 +1,4 @@
 terraform.tf*
 .terraform/
 .terraform.tfstate.lock.info
+packer-build.log
