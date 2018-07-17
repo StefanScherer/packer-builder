@@ -118,7 +118,7 @@ function azure_create {
   cd hyperv
   terraform init -input=false
   echo "Running Terraform to build VM ${NAME}"
-  terraform apply -input=false -auto-approve --var "name=${NAME}" --var "vm_size=${AZURE_PLAN}" | grep -vi password
+  terraform apply -input=false -auto-approve --var "name=${NAME}" --var "vm_size=${AZURE_PLAN}"
 
   echo "Refreshing Terraform state"
   terraform refresh -input=false | grep -vi password
