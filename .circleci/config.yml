@@ -197,8 +197,8 @@ workflows:
 
       #- windows_2016_docker
       #- windows_2016_docker_hyperv
-      - windows_2016
-      #- windows_2016_hyperv
+      #- windows_2016
+      - windows_2016_hyperv
       #- windows_10
       #- windows_10_hyperv
       # - windows_2012_r2
