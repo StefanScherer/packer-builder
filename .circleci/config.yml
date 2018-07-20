@@ -195,11 +195,11 @@ workflows:
       # - windows_2019_docker_hyperv
       # - windows_2019_docker
 
-      - windows_2016_docker
+      #- windows_2016_docker
       #- windows_2016_docker_hyperv
       - windows_2016
       #- windows_2016_hyperv
-      - windows_10
+      #- windows_10
       #- windows_10_hyperv
       # - windows_2012_r2
       # - windows_2012_r2_hyperv
