@@ -40,6 +40,12 @@ Write-Host "Running packer build $only --var headless=true ${FILE}.json"
 
 # Use a CMD.exe script to have real pipes that do not buffer long-running packer builds
 @"
+rem use Azure temporary storage drive
+set TEMP=D:\temp
+if not exist %TEMP% (
+  mkdir %TEMP%
+)
+
 powershell -File make_unattend_iso.ps1
 
 packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a $log
