@@ -33,7 +33,7 @@ jobs:
           name: Run packer build
           command: |
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
-          no_output_timeout: 5400
+          no_output_timeout: 7200
 
   upload: &upload
     docker:
@@ -236,7 +236,7 @@ workflows:
   #     - windows_2012_r2_hyperv
   build_2016:
     jobs:
-      - windows_2016
+      #- windows_2016
       - windows_2016_hyperv
   # build_2016_docker:
   #   jobs:
