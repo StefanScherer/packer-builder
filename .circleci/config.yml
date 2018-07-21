@@ -33,7 +33,7 @@ jobs:
           name: Run packer build
           command: |
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
-          no_output_timeout: 7200
+          no_output_timeout: 8000
 
   upload: &upload
     docker:
@@ -96,7 +96,8 @@ jobs:
       - PACKER_TEMPLATE: "windows_2016"
       - PACKET_PLAN: "baremetal_1"
       - PACKET_FACILITY: "ewr1"
-      - HYPERVISOR: "virtualbox+vmware"
+      # - HYPERVISOR: "virtualbox+vmware"
+      - HYPERVISOR: "virtualbox"
 
   windows_2016_hyperv:
     <<: *build
@@ -236,8 +237,8 @@ workflows:
   #     - windows_2012_r2_hyperv
   build_2016:
     jobs:
-      #- windows_2016
-      - windows_2016_hyperv
+      - windows_2016
+      # - windows_2016_hyperv
   # build_2016_docker:
   #   jobs:
   #     - windows_2016_docker
