@@ -170,40 +170,78 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
-  upload_windows_2016_docker:
+  upload_windows_2016_docker_hyperv:
     <<: *upload
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
-      - HYPERVISOR: "virtualbox+vmware"
+      - HYPERVISOR: "hyperv"
 
-  upload_windows_2016:
+  upload_windows_2016_docker_virtualbox:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_2016_docker"
+      - HYPERVISOR: "virtualbox"
+
+  upload_windows_2016_docker_vmware:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_2016_docker"
+      - HYPERVISOR: "vmware"
+
+  upload_windows_2016_hyperv:
     <<: *upload
     environment:
       - PACKER_TEMPLATE: "windows_2016"
-      - HYPERVISOR: "virtualbox+vmware"
+      - HYPERVISOR: "hyperv"
 
-  upload_windows_10:
+  upload_windows_2016_virtualbox:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_2016"
+      - HYPERVISOR: "virtualbox"
+
+  upload_windows_2016_vmware:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_2016"
+      - HYPERVISOR: "vmware"
+
+  upload_windows_10_hyperv:
     <<: *upload
     environment:
       - PACKER_TEMPLATE: "windows_10"
-      - HYPERVISOR: "virtualbox+vmware"
+      - HYPERVISOR: "hyperv"
+
+  upload_windows_10_virtualbox:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_10"
+      - HYPERVISOR: "virtualbox"
+
+  upload_windows_10_vmware:
+    <<: *upload
+    environment:
+      - PACKER_TEMPLATE: "windows_10"
+      - HYPERVISOR: "vmware"
 
 workflows:
   version: 2
   build:
     jobs:
-      # - windows_2019_docker_hyperv
-      # - windows_2019_docker
-
+      #- windows_2019_docker_hyperv
+      #- windows_2019_docker
       #- windows_2016_docker
       #- windows_2016_docker_hyperv
       #- windows_2016
-      - windows_2016_hyperv
+      #- windows_2016_hyperv
       #- windows_10
       #- windows_10_hyperv
-      # - windows_2012_r2
-      # - windows_2012_r2_hyperv
+      #- windows_2012_r2
+      #- windows_2012_r2_hyperv
 
+      - upload_windows_2016_docker_hyperv
+#      - upload_windows_2016_docker_virtualbox
+#      - upload_windows_2016_docker_vmware
       # - approve_windows_2016_docker:
       #     type: approval
       #     requires:
