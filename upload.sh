@@ -16,11 +16,11 @@ function upload {
   HYPERVISOR=$3
 
   VAGRANT_PROVIDER="$HYPERVISOR"
-  if [ "$HYPVERVISOR" == "vmware" ]; then
+  if [ "$HYPERVISOR" == "vmware" ]; then
     VAGRANT_PROVIDER="${HYPERVISOR}_desktop"
   fi
 
-  echo "Create a new provider $HYPERVISOR for version $BOX_VERSION"
+  echo "Create a new provider $VAGRANT_PROVIDER for version $BOX_VERSION"
   curl \
     --header "Content-Type: application/json" \
     --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
