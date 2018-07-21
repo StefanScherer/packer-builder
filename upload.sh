@@ -60,6 +60,11 @@ function download {
     yesterday=$(date -d "yesterday 13:00" +%Y-%m-%d)
     azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$yesterday/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
   fi  
+
+  if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
+    twodaysago=$(date -d "2 days ago 13:00" +%Y-%m-%d)
+    azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$twodaysago/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
+  fi  
 }
 
 BOX_VERSION=$(date +%Y.%m.%d)
