@@ -45,6 +45,7 @@ set TEMP=D:\temp
 if not exist %TEMP% (
   mkdir %TEMP%
 )
+set PACKER_TMP_DIR=%TEMP%
 
 powershell -File make_unattend_iso.ps1
 
