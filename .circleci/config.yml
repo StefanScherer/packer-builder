@@ -237,8 +237,8 @@ workflows:
   #     - windows_2012_r2_hyperv
   build_2016:
     jobs:
-      - windows_2016
-      # - windows_2016_hyperv
+      #- windows_2016
+      - windows_2016_hyperv
   # build_2016_docker:
   #   jobs:
   #     - windows_2016_docker
