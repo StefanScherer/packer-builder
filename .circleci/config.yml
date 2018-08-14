@@ -227,32 +227,32 @@ jobs:
 
 workflows:
   version: 2
-  # build_10:
-  #   jobs:
-  #     - windows_10
-  #     - windows_10_hyperv
+  build_10:
+    jobs:
+      - windows_10
+      - windows_10_hyperv
   # build_2012_r2:
   #   jobs:
   #     - windows_2012_r2
   #     - windows_2012_r2_hyperv
-  # build_2016:
-  #   jobs:
-  #     - windows_2016
-  #     - windows_2016_hyperv
-  # build_2016_docker:
-  #   jobs:
-  #     - windows_2016_docker
-  #     - windows_2016_docker_hyperv
+  build_2016:
+    jobs:
+      - windows_2016
+      - windows_2016_hyperv
+  build_2016_docker:
+    jobs:
+      - windows_2016_docker
+      - windows_2016_docker_hyperv
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_hyperv
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
-  upload_2016:
-    jobs:
-      - upload_windows_2016_hyperv
-      - upload_windows_2016_virtualbox
-      - upload_windows_2016_vmware
+  # upload_2016:
+  #   jobs:
+  #     - upload_windows_2016_hyperv
+  #     - upload_windows_2016_virtualbox
+  #     - upload_windows_2016_vmware
   # upload_2016_docker:
   #   jobs:
   #     - upload_windows_2016_docker_hyperv
