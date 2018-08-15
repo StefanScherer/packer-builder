@@ -1,14 +1,14 @@
 #!/bin/bash
 
 PACKER_VERSION=1.2.5
-VMWARE_VERSION=14.1.2-8497320
+VMWARE_VERSION=14.1.3-9474260
 VIRTUALBOX_VERSION=5.2
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
 
 # Install Virtualbox 5.2
-echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" >> /etc/apt/sources.list
+echo "deb http://download.virtualbox.org/virtualbox/debian bionic contrib" >> /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get update
