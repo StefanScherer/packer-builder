@@ -10,10 +10,18 @@ VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Ful
 # Install Virtualbox 5.2
 echo "deb http://download.virtualbox.org/virtualbox/debian bionic contrib" >> /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 apt-get update
-sudo apt-get install -qq git unzip curl nodejs virtualbox-${VIRTUALBOX_VERSION} dkms build-essential \
+sudo apt-get install -qq git unzip curl nodejs dkms build-essential \
                     linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
+
+sudo apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
+if ! command -v VBoxManage > /dev/null 2>&1; then
+  echo "Manually download VirtualBox 5.2.16"
+  wget https://download.virtualbox.org/virtualbox/5.2.16/virtualbox-5.2_5.2.16-123759~Ubuntu~bionic_amd64.deb
+  sudo dpkg -i virtualbox-5.2_5.2.16-123759~Ubuntu~bionic_amd64.deb
+  sudo apt --fix-broken install -y
+fi
 
 # Install VirtualBox extension pack
 vbox=$(VBoxManage --version)
