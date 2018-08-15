@@ -96,7 +96,7 @@ function list {
 
 function ip {
   packet -k "${TOKEN}" baremetal list-devices --project-id "${PROJECTID}" | \
-    jq -r ".[] | select(.hostname == \"${NAME}\") | .ip_addresses[] | select(.public == true) | select(.address_family == 4).address"
+    jq -r ".[] | select(.hostname == \"${NAME}\") | .ip_addresses[] | select(.public == true) | select(.address_family == 4).address" | head -1
 }
 
 function provision {
