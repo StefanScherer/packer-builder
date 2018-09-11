@@ -124,6 +124,12 @@ function azure_create {
   terraform refresh -input=false | grep -vi password
 
   IP=$(terraform output ip)
+  if [ -z "$IP" ]; then
+    echo "Waiting for IP"
+    sleep 60
+    IP=$(terraform output ip)
+  fi
+  
   echo "IP address of Azure VM $NAME: $IP"
 
   echo "Wait until SSH is available"
