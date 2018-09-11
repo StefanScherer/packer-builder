@@ -79,7 +79,7 @@ resource "azurerm_virtual_machine" "windows" {
 
     storage_os_disk {
         name = "osdisk-${var.name}"
-        vhd_uri = "${azurerm_storage_account.global.primary_blob_endpoint}${azurerm_storage_container.windows.id}/disk1.vhd"
+        vhd_uri = "${azurerm_storage_container.windows.id}/disk1.vhd"
         caching = "ReadWrite"
         create_option = "FromImage"
     }
