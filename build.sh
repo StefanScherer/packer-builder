@@ -128,7 +128,7 @@ CMD
     az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID
     \$vhd=$list
 
-    if (\$vhd -ne "") {
+    if (\$vhd) {
       az storage blob upload --account-name ${AZURE_WORKSHOP_STORAGE_ACCOUNT} \`
           --account-key ${AZURE_WORKSHOP_STORAGE_ACCESS_KEY} \`
           --container-name ${AZURE_WORKSHOP_STORAGE_CONTAINER} \`
