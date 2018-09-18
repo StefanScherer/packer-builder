@@ -125,7 +125,7 @@ CMD
     \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
     \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
 
-    az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID
+    az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID >az-login.txt
     \$vhd=$list
 
     if (\$vhd) {
