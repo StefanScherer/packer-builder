@@ -159,6 +159,8 @@ function azure_create {
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then
   azure_create "${NAME}" "${HYPERVISOR}"
+elif [ "${HYPERVISOR}" == "azure" ]; then
+  azure_create "${NAME}" "${HYPERVISOR}"
 else
   PROJECTID=$(packet -k "${TOKEN}" \
     admin list-projects | jq -r ".[] | select(.name == \"${PROJECT}\") .id")
