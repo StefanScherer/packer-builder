@@ -134,19 +134,19 @@ CMD
           --container-name ${AZURE_WORKSHOP_STORAGE_CONTAINER} \`
           --type page \`
           --file ".\\output-hyperv-iso\\Virtual Hard Disks\\\$vhd" \`
-          --name ${FILE}_${today}.vhd
+          --name ${FILE}_${CIRCLE_BUILD_NUM}.vhd
 
       az disk create \`
           --resource-group $AZURE_WORKSHOP_RESOURCE_GROUP \`
           --name ${FILE}_${CIRCLE_BUILD_NUM} \`
-          --source https://${AZURE_WORKSHOP_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_WORKSHOP_STORAGE_CONTAINER}/${FILE}_${today}.vhd
+          --source https://${AZURE_WORKSHOP_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_WORKSHOP_STORAGE_CONTAINER}/${FILE}_${CIRCLE_BUILD_NUM}.vhd
     }
     echo "Deleting server."
     sleep 1
     taskkill /F /IM tail.exe
     cd \$env:USERPROFILE\\hyperv
     terraform init
-    # terraform destroy -input=false -force
+    terraform destroy -input=false -force
 CMD
   fi
 
