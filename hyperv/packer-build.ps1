@@ -5,6 +5,10 @@ if (!(Test-Path d:/work)) {
   git clone $GITHUB_URL d:/work
 }
 
+if ($HYPERVISOR -eq "azure") {
+  $HYPERVISOR="hyperv"
+}
+
 cd d:/work
 
 git checkout -- *.json

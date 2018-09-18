@@ -115,6 +115,7 @@ function azure_build {
     terraform destroy -input=false -force
 CMD
   else
+    list='$(ls ".\\output-hyperv-iso\\Virtual Hard Disks\\").name'
     cat <<CMD >packer-upload-and-destroy.ps1
     \$env:AZURE_STORAGE_ACCOUNT="$AZURE_WORKSHOP_STORAGE_ACCOUNT"
     \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_WORKSHOP_STORAGE_ACCESS_KEY"
@@ -125,7 +126,7 @@ CMD
     \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
 
     az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID
-    \$vhd=$(ls '.\\output-hyperv-iso\\Virtual Hard Disks\\').name
+    \$vhd=$list
 
     if (\$vhd -ne "") {
       az storage blob upload --account-name ${AZURE_WORKSHOP_STORAGE_ACCOUNT} \`
