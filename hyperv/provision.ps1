@@ -21,6 +21,7 @@ Function SetupPhase1 {
   choco install -y nodejs -version 8.10.0
   choco install -y procexp
   choco install -y procmon
+  choco install -y azure-cli
 
   Write-Host "Installing Hyper-V"
   Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart

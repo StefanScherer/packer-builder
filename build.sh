@@ -92,26 +92,63 @@ function azure_build {
   sleep 5
 
   today=$(date +%Y-%m-%d)
-  cat <<CMD >packer-upload-and-destroy.ps1
-  \$env:AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT"
-  \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_STORAGE_ACCESS_KEY"
 
-  \$env:ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
-  \$env:ARM_CLIENT_ID="$ARM_CLIENT_ID"
-  \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
-  \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
+  if [ "${HYPERVISOR}" == "hyperv" ]; then
+    cat <<CMD >packer-upload-and-destroy.ps1
+    \$env:AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT"
+    \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_STORAGE_ACCESS_KEY"
 
-  azure telemetry --enable
-  if (Test-Path ${FILE}_hyperv.box) {
-    azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
-  }
-  echo "Deleting server."
-  sleep 1
-  taskkill /F /IM tail.exe
-  cd \$env:USERPROFILE\\hyperv
-  terraform init
-  terraform destroy -input=false -force
+    \$env:ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
+    \$env:ARM_CLIENT_ID="$ARM_CLIENT_ID"
+    \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
+    \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
+
+    azure telemetry --enable
+    if (Test-Path ${FILE}_hyperv.box) {
+      azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
+    }
+    echo "Deleting server."
+    sleep 1
+    taskkill /F /IM tail.exe
+    cd \$env:USERPROFILE\\hyperv
+    terraform init
+    terraform destroy -input=false -force
 CMD
+  else
+    cat <<CMD >packer-upload-and-destroy.ps1
+    \$env:AZURE_STORAGE_ACCOUNT="$AZURE_WORKSHOP_STORAGE_ACCOUNT"
+    \$env:AZURE_STORAGE_ACCESS_KEY="$AZURE_WORKSHOP_STORAGE_ACCESS_KEY"
+
+    \$env:ARM_SUBSCRIPTION_ID="$ARM_SUBSCRIPTION_ID"
+    \$env:ARM_CLIENT_ID="$ARM_CLIENT_ID"
+    \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
+    \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
+
+    az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID
+    \$vhd=$(ls '.\\output-hyperv-iso\\Virtual Hard Disks\\').name
+
+    if (\$vhd -ne "") {
+      az storage blob upload --account-name ${AZURE_WORKSHOP_STORAGE_ACCOUNT} \`
+          --account-key ${AZURE_WORKSHOP_STORAGE_ACCESS_KEY} \`
+          --container-name ${AZURE_WORKSHOP_STORAGE_CONTAINER} \`
+          --type page \`
+          --file ".\\output-hyperv-iso\\Virtual Hard Disks\\\$vhd" \`
+          --name ${FILE}_${today}.vhd
+
+      az disk create \`
+          --resource-group $AZURE_WORKSHOP_RESOURCE_GROUP \`
+          --name ${FILE}_${CIRCLE_BUILD_NUM} \`
+          --source https://${AZURE_WORKSHOP_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_WORKSHOP_STORAGE_CONTAINER}/${FILE}_${today}.vhd
+    }
+    echo "Deleting server."
+    sleep 1
+    taskkill /F /IM tail.exe
+    cd \$env:USERPROFILE\\hyperv
+    terraform init
+    # terraform destroy -input=false -force
+CMD
+  fi
+
   scp packer-upload-and-destroy.ps1 "packer@$IP:"
   rm packer-upload-and-destroy.ps1
 
@@ -125,6 +162,8 @@ CMD
 }
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then
+  azure_build
+elif [ "${HYPERVISOR}" == "azure" ]; then
   azure_build
 else
   packet_build

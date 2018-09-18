@@ -156,6 +156,13 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
+  windows_2019_docker_azure:
+    <<: *build
+    environment:
+      - PACKER_TEMPLATE: "windows_2019_docker_azure"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "azure"
+
   windows_server_insider_docker:
     <<: *build
     environment:
@@ -257,6 +264,6 @@ workflows:
   #     - upload_windows_2016_docker_hyperv
   #     - upload_windows_2016_docker_virtualbox
   #     - upload_windows_2016_docker_vmware
-  build_2016:
+  build_2019:
     jobs:
-     - windows_2019_docker_hyperv
+     - windows_2019_docker_azure
