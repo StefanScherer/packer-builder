@@ -136,9 +136,10 @@ CMD
           --file ".\\output-hyperv-iso\\Virtual Hard Disks\\\$vhd" \`
           --name ${FILE}_${CIRCLE_BUILD_NUM}.vhd
 
-      az disk create \`
+      az image create \`
           --resource-group $AZURE_WORKSHOP_RESOURCE_GROUP \`
           --name ${FILE}_${CIRCLE_BUILD_NUM} \`
+          --os-type Windows \`
           --source https://${AZURE_WORKSHOP_STORAGE_ACCOUNT}.blob.core.windows.net/${AZURE_WORKSHOP_STORAGE_CONTAINER}/${FILE}_${CIRCLE_BUILD_NUM}.vhd
     }
     echo "Deleting server."
