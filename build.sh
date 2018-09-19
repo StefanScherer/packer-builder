@@ -105,9 +105,10 @@ function azure_build {
 
     azure telemetry --enable
     if (Test-Path ${FILE}_hyperv.box) {
+      Write-Output "Uploading ${FILE}_hyperv.box"
       azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
     }
-    echo "Deleting server."
+    Write-Output "Deleting server."
     sleep 1
     taskkill /F /IM tail.exe
     cd \$env:USERPROFILE\\hyperv
@@ -129,6 +130,7 @@ CMD
     \$vhd=$list
 
     if (\$vhd) {
+      Write-Output "Uploading \$vhd"
       az storage blob upload --account-name ${AZURE_WORKSHOP_STORAGE_ACCOUNT} \`
           --account-key ${AZURE_WORKSHOP_STORAGE_ACCESS_KEY} \`
           --container-name ${AZURE_WORKSHOP_STORAGE_CONTAINER} \`
@@ -136,6 +138,7 @@ CMD
           --file ".\\output-hyperv-iso\\Virtual Hard Disks\\\$vhd" \`
           --name ${FILE}_${CIRCLE_BUILD_NUM}.vhd
 
+      Write-Output "Creating image ${FILE}_${CIRCLE_BUILD_NUM}"
       az image create \`
           --resource-group $AZURE_WORKSHOP_RESOURCE_GROUP \`
           --name ${FILE}_${CIRCLE_BUILD_NUM} \`
@@ -160,7 +163,11 @@ CMD
   set -e
 
   echo Checking build artifacts.
-  grep "$HYPERVISOR-iso: '$HYPERVISOR' provider box:" packer-build.log
+  if [ "${HYPERVISOR}" == "hyperv" ]; then
+    grep "$HYPERVISOR-iso: '$HYPERVISOR' provider box:" packer-build.log
+  else
+    grep "Build 'hyperv-iso' finished." packer-build.log
+  fi
 }
 
 if [ "${HYPERVISOR}" == "hyperv" ]; then
