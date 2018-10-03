@@ -25,7 +25,7 @@ Then use the script `machine.sh` to make things even simpler:
 And then build a VMware VM
 
 ```bash
-./build.sh p1 windows_2016_docker vmware|virtualbox
+./build.sh p1 windows_2019_docker vmware|virtualbox
 ```
 
 Afterwards remove the baremetal machine again

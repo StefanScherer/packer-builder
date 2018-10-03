@@ -6,7 +6,7 @@ GITHUB_URL=${GITHUB_URL:-https://github.com/StefanScherer/packer-windows}
 
 if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   echo "Usage: $0 machine jobname"
-  echo "$0 p1 windows_2016_docker"
+  echo "$0 p1 windows_2019_docker"
   exit 1
 fi
 

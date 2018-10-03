@@ -6,7 +6,7 @@ HYPERVISOR=$2
 
 if [ -z "${FILE}" ] || [ "${FILE}" == "--help" ] || [ -z "${HYPERVISOR}" ]; then
   echo "Usage: $0 template hypervisor"
-  echo "$0 windows_2016_docker vmware"
+  echo "$0 windows_2019_docker vmware"
   exit 1
 fi
 
