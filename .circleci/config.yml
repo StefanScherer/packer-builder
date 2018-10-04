@@ -80,7 +80,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "dfw1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_docker_hyperv:
@@ -95,7 +95,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "dfw1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_hyperv:
@@ -110,7 +110,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "dfw1"
+      - PACKET_FACILITY: "ewr1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_10_hyperv:
@@ -147,7 +147,7 @@ jobs:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "vmware"
-      - PACKET_FACILITY: "dfw1"
+      - PACKET_FACILITY: "ewr1"
 
   windows_2019_docker_hyperv:
     <<: *build
@@ -248,7 +248,7 @@ workflows:
   build_2019_docker:
     jobs:
       - windows_2019_docker
-      # - windows_2019_docker_hyperv
+      - windows_2019_docker_hyperv
       # - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
