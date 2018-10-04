@@ -245,11 +245,11 @@ workflows:
   #   jobs:
   #    - windows_2019
   #    - windows_2019_hyperv
-  #    - windows_2019_docker_azure
   build_2019_docker:
     jobs:
-      - windows_2019_docker
-      - windows_2019_docker_hyperv
+      # - windows_2019_docker
+      # - windows_2019_docker_hyperv
+      - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_hyperv
