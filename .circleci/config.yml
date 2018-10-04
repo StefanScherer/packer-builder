@@ -80,7 +80,7 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "ewr1"
+      - PACKET_FACILITY: "dfw1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_docker_hyperv:
@@ -247,9 +247,9 @@ workflows:
   #    - windows_2019_hyperv
   build_2019_docker:
     jobs:
-      # - windows_2019_docker
+      - windows_2019_docker
       # - windows_2019_docker_hyperv
-      - windows_2019_docker_azure
+      # - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_hyperv
