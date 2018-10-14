@@ -18,8 +18,8 @@ sudo apt-get install -qq git unzip curl nodejs dkms build-essential \
 sudo apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
 if ! command -v VBoxManage > /dev/null 2>&1; then
   echo "Manually download VirtualBox 5.2.18"
-  wget https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-123759~Ubuntu~bionic_amd64.deb
-  sudo dpkg -i virtualbox-5.2_5.2.18-123759~Ubuntu~bionic_amd64.deb
+  wget https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
+  sudo dpkg -i virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
   sudo apt --fix-broken install -y
 fi
 
