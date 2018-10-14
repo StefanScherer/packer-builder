@@ -1,7 +1,9 @@
 #!/bin/bash
 
-PACKER_VERSION=1.2.5
-VMWARE_VERSION=14.1.3-9474260
+echo "Running provision-virtualbox+vmware-builder.sh"
+
+PACKER_VERSION=1.3.1
+VMWARE_VERSION=15.0.0-10134415
 VIRTUALBOX_VERSION=5.2
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
@@ -17,9 +19,9 @@ sudo apt-get install -qq git unzip curl nodejs dkms build-essential \
 
 sudo apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
 if ! command -v VBoxManage > /dev/null 2>&1; then
-  echo "Manually download VirtualBox 5.2.16"
-  wget https://download.virtualbox.org/virtualbox/5.2.16/virtualbox-5.2_5.2.16-123759~Ubuntu~bionic_amd64.deb
-  sudo dpkg -i virtualbox-5.2_5.2.16-123759~Ubuntu~bionic_amd64.deb
+  echo "Manually download VirtualBox 5.2.18"
+  wget https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
+  sudo dpkg -i virtualbox-5.2_5.2.18-123759~Ubuntu~bionic_amd64.deb
   sudo apt --fix-broken install -y
 fi
 
