@@ -10,6 +10,8 @@ if [ -z "${NAME}" ] || [ "${NAME}" == "--help" ] || [ -z "${FILE}" ]; then
   exit 1
 fi
 
+echo "Running build.sh name $NAME file $FILE hypervisor $HYPERVISOR"
+
 function packet_build {
   ip=$(./machine.sh ip "$NAME")
   scp packer-build.sh "root@$ip":
