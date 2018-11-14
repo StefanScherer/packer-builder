@@ -23,7 +23,6 @@ if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   exit 1
 fi
 
-echo "Running machine.sh $COMMAND name $NAME hypervisor $HYPERVISOR"
 TOKEN=${PACKET_APIKEY}
 
 if [ -z "${TOKEN}" ]; then
