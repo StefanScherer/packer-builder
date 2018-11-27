@@ -61,7 +61,7 @@ CMD
   fi
 
   set +e
-  ssh "root@$(./machine.sh ip "$NAME")" tail -f work/packer-build.log | tee packer-build.log
+  ssh "root@$(./machine.sh ip "$NAME")" tail -n 200 -f work/packer-build.log | tee packer-build.log
   set -e
 
   hypervisor1=${HYPERVISOR%+*}
