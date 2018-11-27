@@ -18,6 +18,7 @@ git pull
 rm -f *.box
 rm -rf output*
 
+isoflag=""
 if [ -z "${ISO_URL}" ]; then
   echo Use default ISO. >> $log
 else
@@ -34,7 +35,9 @@ hypervisor2=${HYPERVISOR#*+}
 if [ "$hypervisor1" != "$hypervisor2" ]; then
   only="--only=${hypervisor1}-iso --only=${hypervisor2}-iso"
 fi
-echo Running packer build $only --var headless=true "${FILE}.json" >> $log
+echo Running packer build $only $isoflag --var headless=true "${FILE}.json" >> $log
+echo "" >> $log
+ls -l local.iso >> $log
 echo "" >> $log
 packer build $only $isoflag --var headless=true "${FILE}.json" | tee -a $log
 
