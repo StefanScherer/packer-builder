@@ -8,7 +8,7 @@ log=packer-build.log
 echo $0 $* >> $log
 
 if [ ! -d work ]; then
-  echo Cloning $GITHUB_URL >> $log
+  echo "Cloning $GITHUB_URL" >> $log
   git clone $GITHUB_URL work
 fi
 cd work
@@ -20,10 +20,11 @@ rm -rf output*
 
 isoflag=""
 if [ -z "${ISO_URL}" ]; then
-  echo Use default ISO. >> $log
+  echo "Use default ISO." >> $log
 else
-  echo Use local ISO. >> $log
+  echo "Use local ISO." >> $log
   if [ ! -e local.iso ]; then
+    echo "Downloading ISO ..." >> $log
     curl -Lo local.iso $ISO_URL
   fi
   isoflag="--var iso_url=./local.iso"
