@@ -231,10 +231,10 @@ jobs:
 
 workflows:
   version: 2
-  # build_10:
-  #   jobs:
-  #     - windows_10
-  #     - windows_10_hyperv
+  build_10:
+    jobs:
+      - windows_10
+      - windows_10_hyperv
   # build_2012_r2:
   #   jobs:
   #     - windows_2012_r2
@@ -263,9 +263,9 @@ workflows:
   #     - upload_windows_2019_docker_hyperv
   #     - upload_windows_2019_docker_virtualbox
   #     - upload_windows_2019_docker_vmware
-  build_1809_docker:
-    jobs:
-     - windows_server_1809_docker
+  # build_1809_docker:
+  #   jobs:
+  #    - windows_server_1809_docker
   # upload_1809_docker:
   #   jobs:
   #     - upload_windows_server_1809_docker_virtualbox
