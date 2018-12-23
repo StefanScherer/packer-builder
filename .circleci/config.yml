@@ -229,8 +229,8 @@ workflows:
   version: 2
   build_10:
     jobs:
-      - windows_10
-  #    - windows_10_hyperv
+      #- windows_10
+      - windows_10_hyperv
   # build_2012_r2:
   #   jobs:
   #     - windows_2012_r2

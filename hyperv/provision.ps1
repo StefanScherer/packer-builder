@@ -15,9 +15,9 @@ Function SetupPhase1 {
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
-  choco install -y packer -version 1.3.2
+  choco install -y packer -version 1.3.3
   # choco install -y vagrant -version 2.0.3
-  choco install -y terraform -version 0.11.7
+  choco install -y terraform -version 0.11.11
   choco install -y nodejs -version 8.10.0
   choco install -y procexp
   choco install -y procmon
@@ -63,7 +63,7 @@ Function SetupPhase2 {
   New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -PropertyType DWORD -Value "0" -Force
 
   Write-Host "Downloading OpenSSH"
-  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.6.0.0p1-Beta/OpenSSH-Win64.zip
+  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win64.zip
   
   Write-Host "Expanding OpenSSH"
   Expand-Archive OpenSSH-Win64.zip C:\
