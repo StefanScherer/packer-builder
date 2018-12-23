@@ -4,7 +4,6 @@ COMMAND=$1
 NAME=$2
 HYPERVISOR=$3
 
-FACILITY=${PACKET_FACILITY:-ams1}
 OSTYPE=ubuntu_18_04
 PACKET_PLAN=${PACKET_PLAN:-baremetal_0}
 PROJECT=${PACKET_PROJECT:-packer}
@@ -45,16 +44,20 @@ function create {
       admin create-project --name "${PROJECT}" | jq -r .id)
   fi
 
-  # create machine
-  packet -k "${TOKEN}" baremetal create-device \
-    --billing hourly \
-    --facility "${FACILITY}" \
-    --os-type "${OSTYPE}" \
-    --plan "${PACKET_PLAN}" \
-    --project-id "${PROJECTID}" \
-    --hostname "${NAME}"
-    
-  echo $?
+  for facility in sjc1 dfw2 ewr1 ams1 nrt1
+  do
+    echo "Creating baremetal machine in packet facility $facility"
+    # create machine
+    if packet -k "${TOKEN}" baremetal create-device \
+      --billing hourly \
+      --facility "${facility}" \
+      --os-type "${OSTYPE}" \
+      --plan "${PACKET_PLAN}" \
+      --project-id "${PROJECTID}" \
+      --hostname "${NAME}"; then
+      break
+    fi
+  done
 
   provision "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
 }

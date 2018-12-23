@@ -80,7 +80,6 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "sjc1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_server_1809_docker:
@@ -88,7 +87,6 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_server_1809_docker"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "sjc1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_docker_hyperv:
@@ -110,7 +108,6 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "sjc1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_hyperv:
@@ -125,7 +122,6 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - PACKET_PLAN: "baremetal_1"
-      - PACKET_FACILITY: "sjc1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_10_hyperv:
