@@ -53,6 +53,8 @@ function create {
     --plan "${PACKET_PLAN}" \
     --project-id "${PROJECTID}" \
     --hostname "${NAME}"
+    
+  echo $?
 
   provision "${NAME}" "${PROJECTID}" "${HYPERVISOR}"
 }
