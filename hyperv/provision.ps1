@@ -13,8 +13,7 @@ Function SetupPhase1 {
   Write-Host "Installing Chocolatey"
   iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
   choco feature disable --name showDownloadProgress
-  choco install -y git /GitAndUnixToolsOnPath
-  rm -force 'C:\Program Files\Git\usr\bin\ssh*'
+  choco install -y git
   choco install -y curl
   choco install -y packer -version 1.3.3.20181213
   # choco install -y vagrant -version 2.0.3

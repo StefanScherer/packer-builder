@@ -53,14 +53,14 @@ set PACKER_TMP_DIR=%TEMP%
 
 powershell -File make_unattend_iso.ps1
 
-packer build $only $isoflag --var headless=true $FILE.json | tee.exe -a $log
+packer build $only $isoflag --var headless=true $FILE.json | "C:\Program Files\Git\usr\bin\tee.exe" -a $log
 
 if not exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
   ping 127.0.0.1 -n 30 > nul
 )
 
 if exist %USERPROFILE%\packer-upload-and-destroy.ps1 (
-  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1 | tee.exe -a $log
+  powershell -file %USERPROFILE%\packer-upload-and-destroy.ps1 | "C:\Program Files\Git\usr\bin\tee.exe" -a $log
 )
 
 ping 127.0.0.1 -n 6 > nul
