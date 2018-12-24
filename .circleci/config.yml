@@ -75,10 +75,10 @@ jobs:
             ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 3600
 
-  windows_2019_docker:
+  windows_2016_docker:
     <<: *build
     environment:
-      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKER_TEMPLATE: "windows_2016_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
@@ -89,10 +89,10 @@ jobs:
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
-  windows_2019_docker_hyperv:
+  windows_2016_docker_hyperv:
     <<: *build
     environment:
-      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKER_TEMPLATE: "windows_2016_docker"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
@@ -159,10 +159,10 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
-  upload_windows_2019_docker_hyperv:
+  upload_windows_2016_docker_hyperv:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "hyperv"
 
   upload_windows_server_1809_docker_virtualbox:
@@ -177,16 +177,16 @@ jobs:
       - PACKER_TEMPLATE: "windows_server_1809_docker"
       - HYPERVISOR: "vmware"
 
-  upload_windows_2019_docker_virtualbox:
+  upload_windows_2016_docker_virtualbox:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "virtualbox"
 
-  upload_windows_2019_docker_vmware:
+  upload_windows_2016_docker_vmware:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019_docker"
+      - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "vmware"
 
   upload_windows_2019_hyperv:
@@ -237,28 +237,28 @@ workflows:
   #     - windows_2012_r2_hyperv
   # build_2019:
   #   jobs:
-  #    - windows_2019
-  #    - windows_2019_hyperv
-  # build_2019_docker:
-  #   jobs:
-  #    - windows_2019_docker
-  #     - windows_2019_docker_hyperv
-  #     - windows_2019_docker_azure
-  upload_windows_10:
+  #     - windows_2019
+  #     - windows_2019_hyperv
+  build_2016_docker:
     jobs:
-      - upload_windows_10_hyperv
-      - upload_windows_10_virtualbox
-      - upload_windows_10_vmware
+      - windows_2016_docker
+      - windows_2016_docker_hyperv
+      - windows_2016_docker_azure
+  # upload_windows_10:
+  #   jobs:
+  #     - upload_windows_10_hyperv
+  #     - upload_windows_10_virtualbox
+  #     - upload_windows_10_vmware
   # upload_2019:
   #   jobs:
   #     - upload_windows_2019_hyperv
   #     - upload_windows_2019_virtualbox
   #     - upload_windows_2019_vmware
-  # upload_2019_docker:
+  # upload_2016_docker:
   #   jobs:
-  #     - upload_windows_2019_docker_hyperv
-  #     - upload_windows_2019_docker_virtualbox
-  #     - upload_windows_2019_docker_vmware
+  #     - upload_windows_2016_docker_hyperv
+  #     - upload_windows_2016_docker_virtualbox
+  #     - upload_windows_2016_docker_vmware
   # build_1809_docker:
   #   jobs:
   #    - windows_server_1809_docker
