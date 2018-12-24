@@ -103,17 +103,17 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "azure"
 
-  windows_2019:
+  windows_2016:
     <<: *build
     environment:
-      - PACKER_TEMPLATE: "windows_2019"
+      - PACKER_TEMPLATE: "windows_2016"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
-  windows_2019_hyperv:
+  windows_2016_hyperv:
     <<: *build
     environment:
-      - PACKER_TEMPLATE: "windows_2019"
+      - PACKER_TEMPLATE: "windows_2016"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
@@ -189,22 +189,22 @@ jobs:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "vmware"
 
-  upload_windows_2019_hyperv:
+  upload_windows_2016_hyperv:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019"
+      - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "hyperv"
 
-  upload_windows_2019_virtualbox:
+  upload_windows_2016_virtualbox:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019"
+      - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "virtualbox"
 
-  upload_windows_2019_vmware:
+  upload_windows_2016_vmware:
     <<: *upload
     environment:
-      - PACKER_TEMPLATE: "windows_2019"
+      - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "vmware"
 
   upload_windows_10_hyperv:
@@ -235,25 +235,25 @@ workflows:
   #   jobs:
   #     - windows_2012_r2
   #     - windows_2012_r2_hyperv
-  # build_2019:
-  #   jobs:
-  #     - windows_2019
-  #     - windows_2019_hyperv
-  build_2016_docker:
+  build_2016:
     jobs:
-      - windows_2016_docker
-      - windows_2016_docker_hyperv
-      - windows_2016_docker_azure
+      - windows_2016
+      - windows_2016_hyperv
+  # build_2016_docker:
+  #   jobs:
+  #     - windows_2016_docker
+  #     - windows_2016_docker_hyperv
+  #     - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_hyperv
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
-  # upload_2019:
+  # upload_2016:
   #   jobs:
-  #     - upload_windows_2019_hyperv
-  #     - upload_windows_2019_virtualbox
-  #     - upload_windows_2019_vmware
+  #     - upload_windows_2016_hyperv
+  #     - upload_windows_2016_virtualbox
+  #     - upload_windows_2016_vmware
   # upload_2016_docker:
   #   jobs:
   #     - upload_windows_2016_docker_hyperv
