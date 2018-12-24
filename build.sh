@@ -161,7 +161,7 @@ CMD
 
   set +e
   sleep 20
-  ssh "packer@$IP" 'C:\Program Files\Git\usr\bin\tail.exe' -f d:/work/packer-build.log | tee packer-build.log
+  ssh "packer@$IP" '"C:\Program Files\Git\usr\bin\tail.exe"' -f d:/work/packer-build.log | tee packer-build.log
   set -e
 
   echo Checking build artifacts.
