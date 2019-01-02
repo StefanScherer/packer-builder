@@ -226,7 +226,6 @@ jobs:
       - HYPERVISOR: "vmware"
 
   cleanup:
-  build: &build
     docker:
       - image: circleci/golang:1.9.4-stretch
     steps:
@@ -246,7 +245,7 @@ jobs:
             jq --version
 
       - run:
-          name: Cleanup old machines
+          name: Cleanup old cloud machines
           command: |
             ./machine.sh cleanup
     
@@ -297,7 +296,7 @@ workflows:
       - cleanup
     triggers:
       - schedule:
-          cron: "30 * * * *"
+          cron: "32 * * * *"
           filters:
             branches:
               only:
