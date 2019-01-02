@@ -11,6 +11,7 @@ AZURE_PLAN=${AZURE_PLAN:-Standard_D2s_v3}
 
 if [ -z "${COMMAND}" ] || [ "${COMMAND}" == "--help" ] ; then
   echo "Usage:"
+  echo "  $0 cleanup              delete old machines"
   echo "  $0 create name type     create a new machine with vmware|virtualbox"
   echo "  $0 delete name          delete a machine"
   echo "  $0 ip name              get IP address of a machine"
@@ -44,7 +45,7 @@ function create {
       admin create-project --name "${PROJECT}" | jq -r .id)
   fi
 
-  for facility in sjc1 dfw2 ewr1 ams1 nrt1
+  for facility in ewr1 sjc1 dfw2 ams1 nrt1
   do
     echo "Creating baremetal machine in packet facility $facility"
     # create machine
@@ -92,6 +93,27 @@ function stop {
 function delete {
   echo "Deleting $1"
   cmd "$1" "$2" delete-device
+}
+
+function cleanup {
+  machines=$(packet -k "${TOKEN}" baremetal list-devices --project-id "${PROJECTID}" | \
+    jq -r '.[] | .hostname')
+  for m in $machines
+  do
+    circle_build_num=${m#*e}
+    RESPONSE=$(curl \
+      --silent -S \
+      --fail \
+      "https://circleci.com/api/v1.1/project/github/StefanScherer/packer-builder/${circle_build_num}")
+    STATE=$(echo "${RESPONSE}" | jq -r .lifecycle)
+    echo "Found machine $m, CircleCI build ${circle_build_num} is ${STATE}"
+
+    if [ "${STATE}" == "finished" ]; then
+      echo "Removing resources of finished CircleCI job $circle_build_num"
+      delete $m $2
+    fi
+  done
+  echo "Cleanup done."
 }
 
 function list {
