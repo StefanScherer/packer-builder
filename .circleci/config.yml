@@ -225,6 +225,31 @@ jobs:
       - PACKER_TEMPLATE: "windows_10"
       - HYPERVISOR: "vmware"
 
+  cleanup:
+  build: &build
+    docker:
+      - image: circleci/golang:1.9.4-stretch
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Install packet cli and tools
+          command: |
+            docker create --name packet ebsarr/packet
+            docker cp packet:/usr/local/bin/packet ./packet
+            sudo mv ./packet /usr/local/bin/packet
+            packet -v
+            sudo apt-get update && sudo apt-get install -y --no-install-recommends jq unzip curl
+            jq --version
+
+      - run:
+          name: Cleanup old machines
+          command: |
+            ./machine.sh cleanup
+    
 workflows:
   version: 2
   # build_10:
@@ -249,16 +274,16 @@ workflows:
   #     - upload_windows_10_hyperv
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
-  upload_2016:
-    jobs:
+  #upload_2016:
+  #  jobs:
   #     - upload_windows_2016_hyperv
-      - upload_windows_2016_virtualbox
-      - upload_windows_2016_vmware
-  upload_2016_docker:
-    jobs:
+  #    - upload_windows_2016_virtualbox
+  #    - upload_windows_2016_vmware
+  #upload_2016_docker:
+  #  jobs:
   #     - upload_windows_2016_docker_hyperv
-      - upload_windows_2016_docker_virtualbox
-      - upload_windows_2016_docker_vmware
+  #    - upload_windows_2016_docker_virtualbox
+  #    - upload_windows_2016_docker_vmware
   # build_1809_docker:
   #   jobs:
   #    - windows_server_1809_docker
@@ -266,3 +291,14 @@ workflows:
   #   jobs:
   #     - upload_windows_server_1809_docker_virtualbox
   #     - upload_windows_server_1809_docker_vmware
+
+  cleanup:
+    jobs:
+      - cleanup
+    triggers:
+      - schedule:
+          cron: "30 * * * *"
+          filters:
+            branches:
+              only:
+                - master
