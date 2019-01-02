@@ -104,13 +104,13 @@ function cleanup {
     RESPONSE=$(curl \
       --silent -S \
       --fail \
-      "https://circleci.com/api/v1.1/project/github/StefanScherer/packer-builder/${circle_build_num}")
+      "https://circleci.com/api/v1.1/project/github/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${circle_build_num}")
     STATE=$(echo "${RESPONSE}" | jq -r .lifecycle)
     echo "Found machine $m, CircleCI build ${circle_build_num} is ${STATE}"
 
     if [ "${STATE}" == "finished" ]; then
       echo "Removing resources of finished CircleCI job $circle_build_num"
-      delete $m $2
+      delete "$m" "$2"
     fi
   done
   echo "Cleanup done."
