@@ -296,7 +296,7 @@ workflows:
       - cleanup
     triggers:
       - schedule:
-          cron: "32 * * * *"
+          cron: "32 1 * * *"
           filters:
             branches:
               only:
