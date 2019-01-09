@@ -11,14 +11,14 @@ Function SetupPhase1 {
   New-ItemProperty -Path HKCU:\Software\Microsoft\ServerManager -Name DoNotOpenServerManagerAtLogon -PropertyType DWORD -Value "1" -Force
 
   Write-Host "Installing Chocolatey"
-  iex (wget 'https://chocolatey.org/install.ps1' -UseBasicParsing)
+  iex (curl.exe https://chocolatey.org/install.ps1)
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
   choco install -y packer -version 1.3.3.20181213
   # choco install -y vagrant -version 2.0.3
-  choco install -y terraform -version 0.11.9
-  choco install -y nodejs -version 8.10.0
+  choco install -y terraform -version 0.11.11
+  choco install -y nodejs -version 8.15.0
   choco install -y procexp
   choco install -y procmon
   choco install -y azure-cli
