@@ -75,9 +75,15 @@ Function SetupPhase2 {
   Write-Output "Installing OpenSSH"
   & .\install-sshd.ps1
 
+  Write-Output "Starting sshd"
+  Start-Service sshd
+  
   Write-Output "Generating host keys"
   .\ssh-keygen.exe -A
 
+  Write-Output "Stopping sshd"
+  Stop-Service sshd
+  
   Write-Output "Fixing host file permissions"
   & .\FixHostFilePermissions.ps1 -Confirm:$false
 
@@ -94,9 +100,6 @@ Function SetupPhase2 {
   New-Item -Type Directory ~\.ssh > $null
   $sshKey | Out-File $keyPath -Encoding Ascii
 
-  Write-Output "Opening firewall port 22"
-  New-NetFirewallRule -Protocol TCP -LocalPort 22 -Direction Inbound -Action Allow -DisplayName SSH
-
   Write-Output "Setting sshd service startup type to 'Automatic'"
   Set-Service sshd -StartupType Automatic
   Set-Service ssh-agent -StartupType Automatic
@@ -109,6 +112,9 @@ Function SetupPhase2 {
   Write-Output "Starting sshd service"
   Start-Service sshd
   Start-Service ssh-agent
+
+  Write-Output "Opening firewall port 22"
+  New-NetFirewallRule -Protocol TCP -LocalPort 22 -Direction Inbound -Action Allow -DisplayName SSH
   
   Write-Output "Removing scheduled job"
   Unregister-ScheduledJob -Name NewServerSetupResume -Force
