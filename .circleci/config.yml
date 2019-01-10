@@ -266,7 +266,7 @@ workflows:
   build_2016_docker:
     jobs:
       # - windows_2016_docker
-      # - windows_2016_docker_hyperv
+      - windows_2016_docker_hyperv
       # - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
