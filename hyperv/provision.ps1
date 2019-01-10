@@ -11,7 +11,8 @@ Function SetupPhase1 {
   New-ItemProperty -Path HKCU:\Software\Microsoft\ServerManager -Name DoNotOpenServerManagerAtLogon -PropertyType DWORD -Value "1" -Force
 
   Write-Output "Installing Chocolatey"
-  iex (curl.exe https://chocolatey.org/install.ps1)
+  curl.exe -o install-chocolatey.ps1 https://chocolatey.org/install.ps1
+  .\install-chocolatey.ps1
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
