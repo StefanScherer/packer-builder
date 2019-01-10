@@ -11,11 +11,13 @@ Function SetupPhase1 {
   New-ItemProperty -Path HKCU:\Software\Microsoft\ServerManager -Name DoNotOpenServerManagerAtLogon -PropertyType DWORD -Value "1" -Force
 
   Write-Output "Installing Chocolatey"
-  iwr -useb https://chocolatey.org/install.ps1 | iex
+  curl.exe -o install-chocolatey.ps1 https://chocolatey.org/install.ps1
+  .\install-chocolatey.ps1
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
   choco install -y packer -version 1.3.3.20181213
+  # choco install -y vagrant -version 2.0.3
   choco install -y terraform -version 0.11.11
   choco install -y nodejs -version 8.15.0
   choco install -y procexp
@@ -26,6 +28,12 @@ Function SetupPhase1 {
   Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
   Install-WindowsFeature Hyper-V-Tools
   Install-WindowsFeature Hyper-V-PowerShell
+
+#Write-Output Install all Windows Updates
+#Get-Content C:\windows\system32\en-us\WUA_SearchDownloadInstall.vbs | ForEach-Object {
+#  $_ -replace 'confirm = msgbox.*$', 'confirm = vbNo'
+#} | Out-File $env:TEMP\WUA_SearchDownloadInstall.vbs
+#"a`na" | cscript $env:TEMP\WUA_SearchDownloadInstall.vbs
 
   Write-Output "Rebooting"
   Restart-Computer
