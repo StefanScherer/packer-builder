@@ -263,10 +263,10 @@ workflows:
   #   jobs:
   #     - windows_2016
   #     - windows_2016_hyperv
-  build_2016_docker:
-    jobs:
+  # build_2016_docker:
+  #   jobs:
   #     - windows_2016_docker
-      - windows_2016_docker_hyperv
+  #     - windows_2016_docker_hyperv
   #     - windows_2019_docker_azure
   # upload_windows_10:
   #   jobs:
@@ -278,11 +278,11 @@ workflows:
   #     - upload_windows_2016_hyperv
   #     - upload_windows_2016_virtualbox
   #     - upload_windows_2016_vmware
-  # upload_2016_docker:
-  #   jobs:
-  #     - upload_windows_2016_docker_hyperv
-  #     - upload_windows_2016_docker_virtualbox
-  #     - upload_windows_2016_docker_vmware
+  upload_2016_docker:
+    jobs:
+      - upload_windows_2016_docker_hyperv
+      - upload_windows_2016_docker_virtualbox
+      - upload_windows_2016_docker_vmware
   # build_1809_docker:
   #   jobs:
   #    - windows_server_1809_docker
