@@ -2,7 +2,7 @@
 
 echo "Running provision-virtualbox+vmware-builder.sh"
 
-PACKER_VERSION=1.3.2
+PACKER_VERSION=1.3.3
 VMWARE_VERSION=14.1.3-9474260
 VIRTUALBOX_VERSION=5.2
 

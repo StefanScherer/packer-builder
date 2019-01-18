@@ -2,7 +2,7 @@
 
 echo "Running provision-vmware-builder.sh"
 
-PACKER_VERSION=1.3.2
+PACKER_VERSION=1.3.3
 VMWARE_VERSION=14.1.3-9474260
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
