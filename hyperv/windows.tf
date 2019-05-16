@@ -49,11 +49,11 @@ resource "azurerm_network_interface" "windows" {
 }
 
 resource "azurerm_public_ip" "windows" {
-  idle_timeout_in_minutes      = 30
-  location                     = "${var.location}"
-  name                         = "pubip-${var.name}"
-  public_ip_address_allocation = "dynamic"
-  resource_group_name          = "${var.resource_group}"
+  idle_timeout_in_minutes = 30
+  location                = "${var.location}"
+  name                    = "pubip-${var.name}"
+  allocation_method       = "Dynamic"
+  resource_group_name     = "${var.resource_group}"
 }
 
 resource "azurerm_storage_container" "windows" {
