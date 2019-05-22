@@ -1,6 +1,6 @@
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
-  version = "~> 1.3"
+  version = "= 1.25.0"
 }
 
 provider "random" {
