@@ -85,7 +85,7 @@ function azure_build {
     ISO_URL="${!FILE}"
   fi
 
-  echo "Run packer build through SSH"
+  echo "Run packer build on $IP through SSH"
   scp packer-build.ps1 "packer@$IP:"
   scp -r . "packer@$IP:hyperv"
   # shellcheck disable=SC2029

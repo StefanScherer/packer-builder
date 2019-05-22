@@ -16,9 +16,9 @@ Function SetupPhase1 {
   choco feature disable --name showDownloadProgress
   choco install -y git
   choco install -y curl
-  choco install -y packer -version 1.3.3.20181213
+  choco install -y packer -version 1.4.1
   # choco install -y vagrant -version 2.0.3
-  choco install -y terraform -version 0.11.11
+  choco install -y terraform -version 0.11.14
   choco install -y nodejs -version 8.15.0
   choco install -y procexp
   choco install -y procmon
