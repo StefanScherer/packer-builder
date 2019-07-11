@@ -6,9 +6,6 @@ PACKER_VERSION=1.4.1
 VMWARE_VERSION=14.1.3-9474260
 VIRTUALBOX_VERSION=5.2
 
-DEBIAN_FRONTEND=noninteractive
-export DEBIAN_FRONTEND
-
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
 
@@ -20,7 +17,7 @@ apt-get update
 sudo apt-get install -qq git unzip curl nodejs dkms build-essential \
                     linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
 
-sudo apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
 if ! command -v VBoxManage > /dev/null 2>&1; then
   echo "Manually download VirtualBox 5.2.18"
   wget https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
