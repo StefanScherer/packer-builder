@@ -339,7 +339,7 @@ workflows:
   build_2019_docker:
     jobs:
       - windows_2019_docker
-  #     - windows_2019_docker_hyperv
+      - windows_2019_docker_hyperv
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_virtualbox
