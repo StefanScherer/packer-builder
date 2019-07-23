@@ -364,7 +364,7 @@ workflows:
     jobs:
       - upload_windows_2019_docker_virtualbox
       - upload_windows_2019_docker_vmware
-  #     - upload_windows_2019_docker_hyperv
+      - upload_windows_2019_docker_hyperv
   # build_1809_docker:
   #   jobs:
   #    - windows_server_1809_docker
