@@ -336,10 +336,10 @@ workflows:
   #   jobs:
   #     - windows_2019
   #     - windows_2019_hyperv
-  # build_2019_docker:
-  #   jobs:
+  build_2019_docker:
+    jobs:
   #     - windows_2019_docker
-  #     - windows_2019_docker_hyperv
+      - windows_2019_docker_hyperv
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_virtualbox
@@ -360,11 +360,11 @@ workflows:
   #     - upload_windows_2019_virtualbox
   #     - upload_windows_2019_vmware
   #     - upload_windows_2019_hyperv
-  upload_2019_docker:
-    jobs:
-      - upload_windows_2019_docker_virtualbox
-      - upload_windows_2019_docker_vmware
-      - upload_windows_2019_docker_hyperv
+  # upload_2019_docker:
+  #   jobs:
+  #     - upload_windows_2019_docker_virtualbox
+  #     - upload_windows_2019_docker_vmware
+  #     - upload_windows_2019_docker_hyperv
   # build_1809_docker:
   #   jobs:
   #    - windows_server_1809_docker
