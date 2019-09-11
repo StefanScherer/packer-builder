@@ -50,9 +50,11 @@ function packet_build {
     az login --service-principal --username ${ARM_CLIENT_ID} --password ${ARM_CLIENT_SECRET} --tenant ${ARM_TENANT_ID} >az-login.txt
 
     if [ -e ${FILE}_vmware.box ]; then
+      echo "Uploading ${FILE}_vmware.box"
       az storage blob upload --account-name ${AZURE_STORAGE_ACCOUNT} --account-key ${AZURE_STORAGE_ACCESS_KEY} --file ${FILE}_vmware.box --container-name ${AZURE_STORAGE_CONTAINER} --name ${FILE}/$today/${FILE}_vmware.box
     fi
     if [ -e ${FILE}_virtualbox.box ]; then
+      echo "Uploading ${FILE}_virtualbox.box"
       az storage blob upload --account-name ${AZURE_STORAGE_ACCOUNT} --account-key ${AZURE_STORAGE_ACCESS_KEY} --file ${FILE}_virtualbox.box --container-name ${AZURE_STORAGE_CONTAINER} --name ${FILE}/$today/${FILE}_virtualbox.box
     fi
     echo "Deleting server."
