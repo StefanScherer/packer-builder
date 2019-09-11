@@ -41,12 +41,19 @@ function packet_build {
     export PACKET_APIKEY=$PACKET_APIKEY
     export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
     export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
-    azure telemetry --enable
+
+    export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+    export ARM_CLIENT_ID=$ARM_CLIENT_ID
+    export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
+    export ARM_TENANT_ID=$ARM_TENANT_ID
+
+    az login --service-principal --username ${ARM_CLIENT_ID} --password ${ARM_CLIENT_SECRET} --tenant ${ARM_TENANT_ID} >az-login.txt
+
     if [ -e ${FILE}_vmware.box ]; then
-      azure storage blob upload ${FILE}_vmware.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_vmware.box
+      az storage blob upload --file ${FILE}_vmware.box --container-name ${AZURE_STORAGE_CONTAINER} --name ${FILE}/$today/${FILE}_vmware.box
     fi
     if [ -e ${FILE}_virtualbox.box ]; then
-      azure storage blob upload ${FILE}_virtualbox.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_virtualbox.box
+      az storage blob upload --file ${FILE}_virtualbox.box --container-name ${AZURE_STORAGE_CONTAINER} --name ${FILE}/$today/${FILE}_virtualbox.box
     fi
     echo "Deleting server."
     sleep 1
@@ -105,10 +112,11 @@ function azure_build {
     \$env:ARM_CLIENT_SECRET="$ARM_CLIENT_SECRET"
     \$env:ARM_TENANT_ID="$ARM_TENANT_ID"
 
-    azure telemetry --enable
+    az login --service-principal --username \$env:ARM_CLIENT_ID --password \$env:ARM_CLIENT_SECRET --tenant \$env:ARM_TENANT_ID >az-login.txt
+
     if (Test-Path ${FILE}_hyperv.box) {
       Write-Output "Uploading ${FILE}_hyperv.box"
-      azure storage blob upload ${FILE}_hyperv.box ${AZURE_STORAGE_CONTAINER} ${FILE}/$today/${FILE}_hyperv.box
+      az storage blob upload --file ${FILE}_hyperv.box --container-name ${AZURE_STORAGE_CONTAINER} --name ${FILE}/$today/${FILE}_hyperv.box
     }
     Write-Output "Deleting server."
     sleep 1

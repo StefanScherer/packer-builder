@@ -12,9 +12,8 @@ VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Ful
 # Install Virtualbox 5.2
 echo "deb http://download.virtualbox.org/virtualbox/debian bionic contrib" >> /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-apt-get update
-sudo apt-get install -qq git unzip curl nodejs dkms build-essential \
+DEBIAN_FRONTEND=noninteractive apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq git unzip curl dkms build-essential \
                     linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
@@ -54,5 +53,13 @@ echo "Installing VMware Workstation ${VMWARE_VERSION} ..."
 sh ./VMware-Workstation.bundle --console --required --eulas-agreed
 rm ./VMware-Workstation.bundle
 
-echo "Installing azure cli ..."
-npm install -g azure-cli
+echo "Installing Azure cli ..."
+sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
+    gpg --dearmor | \
+    sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+AZ_REPO=$(lsb_release -cs)
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+    sudo tee /etc/apt/sources.list.d/azure-cli.list
+sudo apt-get update
+sudo apt-get install -y azure-cli

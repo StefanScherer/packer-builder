@@ -19,7 +19,6 @@ Function SetupPhase1 {
   choco install -y packer -version 1.4.1
   # choco install -y vagrant -version 2.0.3
   choco install -y terraform -version 0.11.14
-  choco install -y nodejs -version 8.15.0
   choco install -y procexp
   choco install -y procmon
   choco install -y azure-cli
@@ -43,9 +42,6 @@ Function SetupPhase2 {
 
   # Write-Output "Installing Vagrant plugins"
   # vagrant plugin install vagrant-reload
-
-  Write-Output "Intalling azure-cli"
-  npm install -g azure-cli
 
   Write-Output "Adding NAT"
   New-VMSwitch -SwitchName "packer-hyperv-iso" -SwitchType Internal
