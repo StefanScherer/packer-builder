@@ -64,7 +64,7 @@ Function SetupPhase2 {
   New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -PropertyType DWORD -Value "0" -Force
 
   Write-Output "Downloading OpenSSH"
-  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.0.0.0p1-Beta/OpenSSH-Win64.zip
+  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win64.zip
   
   Write-Output "Expanding OpenSSH"
   Expand-Archive OpenSSH-Win64.zip C:\
