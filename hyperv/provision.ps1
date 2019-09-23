@@ -60,7 +60,7 @@ Function SetupPhase2 {
   New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -PropertyType DWORD -Value "0" -Force
 
   Write-Output "Downloading OpenSSH"
-  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win64.zip
+  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.0.0.0p1-Beta/OpenSSH-Win64.zip
   
   Write-Output "Expanding OpenSSH"
   Expand-Archive OpenSSH-Win64.zip C:\
@@ -71,15 +71,9 @@ Function SetupPhase2 {
   Write-Output "Installing OpenSSH"
   & .\install-sshd.ps1
 
-  Write-Output "Starting sshd"
-  Start-Service sshd
-  
   Write-Output "Generating host keys"
   .\ssh-keygen.exe -A
 
-  Write-Output "Stopping sshd"
-  Stop-Service sshd
-  
   Write-Output "Fixing host file permissions"
   & .\FixHostFilePermissions.ps1 -Confirm:$false
 
