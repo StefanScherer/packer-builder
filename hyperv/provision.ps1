@@ -60,7 +60,7 @@ Function SetupPhase2 {
   New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -PropertyType DWORD -Value "0" -Force
 
   Write-Output "Downloading OpenSSH"
-  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.0.0.0p1-Beta/OpenSSH-Win64.zip
+  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.9.0.0p1-Beta/OpenSSH-Win64.zip
   
   Write-Output "Expanding OpenSSH"
   Expand-Archive OpenSSH-Win64.zip C:\
@@ -70,6 +70,10 @@ Function SetupPhase2 {
 
   Write-Output "Installing OpenSSH"
   & .\install-sshd.ps1
+
+  if ( ! (Test-Path $env:ProgramData\ssh) ) {
+    New-Item -Type Directory $env:ProgramData\ssh
+  }
 
   Write-Output "Generating host keys"
   .\ssh-keygen.exe -A
@@ -97,7 +101,7 @@ Function SetupPhase2 {
   sc.exe failure sshd reset= 86400 actions= restart/500
 
   Write-Output "Configuring sshd"
-  (Get-Content C:\ProgramData\ssh\sshd_config).replace('#TCPKeepAlive yes', 'TCPKeepAlive yes').replace('#ClientAliveInterval 0', 'ClientAliveInterval 300').replace('#ClientAliveCountMax 3', 'ClientAliveCountMax 3') | Set-Content C:\ProgramData\ssh\sshd_config
+  (Get-Content sshd_config_default).replace('#TCPKeepAlive yes', 'TCPKeepAlive yes').replace('#ClientAliveInterval 0', 'ClientAliveInterval 300').replace('#ClientAliveCountMax 3', 'ClientAliveCountMax 3') | Set-Content C:\ProgramData\ssh\sshd_config
 
   Write-Output "Starting sshd service"
   Start-Service sshd
