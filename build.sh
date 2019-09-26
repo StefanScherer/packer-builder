@@ -94,6 +94,12 @@ function azure_build {
     ISO_URL="${!FILE}"
   fi
 
+  cat <<SSHCONFIG > ~/.ssh/config
+Host *
+  ServerAliveInterval 60
+  ServerAliveCountMax 2
+SSHCONFIG
+
   echo "Run packer build on $IP through SSH"
   scp packer-build.ps1 "packer@$IP:"
   scp -r . "packer@$IP:hyperv"
