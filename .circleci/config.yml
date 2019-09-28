@@ -24,6 +24,10 @@ jobs:
             rm terraform.zip
             terraform --version
 
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:c6:3d:0b:c0:17:58:c2:f9:9d:e4:ab:ea:af:fe:96"
+
       - run:
           name: Provisioning a packer build machine
           command: |
