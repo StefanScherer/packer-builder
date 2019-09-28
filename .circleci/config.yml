@@ -35,16 +35,12 @@ jobs:
       - run:
           name: Provisioning a packer build machine
           command: |
-            ls -l ~/.ssh
             ./machine.sh create circle${CIRCLE_BUILD_NUM} ${HYPERVISOR}
-            ls -l ~/.ssh
 
       - run:
           name: Run packer build
           command: |
-            ls -l ~/.ssh
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
-            ls -l ~/.ssh
           no_output_timeout: 9000
 
   upload: &upload
