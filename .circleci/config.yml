@@ -27,6 +27,10 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "1f:c6:3d:0b:c0:17:58:c2:f9:9d:e4:ab:ea:af:fe:96"
+      - run:
+          name: Use my key
+          command: |
+            cp .ssh/id_rsa_1fc63d0bc01758c2f99de4abeaaffe96 .ssh/id_rsa
 
       - run:
           name: Provisioning a packer build machine
