@@ -60,13 +60,13 @@ Function SetupPhase2 {
   New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -PropertyType DWORD -Value "0" -Force
 
   Write-Output "Downloading OpenSSH"
-  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.7.2.0p1-Beta/OpenSSH-Win64.zip
+  curl.exe -o OpenSSH-Win64.zip -L https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.0.0.0p1-Beta/OpenSSH-Win64.zip
   
   Write-Output "Expanding OpenSSH"
-  Expand-Archive OpenSSH-Win64.zip C:\
+  Expand-Archive OpenSSH-Win64.zip -DestinationPath 'C:\Program Files'
   Remove-Item -Force OpenSSH-Win64.zip
 
-  Push-Location C:\OpenSSH-Win64
+  Push-Location 'C:\Program Files\OpenSSH-Win64'
 
   Write-Output "Installing OpenSSH"
   & .\install-sshd.ps1
@@ -84,15 +84,26 @@ Function SetupPhase2 {
   Write-Output "Fixing user file permissions"
   & .\FixUserFilePermissions.ps1 -Confirm:$false
 
-  Pop-Location
-
-  $newPath = 'C:\OpenSSH-Win64;' + [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::Machine)
+  $newPath = 'C:\Program Files\OpenSSH-Win64;' + [Environment]::GetEnvironmentVariable("PATH", [EnvironmentVariableTarget]::Machine)
   [Environment]::SetEnvironmentVariable("PATH", $newPath, [EnvironmentVariableTarget]::Machine)
+
+  Write-Output 'Editing OpenSSH config'
+  $sshd_config = Get-Content sshd_config_default
+  $sshd_config = $sshd_config -replace 'StrictModes yes', 'StrictModes no'
+  $sshd_config = $sshd_config -replace '#PubkeyAuthentication yes', 'PubkeyAuthentication yes'
+  $sshd_config = $sshd_config -replace 'Match Group administrators', '#Match Group administrators'
+  $sshd_config = $sshd_config -replace 'AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys', '#AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys'
+  Set-Content $env:ProgramData\ssh\sshd_config $sshd_config
 
   Write-Output "Adding public key to authorized_keys"
   $keyPath = "~\.ssh\authorized_keys"
   New-Item -Type Directory ~\.ssh > $null
   $sshKey | Out-File $keyPath -Encoding Ascii
+
+  Import-Module .\OpenSSHUtils.psd1 -Force
+  Repair-AuthorizedKeyPermission -FilePath $keyPath
+
+  Pop-Location
 
   Write-Output "Setting sshd service startup type to 'Automatic'"
   Set-Service sshd -StartupType Automatic
