@@ -7,9 +7,6 @@ jobs:
     steps:
       - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
-
       - run:
           name: Install packet cli and tools
           command: |
@@ -302,9 +299,6 @@ jobs:
       - image: circleci/golang:1.9.4-stretch
     steps:
       - checkout
-
-      - setup_remote_docker:
-          docker_layer_caching: true
 
       - run:
           name: Install packet cli and tools
