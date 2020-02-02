@@ -1,28 +1,24 @@
 #!/bin/bash
+set -x
 
 echo "Running provision-virtualbox+vmware-builder.sh"
 
-PACKER_VERSION=1.4.1
-VMWARE_VERSION=14.1.3-9474260
-VIRTUALBOX_VERSION=5.2
+PACKER_VERSION=1.5.1
+VMWARE_VERSION=15.5.1-15018445
+VIRTUALBOX_VERSION=6.1
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
 
-# Install Virtualbox 5.2
-echo "deb http://download.virtualbox.org/virtualbox/debian bionic contrib" >> /etc/apt/sources.list
+# Install Virtualbox
+echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 DEBIAN_FRONTEND=noninteractive apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq git unzip curl dkms build-essential \
-                    linux-headers-$(uname -r) x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
+                    "linux-headers-$(uname -r)" x11-common x11-xserver-utils libxtst6 libxinerama1 psmisc
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq virtualbox-${VIRTUALBOX_VERSION}
-if ! command -v VBoxManage > /dev/null 2>&1; then
-  echo "Manually download VirtualBox 5.2.18"
-  wget https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
-  sudo dpkg -i virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
-  sudo apt --fix-broken install -y
-fi
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y virtualbox-${VIRTUALBOX_VERSION}
 
 # Install VirtualBox extension pack
 vbox=$(VBoxManage --version)
