@@ -40,26 +40,6 @@ jobs:
             ./build.sh circle${CIRCLE_BUILD_NUM} ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 9000
 
-  upload: &upload
-    docker:
-      - image: microsoft/azure-cli:0.10.14
-    steps:
-      - checkout
-
-      - run:
-          name: Install tools
-          command: |
-            apt-get update && apt-get install -y jq curl
-            azure --version
-            jq --version
-            curl --version
-
-      - run:
-          name: Upload to Vagrant Cloud
-          command: |
-            ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
-          no_output_timeout: 3600
-
   upload: &uploadjob
     docker:
       - image: microsoft/azure-cli:0.10.14
