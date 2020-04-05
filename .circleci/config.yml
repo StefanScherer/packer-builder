@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build: &build
+  build: &buildjob
     docker:
       - image: circleci/golang:1.9.4-stretch
     steps:
@@ -60,7 +60,7 @@ jobs:
             ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 3600
 
-  upload: &upload
+  upload: &uploadjob
     docker:
       - image: microsoft/azure-cli:0.10.14
     steps:
@@ -81,215 +81,215 @@ jobs:
           no_output_timeout: 3600
 
   windows_2016_docker:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_docker:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_server_1809_docker:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_server_1809_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2016_docker_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_2019_docker_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_2019_docker_azure:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker_azure"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "azure"
 
   windows_2016:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2016_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_2019:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2019_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_10:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_10_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_2012_r2:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2012_r2"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_2012_r2_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2012_r2"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   windows_server_insider_docker:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_server_insider_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "vmware"
 
   windows_server_insider_docker_hyperv:
-    <<: *build
+    <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_server_insider_docker"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
   upload_windows_2016_docker_hyperv:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "hyperv"
 
   upload_windows_2019_docker_hyperv:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - HYPERVISOR: "hyperv"
 
   upload_windows_server_1809_docker_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_server_1809_docker"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_server_1809_docker_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_server_1809_docker"
       - HYPERVISOR: "vmware"
 
   upload_windows_2016_docker_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_2016_docker_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016_docker"
       - HYPERVISOR: "vmware"
 
   upload_windows_2016_hyperv:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "hyperv"
 
   upload_windows_2016_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_2016_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2016"
       - HYPERVISOR: "vmware"
 
   upload_windows_2019_docker_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_2019_docker_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - HYPERVISOR: "vmware"
 
   upload_windows_2019_hyperv:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - HYPERVISOR: "hyperv"
 
   upload_windows_2019_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_2019_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019"
       - HYPERVISOR: "vmware"
 
   upload_windows_10_hyperv:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - HYPERVISOR: "hyperv"
 
   upload_windows_10_virtualbox:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - HYPERVISOR: "virtualbox"
 
   upload_windows_10_vmware:
-    <<: *upload
+    <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
       - HYPERVISOR: "vmware"
