@@ -4,7 +4,7 @@ set -x
 echo "Running provision-virtualbox+vmware-builder.sh"
 
 PACKER_VERSION=1.6.6
-VMWARE_VERSION=14.1.8-14921873
+VMWARE_VERSION=15.5.7-17171714
 VIRTUALBOX_VERSION=6.1
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
