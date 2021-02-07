@@ -140,7 +140,7 @@ jobs:
     <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_10"
-      - PACKET_PLAN: "baremetal_1"
+      - PACKET_PLAN: "baremetal_1e"
       - HYPERVISOR: "virtualbox+vmware"
 
   windows_10_hyperv:
