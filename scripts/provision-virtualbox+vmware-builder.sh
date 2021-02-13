@@ -6,6 +6,12 @@ echo "Running provision-virtualbox+vmware-builder.sh"
 PACKER_VERSION=1.6.6
 VMWARE_VERSION=15.5.7-17171714
 VIRTUALBOX_VERSION=6.1
+TRIAL1=M56JK
+TRIAL2=GY3E1
+TRIAL3=489PA
+TRIAL4=0H900
+TRIAL5=A0H16
+
 
 PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
 VMWARE_URL=http://download3.vmware.com/software/wkst/file/VMware-Workstation-Full-${VMWARE_VERSION}.x86_64.bundle
@@ -46,7 +52,7 @@ rmmod kvm_intel kvm
 echo "Downloading VMware Workstation ${VMWARE_VERSION} ..."
 curl -o VMware-Workstation.bundle ${VMWARE_URL}
 echo "Installing VMware Workstation ${VMWARE_VERSION} ..."
-sh ./VMware-Workstation.bundle --console --required --eulas-agreed
+sh ./VMware-Workstation.bundle --console --required --eulas-agreed --set-setting vmware-workstation serialNumber $TRIAL1-$TRIAL2-$TRIAL3-$TRIAL4-$TRIAL5
 rm ./VMware-Workstation.bundle
 
 echo "Installing Azure cli ..."
