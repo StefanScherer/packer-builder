@@ -66,33 +66,12 @@ jobs:
             ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
           no_output_timeout: 3600
 
-  windows_2016_docker:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016_docker"
-      - PACKET_PLAN: "baremetal_1"
-      - HYPERVISOR: "virtualbox+vmware"
-
   windows_2019_docker:
     <<: *buildjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - PACKET_PLAN: "baremetal_1"
       - HYPERVISOR: "virtualbox+vmware"
-
-  windows_server_1809_docker:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_server_1809_docker"
-      - PACKET_PLAN: "baremetal_1"
-      - HYPERVISOR: "virtualbox+vmware"
-
-  windows_2016_docker_hyperv:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016_docker"
-      - AZURE_PLAN: "Standard_E4s_v3"
-      - HYPERVISOR: "hyperv"
 
   windows_2019_docker_hyperv:
     <<: *buildjob
@@ -107,20 +86,6 @@ jobs:
       - PACKER_TEMPLATE: "windows_2019_docker_azure"
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "azure"
-
-  windows_2016:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016"
-      - PACKET_PLAN: "baremetal_1"
-      - HYPERVISOR: "virtualbox+vmware"
-
-  windows_2016_hyperv:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016"
-      - AZURE_PLAN: "Standard_E4s_v3"
-      - HYPERVISOR: "hyperv"
 
   windows_2019:
     <<: *buildjob
@@ -150,87 +115,11 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
-  windows_2012_r2:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2012_r2"
-      - PACKET_PLAN: "baremetal_1"
-      - HYPERVISOR: "virtualbox+vmware"
-
-  windows_2012_r2_hyperv:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2012_r2"
-      - AZURE_PLAN: "Standard_E4s_v3"
-      - HYPERVISOR: "hyperv"
-
-  windows_server_insider_docker:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_server_insider_docker"
-      - PACKET_PLAN: "baremetal_1"
-      - HYPERVISOR: "vmware"
-
-  windows_server_insider_docker_hyperv:
-    <<: *buildjob
-    environment:
-      - PACKER_TEMPLATE: "windows_server_insider_docker"
-      - AZURE_PLAN: "Standard_E4s_v3"
-      - HYPERVISOR: "hyperv"
-
-  upload_windows_2016_docker_hyperv:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016_docker"
-      - HYPERVISOR: "hyperv"
-
   upload_windows_2019_docker_hyperv:
     <<: *uploadjob
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - HYPERVISOR: "hyperv"
-
-  upload_windows_server_1809_docker_virtualbox:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_server_1809_docker"
-      - HYPERVISOR: "virtualbox"
-
-  upload_windows_server_1809_docker_vmware:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_server_1809_docker"
-      - HYPERVISOR: "vmware"
-
-  upload_windows_2016_docker_virtualbox:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016_docker"
-      - HYPERVISOR: "virtualbox"
-
-  upload_windows_2016_docker_vmware:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016_docker"
-      - HYPERVISOR: "vmware"
-
-  upload_windows_2016_hyperv:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016"
-      - HYPERVISOR: "hyperv"
-
-  upload_windows_2016_virtualbox:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016"
-      - HYPERVISOR: "virtualbox"
-
-  upload_windows_2016_vmware:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2016"
-      - HYPERVISOR: "vmware"
 
   upload_windows_2019_docker_virtualbox:
     <<: *uploadjob
@@ -243,12 +132,6 @@ jobs:
     environment:
       - PACKER_TEMPLATE: "windows_2019_docker"
       - HYPERVISOR: "vmware"
-
-  upload_windows_2019_hyperv:
-    <<: *uploadjob
-    environment:
-      - PACKER_TEMPLATE: "windows_2019"
-      - HYPERVISOR: "hyperv"
 
   upload_windows_2019_virtualbox:
     <<: *uploadjob
@@ -310,19 +193,6 @@ workflows:
     jobs:
       - windows_10
   #     - windows_10_hyperv
-  # build_2012_r2:
-  #   jobs:
-  #     - windows_2012_r2
-  #     - windows_2012_r2_hyperv
-  # build_2016:
-  #   jobs:
-  #     - windows_2016
-  #     - windows_2016_hyperv
-  # build_2016_docker:
-  #   jobs:
-  #     - windows_2016_docker
-  #     - windows_2016_docker_hyperv
-  #     - windows_2019_docker_azure
   # build_2019:
   #   jobs:
   #     - windows_2019
@@ -336,16 +206,6 @@ workflows:
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
   #     - upload_windows_10_hyperv
-  # upload_2016:
-  #   jobs:
-  #     - upload_windows_2016_hyperv
-  #     - upload_windows_2016_virtualbox
-  #     - upload_windows_2016_vmware
-  # upload_2016_docker:
-  #   jobs:
-  #     - upload_windows_2016_docker_hyperv
-  #     - upload_windows_2016_docker_virtualbox
-  #     - upload_windows_2016_docker_vmware
   # upload_2019:
   #   jobs:
   #     - upload_windows_2019_virtualbox
@@ -356,13 +216,6 @@ workflows:
   #     - upload_windows_2019_docker_virtualbox
   #     - upload_windows_2019_docker_vmware
   #     - upload_windows_2019_docker_hyperv
-  # build_1809_docker:
-  #   jobs:
-  #    - windows_server_1809_docker
-  # upload_1809_docker:
-  #   jobs:
-  #     - upload_windows_server_1809_docker_virtualbox
-  #     - upload_windows_server_1809_docker_vmware
 
   cleanup:
     jobs:
