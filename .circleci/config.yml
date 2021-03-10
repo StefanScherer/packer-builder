@@ -192,12 +192,12 @@ workflows:
   build_10:
     jobs:
       - windows_10
-  build_2019:
-    jobs:
-      - windows_2019
-  build_2019_docker:
-    jobs:
-      - windows_2019_docker
+  # build_2019:
+  #   jobs:
+  #     - windows_2019
+  # build_2019_docker:
+  #   jobs:
+  #     - windows_2019_docker
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_virtualbox
