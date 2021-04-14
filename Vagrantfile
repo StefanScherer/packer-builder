@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define "vmware", primary: true do |cfg|
-    cfg.vm.box = "bento/ubuntu-19.10"
+    cfg.vm.box = "bento/ubuntu-20.04"
     cfg.vm.synced_folder "/Users/stefan/packer_cache", "/home/vagrant/packer_cache"
 
     cfg.vm.provision "shell", path: "scripts/provision-virtualbox+vmware-builder.sh"
