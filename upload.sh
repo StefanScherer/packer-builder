@@ -63,6 +63,16 @@ function download {
     twodaysago=$(date -d "2 days ago 13:00" +%Y-%m-%d)
     azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$twodaysago/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
   fi  
+
+  if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
+    threedaysago=$(date -d "3 days ago 13:00" +%Y-%m-%d)
+    azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$threedaysago/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
+  fi  
+
+  if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
+    fourdaysago=$(date -d "4 days ago 13:00" +%Y-%m-%d)
+    azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$fourdaysago/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
+  fi  
 }
 
 BOX_VERSION=$(date +%Y.%m.%d)
