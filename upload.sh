@@ -56,7 +56,6 @@ function download {
 
   if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
     yesterday=$(date -d "yesterday 13:00" +%Y-%m-%d)
-    yesterday="2021-05-12"
     azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$yesterday/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box" || true
   fi  
 

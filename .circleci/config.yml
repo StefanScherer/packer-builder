@@ -198,18 +198,18 @@ workflows:
   # build_2019_docker:
   #   jobs:
   #     - windows_2019_docker
-  upload_windows_10:
-    jobs:
-      - upload_windows_10_virtualbox
-      - upload_windows_10_vmware
-  upload_2019:
-    jobs:
-      - upload_windows_2019_virtualbox
-      - upload_windows_2019_vmware
-  upload_2019_docker:
-    jobs:
-      - upload_windows_2019_docker_virtualbox
-      - upload_windows_2019_docker_vmware
+  # upload_windows_10:
+  #   jobs:
+  #     - upload_windows_10_virtualbox
+  #     - upload_windows_10_vmware
+  # upload_2019:
+  #   jobs:
+  #     - upload_windows_2019_virtualbox
+  #     - upload_windows_2019_vmware
+  # upload_2019_docker:
+  #   jobs:
+  #     - upload_windows_2019_docker_virtualbox
+  #     - upload_windows_2019_docker_vmware
 
   cleanup:
     jobs:
