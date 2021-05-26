@@ -52,6 +52,7 @@ function download {
   HYPERVISOR=$2
   echo "Download box ${FILE}_${HYPERVISOR}.box"
   today=$(date +%Y-%m-%d)
+  today=2021-05-12
   azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$today/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box" || true
 
   if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
@@ -66,12 +67,13 @@ function download {
 }
 
 BOX_VERSION=$(date +%Y.%m.%d)
-echo "Create a new version $BOX_VERSION for $FILE in Vagrant Cloud"
-curl \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
-  "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/versions" \
-  --data "{ \"version\": { \"version\": \"$BOX_VERSION\" } }"
+BOX_VERSION=2021.05.15
+# echo "Create a new version $BOX_VERSION for $FILE in Vagrant Cloud"
+# curl \
+#   --header "Content-Type: application/json" \
+#   --header "Authorization: Bearer $VAGRANT_CLOUD_TOKEN" \
+#   "https://app.vagrantup.com/api/v1/box/$VAGRANT_CLOUD_USER/$FILE/versions" \
+#   --data "{ \"version\": { \"version\": \"$BOX_VERSION\" } }"
 
 hypervisor1=${HYPERVISOR%+*}
 hypervisor2=${HYPERVISOR#*+}
