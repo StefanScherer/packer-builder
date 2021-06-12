@@ -101,6 +101,20 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
+  windows_2022:
+    <<: *buildjob
+    environment:
+      - PACKER_TEMPLATE: "windows_2022"
+      - PACKET_PLAN: "baremetal_1"
+      - HYPERVISOR: "virtualbox+vmware"
+
+  windows_2022_hyperv:
+    <<: *buildjob
+    environment:
+      - PACKER_TEMPLATE: "windows_2022"
+      - AZURE_PLAN: "Standard_E4s_v3"
+      - HYPERVISOR: "hyperv"
+
   windows_10:
     <<: *buildjob
     environment:
@@ -198,10 +212,13 @@ workflows:
   # build_2019_docker:
   #   jobs:
   #     - windows_2019_docker
-  upload_windows_10:
+  build_2022:
     jobs:
-      - upload_windows_10_virtualbox
-      - upload_windows_10_vmware
+      - windows_2022
+  # upload_windows_10:
+  #   jobs:
+  #     - upload_windows_10_virtualbox
+  #     - upload_windows_10_vmware
   # upload_2019:
   #   jobs:
   #     - upload_windows_2019_virtualbox
