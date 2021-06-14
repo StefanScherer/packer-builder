@@ -203,18 +203,18 @@ jobs:
     
 workflows:
   version: 2
-  # build_10:
-  #   jobs:
-  #     - windows_10
+  build_10:
+    jobs:
+      - windows_10
   # build_2019:
   #   jobs:
   #     - windows_2019
   # build_2019_docker:
   #   jobs:
   #     - windows_2019_docker
-  build_2022:
-    jobs:
-      - windows_2022
+  # build_2022:
+  #   jobs:
+  #     - windows_2022
   # upload_windows_10:
   #   jobs:
   #     - upload_windows_10_virtualbox
