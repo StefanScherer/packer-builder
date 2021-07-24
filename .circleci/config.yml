@@ -45,7 +45,7 @@ jobs:
 
   upload: &uploadjob
     docker:
-      - image: microsoft/azure-cli:0.10.14
+      - image: mcr.microsoft.com/azure-cli:0.10.14
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
