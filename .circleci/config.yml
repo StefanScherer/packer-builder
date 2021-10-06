@@ -115,6 +115,13 @@ jobs:
       - AZURE_PLAN: "Standard_E4s_v3"
       - HYPERVISOR: "hyperv"
 
+  windows_11:
+    <<: *buildjob
+    environment:
+      - PACKER_TEMPLATE: "windows_11"
+      - PACKET_PLAN: "baremetal_1"
+      - HYPERVISOR: "virtualbox+vmware"
+
   upload_windows_2019_docker_hyperv:
     <<: *uploadjob
     environment:
@@ -163,6 +170,18 @@ jobs:
       - PACKER_TEMPLATE: "windows_10"
       - HYPERVISOR: "vmware"
 
+  upload_windows_11_virtualbox:
+    <<: *uploadjob
+    environment:
+      - PACKER_TEMPLATE: "windows_11"
+      - HYPERVISOR: "virtualbox"
+
+  upload_windows_11_vmware:
+    <<: *uploadjob
+    environment:
+      - PACKER_TEMPLATE: "windows_11"
+      - HYPERVISOR: "vmware"
+
   cleanup:
     docker:
       - image: circleci/golang:1.9.4-stretch
@@ -192,6 +211,9 @@ workflows:
   # build_10:
   #   jobs:
   #     - windows_10
+  build_11:
+    jobs:
+      - windows_11
   # build_2019_docker:
   #   jobs:
   #     - windows_2019_docker
@@ -202,10 +224,10 @@ workflows:
   #   jobs:
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
-  upload_2022:
-    jobs:
-      - upload_windows_2022_virtualbox
-      - upload_windows_2022_vmware
+  # upload_2022:
+  #   jobs:
+  #     - upload_windows_2022_virtualbox
+  #     - upload_windows_2022_vmware
   # upload_2019_docker:
   #   jobs:
   #     - upload_windows_2019_docker_virtualbox
