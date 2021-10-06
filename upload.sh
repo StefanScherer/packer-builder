@@ -76,6 +76,13 @@ curl \
 hypervisor1=${HYPERVISOR%+*}
 hypervisor2=${HYPERVISOR#*+}
 
+export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+export ARM_CLIENT_ID=$ARM_CLIENT_ID
+export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
+export ARM_TENANT_ID=$ARM_TENANT_ID
+
+az login --service-principal --username ${ARM_CLIENT_ID} --password ${ARM_CLIENT_SECRET} --tenant ${ARM_TENANT_ID} >az-login.txt
+
 download "$FILE" "$hypervisor1"
 upload "$FILE" "$BOX_VERSION" "$hypervisor1"
 
