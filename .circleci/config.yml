@@ -208,9 +208,9 @@ jobs:
     
 workflows:
   version: 2
-  # build_10:
-  #   jobs:
-  #     - windows_10
+  build_10:
+    jobs:
+      - windows_10
   # build_11:
   #   jobs:
   #     - windows_11
@@ -224,10 +224,10 @@ workflows:
   #   jobs:
   #     - upload_windows_10_virtualbox
   #     - upload_windows_10_vmware
-  upload_windows_11:
-    jobs:
-      - upload_windows_11_virtualbox
-      - upload_windows_11_vmware
+  # upload_windows_11:
+  #   jobs:
+  #     - upload_windows_11_virtualbox
+  #     - upload_windows_11_vmware
   # upload_2022:
   #   jobs:
   #     - upload_windows_2022_virtualbox
