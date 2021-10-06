@@ -52,16 +52,16 @@ function download {
   HYPERVISOR=$2
   echo "Download box ${FILE}_${HYPERVISOR}.box"
   today=$(date +%Y-%m-%d)
-  azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$today/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box" || true
+  az storage blob download --container-name "${AZURE_STORAGE_CONTAINER}" --name "${FILE}/$today/${FILE}_${HYPERVISOR}.box" --file "${FILE}_${HYPERVISOR}.box" || true
 
   if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
     yesterday=$(date -d "yesterday 13:00" +%Y-%m-%d)
-    azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$yesterday/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box" || true
+    az storage blob download --container-name "${AZURE_STORAGE_CONTAINER}" --name "${FILE}/$yesterday/${FILE}_${HYPERVISOR}.box" --file "${FILE}_${HYPERVISOR}.box" || true
   fi  
 
   if [ ! -e "${FILE}_${HYPERVISOR}.box" ]; then
     twodaysago=$(date -d "2 days ago 13:00" +%Y-%m-%d)
-    azure storage blob download "${AZURE_STORAGE_CONTAINER}" "${FILE}/$twodaysago/${FILE}_${HYPERVISOR}.box" "${FILE}_${HYPERVISOR}.box"
+    az storage blob download --container-name "${AZURE_STORAGE_CONTAINER}" --name "${FILE}/$twodaysago/${FILE}_${HYPERVISOR}.box" --file "${FILE}_${HYPERVISOR}.box"
   fi  
 }
 
