@@ -7,33 +7,58 @@ on:
 
 jobs:
 
-  build:
- 
+  # build:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     PACKER_TEMPLATE: windows_11
+  #     PACKET_PLAN: baremetal_1
+  #     HYPERVISOR: virtualbox+vmware
+  #     PACKET_APIKEY: ${{ secrets.PACKET_APIKEY }}
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Install SSH key
+  #     uses: shimataro/ssh-key-action@v2
+  #     with:
+  #       key: ${{ secrets.SSH_KEY }}
+  #       known_hosts: unnecessary
+  #   - name: Install tools
+  #     run: |
+  #       docker create --name packet ebsarr/packet
+  #       docker cp packet:/usr/local/bin/packet ./packet
+  #       sudo mv ./packet /usr/local/bin/packet
+  #       packet -v
+  #       jq --version
+  #       curl --version
+  #   - name: Provision a packer build machine
+  #     run: ./machine.sh create github${GITHUB_RUN_NUMBER} ${HYPERVISOR}
+  #   - name: Run packer build
+  #     run: ./build.sh github${GITHUB_RUN_NUMBER} ${PACKER_TEMPLATE} ${HYPERVISOR}
+  #     env:
+  #       AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+  #       AZURE_STORAGE_ACCESS_KEY: ${{ secrets.AZURE_STORAGE_ACCESS_KEY }}
+  #       AZURE_STORAGE_CONTAINER: ${{ secrets.AZURE_STORAGE_CONTAINER }}
+  #       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  #       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  #       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  #       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+  upload:
     runs-on: ubuntu-latest
     env:
       PACKER_TEMPLATE: windows_11
-      PACKET_PLAN: baremetal_1
       HYPERVISOR: virtualbox+vmware
-      PACKET_APIKEY: ${{ secrets.PACKET_APIKEY }}
+    container:
+      image: mcr.microsoft.com/azure-cli:2.28.0
     steps:
     - uses: actions/checkout@v2
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_KEY }}
-        known_hosts: unnecessary
     - name: Install tools
       run: |
-        docker create --name packet ebsarr/packet
-        docker cp packet:/usr/local/bin/packet ./packet
-        sudo mv ./packet /usr/local/bin/packet
-        packet -v
+        apk update && apk add jq curl
+        az --version
         jq --version
         curl --version
-    - name: Provision a packer build machine
-      run: ./machine.sh create github${GITHUB_RUN_NUMBER} ${HYPERVISOR}
-    - name: Run packer build
-      run: ./build.sh github${GITHUB_RUN_NUMBER} ${PACKER_TEMPLATE} ${HYPERVISOR}
+    - name: Upload to Vagrant Cloud
+      run: ./upload.sh ${PACKER_TEMPLATE} ${HYPERVISOR}
       env:
         AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
         AZURE_STORAGE_ACCESS_KEY: ${{ secrets.AZURE_STORAGE_ACCESS_KEY }}
@@ -42,3 +67,5 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+        VAGRANT_CLOUD_USER: ${{ secrets.VAGRANT_CLOUD_USER }}
