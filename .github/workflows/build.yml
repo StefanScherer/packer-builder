@@ -11,7 +11,7 @@ jobs:
  
     runs-on: ubuntu-latest
     env:
-      PACKER_TEMPLATE: windows_10
+      PACKER_TEMPLATE: windows_11
       PACKET_PLAN: baremetal_1
       HYPERVISOR: virtualbox+vmware
       PACKET_APIKEY: ${{ secrets.PACKET_APIKEY }}
