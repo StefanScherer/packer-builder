@@ -21,6 +21,12 @@ function packet_build {
   echo ""
   echo "ssh -L 127.0.0.1:5900:127.0.0.1:59xx root@$ip tail -f work/packer-build.log"
 
+  cat <<SSHCONFIG > ~/.ssh/config
+Host *
+  ServerAliveInterval 60
+  ServerAliveCountMax 2
+SSHCONFIG
+
   if [ -z "${!FILE}" ]; then
     echo Running build.
   else
@@ -60,7 +66,7 @@ function packet_build {
     echo "Deleting server."
     sleep 1
     killall -9 tail
-    machine.sh delete \$(hostname)
+    # machine.sh delete \$(hostname)
 CMD
     chmod +x packer-upload-and-destroy.sh
     scp packer-upload-and-destroy.sh "root@$ip:"
